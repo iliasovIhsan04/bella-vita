@@ -1,18 +1,20 @@
+import { colors } from "@/assets/styles/components/colors";
 import { AppDispatch, RootState } from "@/Redux/reducer/store";
 import { fetchUserInfo } from "@/Redux/reducer/UserInfo";
 import { stylesAll } from "@/style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
+import TextContent from '../../assets/styles/components/TextContent'
+import LogoMini from '../../assets/svg/logo'
 import {
   Image,
-  ImageBackground,
   Pressable,
   StyleSheet,
-  Text,
   View,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import Column from "@/assets/styles/components/Column";
 
 const BonusCart = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -43,38 +45,28 @@ const BonusCart = () => {
   return (
     <>
       {token && user ? (
-        <Pressable onPress={() => router.push("/(tabs)/qrCode")} style={stylesAll.container}>
-          <ImageBackground
-            source={require("../../assets/images/pattern.png")}
+        <Pressable onPress={() => router.push("/(tabs)/qrCode")}>
+          <View
             style={styles.bonus_block}
           >
-            <View style={{ flexDirection: "column", marginLeft: 10 }}>
-              <View style={{ flexDirection: "column" }}>
-                <Text
-                  style={[
-                    styles.bonus_title,
-                    { marginBottom: 0, lineHeight: 26 },
-                  ]}
-                >
-                  Бонусная
-                </Text>
-                <Text style={[styles.bonus_title]}>карта</Text>
-              </View>
+            <View style={styles.mini_logo}>
+            <LogoMini/>
+            </View>
+              <Column gap={2} style={{marginLeft:10}}>
+              <TextContent fontSize={28} fontWeight={600} color={colors.white}>{user.bonus}</TextContent>
+                <TextContent fontSize={28} fontWeight={600} color={colors.white}>бонусов</TextContent>
+              </Column>
               <View
                 style={{
                   flexDirection: "row",
                   alignItems: "center",
                 }}
               >
-                <Text style={styles.bonus}>{user.bonus}</Text>
-                <Text style={styles.bonus_text}>бонусов</Text>
               </View>
-            </View>
-
             <View style={styles.bonus_image_box}>
               <Image style={styles.bonus_img} source={{ uri: user.qrimg }} />
             </View>
-          </ImageBackground>
+          </View>
         </Pressable>
       ) : null}
     </>
@@ -82,34 +74,22 @@ const BonusCart = () => {
 };
 
 const styles = StyleSheet.create({
-  bonus_title: {
-    fontSize: 24,
-    fontWeight: "700",
-    color: "#fff",
-    marginBottom: 10,
-    lineHeight: 24,
-  },
   bonus_block: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    height: 168,
-    backgroundColor: "#DC0200",
-    borderRadius: 16,
+    height: 166,
+    backgroundColor: colors.feuillet,
+    borderRadius: 20,
     padding: 10,
-    marginTop: 30,
-    marginBottom: 12,
+    position:'relative',
   },
-  bonus: {
-    fontSize: 24,
-    color: "#FFFFFF",
-    fontWeight: "700",
+  mini_logo :{
+position: 'absolute',
+top:-14,
+left: 24,
   },
   bonus_text: {
-    fontSize: 20,
-    color: "#FFFFFF",
-    fontWeight: "600",
-    marginLeft: 3,
   },
   bonus_image_box: {
     width: 150,

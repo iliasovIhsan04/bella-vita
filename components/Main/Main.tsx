@@ -10,8 +10,7 @@ import {
   Pressable,
   Animated,
   RefreshControl,
-  Platform,
-  Linking,
+  Dimensions,
 } from "react-native";
 import BonusCart from "./BonusCart";
 import Header from "./Header";
@@ -25,6 +24,15 @@ import { fetchUserInfo } from "@/Redux/reducer/UserInfo";
 import StoryComponent from "./StorisBlock";
 import { router } from "expo-router";
 import { useRoute } from "@react-navigation/native";
+import Wrapper from '../../assets/styles/components/Wrapper';
+import Column from '../../assets/styles/components/Column';
+import { colors } from "@/assets/styles/components/colors";
+import Flex from '../../assets/styles/components/Flex'
+import Scanner from '../../assets/svg/imgScanner'
+import Favorite from '../../assets/svg/favoriteImg'
+import TextContent from "@/assets/styles/components/TextContent";
+import Card from '../../assets/customs/Card'
+const containerWidth = (Dimensions.get("window").width - 32) / 2 - 5;
 
 export default function Main() {
   const dispatch: AppDispatch = useDispatch();
@@ -34,14 +42,6 @@ export default function Main() {
   const scaleValueModal2 = useRef(new Animated.Value(0)).current;
   const opacityValueModal2 = useRef(new Animated.Value(0)).current;
   const [refreshing, setRefreshing] = useState(false);
-  const handlePress = () => {
-    const androidUrl = 'https://play.google.com/store/apps/details?id=com.alma.go';
-    const iosUrl = 'https://apps.apple.com/kg/app/alma-go-%D0%B4%D0%BE%D1%81%D1%82%D0%B0%D0%B2%D0%BA%D0%B0-%D0%BF%D1%80%D0%BE%D0%B4%D1%83%D0%BA%D1%82%D0%BE%D0%B2/id6477783621';
-
-    const url = Platform.OS === 'android' ? androidUrl : iosUrl;
-    Linking.openURL(url).catch((err) => console.error('URL ачууда каталар:', err));
-  };
-
 
   const route = useRoute();
   const { showModal } = route.params || {};
@@ -152,38 +152,78 @@ export default function Main() {
         }
       >
         <StoryComponent />
-        <View style={{ marginBottom: 50 }}>
-          <BonusCart />
+        <Column gap={10} style={{ marginBottom: 50 }}>
+          <Wrapper padding={[20,24]}>
+            <Column gap={10}>
+            <BonusCart />
           <View style={styles.apple_check_price}>
             <TouchableOpacity
               style={styles.apple_box}
-              onPress={handlePress}
             >
               <Image
                 style={styles.image_apple}
-                source={require("../../assets/images/alma_go.png")}
+                source={require("../../assets/images/brendLogo.png")}
               />
+            </TouchableOpacity>
+            <View style={styles.check_price_block}>
+              <Flex gap={8}>
+              <TouchableOpacity
+              style={styles.check_price_box}
+              onPress={() => router.push("/navigate/ProductGiven")}
+            >
+              <Scanner/>
+              <TextContent fontSize={11} fontWeight={500} color={colors.black} style={{textAlign:'center'}}>Проверить цену</TextContent>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.check_price_box}
               onPress={() => router.push("/navigate/ProductGiven")}
             >
-              <Image
-                style={{ width: 24, height: 24 }}
-                source={require("../../assets/images/scanning.png")}
-              />
-              <Text>Проверить цену</Text>
+            <Favorite/>
+              <TextContent fontSize={11} fontWeight={500} color={colors.black} style={{textAlign:'center'}}>Проверить цену</TextContent>
             </TouchableOpacity>
+              </Flex>
+              <Column style={styles.brend_block}>
+              <TextContent fontSize={16} fontWeight={600} color={colors.black}>Бренды</TextContent>
+              <View style={styles.brend_img_block}></View>
+              </Column>
+            </View>
           </View>
+          <Card />
+            </Column>
+          </Wrapper>
           <HurryUpToBuy />
           <Promotion />
-        </View>
+        </Column>
       </ScrollView>
     </>
   );
 }
 
 const styles = StyleSheet.create({
+  brend_img_block:{
+    width:'100%',
+height:46,
+backgroundColor:colors.white
+  },
+  favorite_box :{
+width:36,
+height:36,
+borderRadius:50,
+backgroundColor:colors.feuilletOpacity,
+flexDirection:'row',
+alignItems: 'center',
+justifyContent: 'center',
+  },
+  brend_block:{
+flex:1,
+backgroundColor:colors.phon,
+borderRadius:14,
+paddingVertical:16,
+paddingHorizontal:16,
+flexDirection:'column',
+justifyContent:'space-between'
+
+  },
   modal_text_title: {
     fontSize: 20,
     fontWeight: "700",
@@ -207,30 +247,33 @@ const styles = StyleSheet.create({
   },
   apple_check_price: {
     flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
-    paddingHorizontal:20
+    gap: 8,
   },
   apple_box: {
-    flex: 1,  
-    height: 58,
+    width:containerWidth,
+    height: 230,
     borderRadius: 10,
-    backgroundColor:'red'
   },
   image_apple: {
     width: "100%",
-    height: "100%",
-    overflow:'hidden',
-    borderRadius:10
+  height:230,
+    overflow:'hidden'
+  },
+  check_price_block:{
+    width:containerWidth,
+backgroundColor:colors.white,
+flexDirection:'column',
+gap:8
   },
   check_price_box: {
-    flex: 1,  
-    height:58,
-    flexDirection: "row",
+    flex:1,
+    height:96,
+    flexDirection: "column",
     alignItems: "center",
-    borderRadius: 10,
-    padding: 10,
-    gap: 10,
-    backgroundColor: "#f5f7fa",
+    borderRadius: 14,
+    paddingHorizontal: 10,
+    paddingVertical:14,
+    backgroundColor: colors.phon,
+    gap:6
   },
 });

@@ -21,7 +21,6 @@ interface PromotionDetailInter {
 }
 const PromotionDetails = () => {
   const [harry, setHarry] = useState<PromotionDetailInter[]>([]);
-
   useEffect(() => {
     const fetchUserData = async () => {
       try {

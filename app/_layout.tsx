@@ -4,6 +4,8 @@ import { Stack, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import * as SplashScreen from "expo-splash-screen";
+import * as Font from "expo-font";
+
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -18,30 +20,47 @@ export default function RootLayout() {
     } catch (error) {
       console.error("Error retrieving token:", error);
       setToken(null);
-    } finally {
-      setLoading(false);
     }
   };
+
+  const loadFonts = async (): Promise<void> => {
+    try {
+      await Font.loadAsync({
+        "Lato-Black": require("../assets/fonts/Lato-Black.ttf"), 
+        "Lato-Bold": require("../assets/fonts/Lato-Bold.ttf"), 
+        "Lato-Light": require("../assets/fonts/Lato-Light.ttf"), 
+        "Lato-Regular": require("../assets/fonts/Lato-Regular.ttf"), 
+        "Lato-Thin": require("../assets/fonts/Lato-Thin.ttf"), 
+      });
+    } catch (error) {
+      console.error("Font loading error:", error);
+    }
+  };
+
   useEffect(() => {
     (async () => {
       try {
-        await getToken(); 
-        await new Promise((resolve) => setTimeout(resolve, 3000)); 
+        await Promise.all([getToken(), loadFonts()]); 
+        await new Promise((resolve) => setTimeout(resolve, 3000));
       } catch (error) {
         console.error("Splash Screen Error:", error);
       } finally {
+        setLoading(false);
         await SplashScreen.hideAsync();
       }
     })();
   }, []);
+
   useEffect(() => {
     if (!loading && !token) {
       router.replace("/navigate/OnBoarding");
     }
   }, [loading, token]);
+
   if (loading) {
     return null;
   }
+
   return (
     <Provider store={store}>
       <Stack screenOptions={{ headerShown: false }}>

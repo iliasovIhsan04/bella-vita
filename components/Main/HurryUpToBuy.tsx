@@ -8,10 +8,16 @@ import {
   TouchableOpacity,
   Image,
   Pressable,
+
 } from "react-native";
+import Wave from '../../assets/styles/components/Wave'
 import Morees from "../../assets/svg/More";
 import { router } from "expo-router";
-import { stylesAll } from "@/style";
+import Wrapper from '../../assets/styles/components/Wrapper';
+import TextContent from "@/assets/styles/components/TextContent";
+import { colors } from "@/assets/styles/components/colors";
+import Flex from "@/assets/styles/components/Flex";
+import Card from "@/assets/customs/Card";
 interface HarryBuy {
   id: number;
   title: string;
@@ -43,33 +49,29 @@ const HurryUpToBuy = () => {
 
   console.log(data);
   return (
-    <View>
+    <Wrapper padding={[20, 24]}>
       <View
         style={{
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
-          marginTop: 30,
           marginBottom: 10,
-          paddingHorizontal:20
         }}
       >
-        <Text style={styles.prom_text}>Успей купить</Text>
-        <TouchableOpacity
-          style={{ flexDirection: "row", alignItems: "center" }}
-          onPress={() => router.push("/navigate/HarryBuyDetails")}
+        <TextContent fontSize={20} fontWeight={600} color={colors.black}>Успей купить</TextContent>
+        <Wave
+          handle={() => router.push("/navigate/HarryBuyDetails")}
         >
-          <Text>Все</Text>
-          <View style={styles.back_btn}>
-            <Morees />
-          </View>
-        </TouchableOpacity>
+          <Flex>
+          <TextContent fontSize={16} fontFamily={400} color={colors.black}>Все</TextContent>
+          <Morees />
+          </Flex>
+        </Wave>
       </View>
       <ScrollView
         horizontal={true}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
-        style={{marginLeft:20}}
       >
         <View style={{ gap: 10, flexDirection: "row" }}>
           {data.map((item) => (
@@ -109,9 +111,10 @@ const HurryUpToBuy = () => {
               </View>
             </Pressable>
           ))}
+          <Card/>
         </View>
       </ScrollView>
-    </View>
+    </Wrapper>
   );
 };
 
@@ -226,15 +229,6 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: "400",
     color: "#68B936",
-  },
-  back_btn: {
-    width: 24,
-    height: 24,
-  },
-  prom_text: {
-    fontSize: 20,
-    fontWeight: "700",
-    color: "#191919",
   },
   prom_price: {
     fontSize: 24,

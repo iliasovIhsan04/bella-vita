@@ -2,20 +2,36 @@ import { Tabs } from "expo-router";
 import React from "react";
 import { Image, View, Platform } from "react-native";
 import { stylesAll } from "../../style";
+import Main from '../../assets/svg/main';
+import MainActive from '../../assets/svg/mainActive';
+import Delivery from '../../assets/svg/delivery';
+import DeliveryActive from '../../assets/svg/delveryActive'
+import Profile from '../../assets/svg/user';
+import ProfileActive from '../../assets/svg/userActive';
+import Cart from '../../assets/svg/shoppingCart'
+import CartActive from '../../assets/svg/shoppingCartActive'
+import GrCode from '../../assets/svg/grCod'
+import {colors} from '../../assets/styles/components/colors'
+
 
 export default function TabLayout() {
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: "#DC0200",  
-        headerShown: false, 
-        tabBarStyle: {
-          ...(Platform.OS === 'android' && {
-            height:65
-          }),
-        },
-      }}
-    >
+<Tabs
+  screenOptions={{
+    tabBarActiveTintColor:colors.feuillet, 
+    tabBarInactiveTintColor: colors.gray,
+    headerShown: false,
+    tabBarStyle: {
+      ...(Platform.OS === "android" && {
+        height: 60, 
+      }),
+    },
+    tabBarLabelStyle: {
+      fontSize: 11,
+      fontWeight: "500", 
+    },
+  }}
+>
       <Tabs.Screen
         name="index"
         options={{
@@ -23,15 +39,9 @@ export default function TabLayout() {
           tabBarIcon: ({ focused }) => (
             <View>
               {focused ? (
-                <Image
-                  style={{ width: 26, height: 26 }}
-                  source={require("../../assets/images/home_red.png")}
-                />
+             <MainActive/>
               ) : (
-                <Image
-                  style={{ width: 26, height: 26 }}
-                  source={require("../../assets/images/home_gray.png")}
-                />
+                <Main/>
               )}
             </View>
           ),
@@ -40,19 +50,13 @@ export default function TabLayout() {
       <Tabs.Screen
         name="catalog"
         options={{
-          title: "Каталог",
+          title: "Доставка",
           tabBarIcon: ({ focused }) => (
             <View>
               {focused ? (
-                <Image
-                  style={{ width: 26, height: 26 }}
-                  source={require("../../assets/images/catalog_red.png")}
-                />
+            <DeliveryActive/>
               ) : (
-                <Image
-                  style={{ width: 26, height: 26 }}
-                  source={require("../../assets/images/category_gray.png")}
-                />
+                <Delivery/>
               )}
             </View>
           ),
@@ -65,15 +69,9 @@ export default function TabLayout() {
           tabBarIcon: ({ focused }) => (
             <View style={stylesAll.footer_absolute}>
               {focused ? (
-                <Image
-                  style={{ width: 26, height: 26 }}
-                  source={require("../../assets/images/card_white.png")}
-                />
+            <GrCode/>
               ) : (
-                <Image
-                  style={{ width: 26, height: 26 }}
-                  source={require("../../assets/images/card_white.png")}
-                />
+                <GrCode/>
               )}
             </View>
           ),
@@ -82,19 +80,13 @@ export default function TabLayout() {
       <Tabs.Screen
         name="map"
         options={{
-          title: "Локации",
+          title: "Корзина",
           tabBarIcon: ({ focused }) => (
             <View>
               {focused ? (
-                <Image
-                  style={{ width: 26, height: 26 }}
-                  source={require("../../assets/images/map_red.png")}
-                />
+          <CartActive/>
               ) : (
-                <Image
-                  style={{ width: 26, height: 26 }}
-                  source={require("../../assets/images/map_gray.png")}
-                />
+                <Cart/>
               )}
             </View>
           ),
@@ -107,15 +99,9 @@ export default function TabLayout() {
           tabBarIcon: ({ focused }) => (
             <View>
               {focused ? (
-                <Image
-                  style={{ width: 26, height: 26 }}
-                  source={require("../../assets/images/profile_red.png")}
-                />
+            <ProfileActive/>
               ) : (
-                <Image
-                  style={{ width: 26, height: 26 }}
-                  source={require("../../assets/images/profile_gray.png")}
-                />
+                <Profile/>
               )}
             </View>
           ),

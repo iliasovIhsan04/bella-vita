@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import Wrapper from '../../assets/styles/components/Wrapper';
 
 interface PromotionInter {
   id: number;
@@ -38,15 +39,12 @@ const Promotion = () => {
 
   console.log(data);
   return (
-    <View>
+    <Wrapper padding={[24, 20]}>
       <View
         style={{
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
-          marginTop: 30,
-          marginBottom: 10,
-          paddingHorizontal:20
         }}
       >
         <Text style={styles.prom_text}>Акции</Text>
@@ -67,7 +65,6 @@ const Promotion = () => {
         horizontal={true}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
-        style={{marginLeft:20}}
       >
         {
           <View style={{ flexDirection: "row", gap: 10 }}>
@@ -91,7 +88,7 @@ const Promotion = () => {
           </View>
         }
       </ScrollView>
-    </View>
+    </Wrapper>
   );
 };
 

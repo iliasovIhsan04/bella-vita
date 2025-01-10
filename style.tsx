@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 export const stylesAll = StyleSheet.create({
   container: {
-    paddingHorizontal: 20,
+    paddingHorizontal: 16,
   },
   itemName: {
     fontSize: 16,
@@ -98,7 +98,7 @@ export const stylesAll = StyleSheet.create({
   footer_absolute: {
     width: 60,
     height: 60,
-    backgroundColor: "#DC0200",
+    backgroundColor: "#3F2560",
     borderRadius: 50,
     marginBottom: 30,
     flexDirection: "row",
@@ -136,12 +136,12 @@ export const stylesAll = StyleSheet.create({
     alignItems: "center",
   },
   background_block: {
-    width: "100%",
+flex:1,
     height: "100%",
-    backgroundColor: "white",
+    backgroundColor: "#F2F2F2",
   },
   purchase_history: {
-    width: "100%",
+    flex:1,
     flexDirection: "column",
     alignItems: "center",
   },
@@ -152,7 +152,7 @@ export const stylesAll = StyleSheet.create({
     marginBottom: 40,
   },
   image_all: {
-    width: "100%",
+    flex:1,
     height: "100%",
   },
   history_text_one: {
