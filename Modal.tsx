@@ -37,7 +37,6 @@ export default function ModalDown({
       width: 74,
       height: 4,
       borderRadius: 10,
-      marginBottom: 10,
       backgroundColor: "#ccc",
     },
   });

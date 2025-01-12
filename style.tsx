@@ -1,4 +1,5 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
+import { colors } from "./assets/styles/components/colors";
 
 export const stylesAll = StyleSheet.create({
   container: {
@@ -37,7 +38,7 @@ export const stylesAll = StyleSheet.create({
     height: 24,
     borderRadius: 50,
     borderWidth: 2,
-    borderColor: "#DC0200",
+    borderColor: colors.feuillet,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -51,7 +52,7 @@ export const stylesAll = StyleSheet.create({
   },
   cell_text: {
     fontSize: 18,
-    fontWeight: "500",
+    fontWeight: "400",
     color: "#191919",
   },
   auth_text: {
@@ -89,7 +90,7 @@ export const stylesAll = StyleSheet.create({
   },
   header_nav: {
     backgroundColor: "white",
-    paddingBottom: 15,
+    paddingBottom: 12,
   },
   header_nav_gray: {
     backgroundColor: "none",
@@ -127,7 +128,7 @@ export const stylesAll = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingTop: 50,
+    paddingTop: Platform.OS === "ios" ? 60 : 42,
   },
   header_back_btn: {
     width: 30,
@@ -136,9 +137,9 @@ export const stylesAll = StyleSheet.create({
     alignItems: "center",
   },
   background_block: {
-flex:1,
+    flex:1,
     height: "100%",
-    backgroundColor: "#F2F2F2",
+    backgroundColor: colors.white,
   },
   purchase_history: {
     flex:1,

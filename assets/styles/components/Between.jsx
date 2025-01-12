@@ -12,7 +12,7 @@ const Between = ({
   children,
 }) => {
   return (
-    <View
+    <View 
       style={[
         {
           flexDirection: "row",

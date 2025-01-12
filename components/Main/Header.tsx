@@ -2,7 +2,7 @@ import { stylesAll } from "@/style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, Platform, Pressable, StyleSheet, Text, View } from "react-native";
 
 const Header = () => {
   const [totalQuantity, setTotalQuantity] = useState(0);
@@ -19,7 +19,6 @@ const Header = () => {
     };
     getItems();
   }, []);
-  
   return (
     <View style={[styles.header, stylesAll.header_nav, stylesAll.container ]}>
       <Pressable onPress={() => router.push("/navigate/Notifications")}>
@@ -57,7 +56,6 @@ const styles = StyleSheet.create({
     height: 18,
     borderRadius: 50,
     backgroundColor: "#DC0200",
-    bottom: 12,
     left: 13,
     flexDirection: "row",
     alignItems: "center",
@@ -72,7 +70,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingTop: 50,
+    paddingTop: Platform.OS === "ios" ? 60 : 42,
   },
 });
 

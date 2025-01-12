@@ -4,7 +4,7 @@ const SvgComponent = (props) => (
   <Svg
     xmlns="http://www.w3.org/2000/svg"
     width={24}
-    height={25}
+    height={24}
     fill="none"
     {...props}
   >
@@ -13,13 +13,13 @@ const SvgComponent = (props) => (
         stroke="#9D9D9D"
         strokeLinecap="round"
         strokeLinejoin="round"
-        strokeWidth={1.5}
-        d="m9.5 6.538 6 6-6 6"
+        strokeWidth={2}
+        d="m15.5 18.5-6-6 6-6"
       />
     </G>
     <Defs>
       <ClipPath id="a">
-        <Path fill="#fff" d="M0 .538h24v24H0z" />
+        <Path fill="#fff" d="M0 .5h24v24H0z" />
       </ClipPath>
     </Defs>
   </Svg>

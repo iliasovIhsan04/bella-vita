@@ -12,7 +12,7 @@ export default function RootLayout() {
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-
+  
   const getToken = async (): Promise<void> => {
     try {
       const storedToken = await AsyncStorage.getItem("tokenActivation");
@@ -56,11 +56,9 @@ export default function RootLayout() {
       router.replace("/navigate/OnBoarding");
     }
   }, [loading, token]);
-
   if (loading) {
     return null;
   }
-
   return (
     <Provider store={store}>
       <Stack screenOptions={{ headerShown: false }}>
@@ -71,7 +69,7 @@ export default function RootLayout() {
         <Stack.Screen name="navigate/PurchaseHistory" />
         <Stack.Screen name="navigate/FeaturedProducts" />
         <Stack.Screen name="navigate/MyDetails" />
-        <Stack.Screen name="details/[cat]" />
+        <Stack.Screen name="details/[cat]"/>
         <Stack.Screen name="navigate/HarryBuyDetails" />
         <Stack.Screen name="navigate/PromotionDetails" />
         <Stack.Screen name="navigate/EmptyAddress" />
@@ -83,6 +81,7 @@ export default function RootLayout() {
         <Stack.Screen name="details/ProductId/[id]" />
         <Stack.Screen name="details/PurchaseId/[id]" />
         <Stack.Screen name="details/BarrCodeId/[id]" />
+        <Stack.Screen name="details/CateoryId/[id]" />
         <Stack.Screen name="navigate/Notifications" />
         <Stack.Screen name="navigate/BasketPage" />
         <Stack.Screen name="navigate/PlacingOrder" />

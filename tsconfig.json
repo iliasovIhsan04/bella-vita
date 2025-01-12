@@ -11,5 +11,5 @@
   "include": [
     "**/*.ts",
     "**/*.tsx"
-  ]
+, "components/Main/Main.jsx", "components/Main/HurryUpToBuy.jsx", "components/Main/Promotion.jsx", "app/(tabs)/catalog.jsx", "pages/CatalogPage.jsx", "app/details/[cat].jsx", "app/details/ProductId/Images.jsx", "app/details/ProductId/[id].jsx"  ]
 }

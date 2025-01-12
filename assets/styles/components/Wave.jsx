@@ -13,7 +13,6 @@ const Wave = ({
 }) => {
   const scaleValue = useRef(new Animated.Value(1)).current;
   const phonValue = useRef(new Animated.Value(0)).current;
-
   const handlePressIn = () => {
     Animated.spring(scaleValue, {
       toValue: 0.95,

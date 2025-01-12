@@ -2,6 +2,7 @@ import { stylesAll } from "@/style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
+import Header from '../../components/Main/HeaderAll'
 import {
   ActivityIndicator,
   Image,
@@ -12,6 +13,9 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { colors } from "@/assets/styles/components/colors";
+import Card from "@/assets/customs/Card";
+import Wave from "@/assets/styles/components/Wave";
 
 interface Product {
   id: number;
@@ -67,22 +71,10 @@ const FeaturedProducts = () => {
       setLoading(false);
     }
   };
-
   return (
-    <View style={stylesAll.container}>
-      <View style={[stylesAll.header, stylesAll.header_nav_gray]}>
-        <TouchableOpacity
-          style={stylesAll.header_back_btn}
-          onPress={() => router.push("/(tabs)/profile")}
-        >
-          <Image
-            style={{ width: 24, height: 24 }}
-            source={require("../../assets/images/moreLeft.png")}
-          />
-        </TouchableOpacity>
-        <Text style={stylesAll.header_name}>Избранные товары</Text>
-        <View style={stylesAll.header_back_btn}></View>
-      </View>
+    <View style={{flex:1, backgroundColor:colors.white}}> 
+  <View style={stylesAll.container}>
+    <Header back={true}>Избранные</Header>
       {loading ? (
         <View style={stylesAll.loading_catalog_page}>
           <ActivityIndicator size="small" color="#DC0200" />
@@ -93,60 +85,73 @@ const FeaturedProducts = () => {
           showsHorizontalScrollIndicator={false}
         >
           <View style={styles.catalog_block_all}>
+
             {cart.map((el, id: number) => (
-              <Pressable
-                style={styles.catalog_box}
-                key={id}
-                onPress={() => router.push(`/details/ProductId/${el.id}`)}
-              >
-                <Pressable
-                  onPress={() => deleteItem(el.id)}
-                  style={styles.heart_img_box}
-                >
-                  <Image
-                    style={styles.heart_img}
-                    source={
-                      favoriteItems.includes(el.id)
-                        ? require("../../assets/images/heart_card.png")
-                        : require("../../assets/images/heart_card_new.png")
-                    }
-                  />
-                </Pressable>
-                <View style={styles.catgalog_img_box}>
-                  <Image
-                    source={{ uri: el.preview_img }}
-                    style={styles.catgalog_img}
-                  />
-                </View>
-                <Text style={styles.catalog_title} numberOfLines={1}>
-                  {el.title}
-                </Text>
-                <View>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <Text style={styles.catalog_name}>1 {el.price_for}</Text>
-                    <Text style={styles.catlaog_price}>{el.price} сом</Text>
-                  </View>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <Text style={styles.catalog_name}>По карте</Text>
-                    <Text style={styles.catlaog_old_price}>
-                      {el.old_price} сом
-                    </Text>
-                  </View>
-                </View>
-              </Pressable>
+              // <Pressable
+              //   style={styles.catalog_box}
+              //   key={id}
+              //   onPress={() => router.push(`/details/ProductId/${el.id}`)}
+              // >
+              //   <Pressable
+              //     onPress={() => deleteItem(el.id)}
+              //     style={styles.heart_img_box}
+              //   >
+              //     <Image
+              //       style={styles.heart_img}
+              //       source={
+              //         favoriteItems.includes(el.id)
+              //           ? require("../../assets/images/heart_card.png")
+              //           : require("../../assets/images/heart_card_new.png")
+              //       }
+              //     />
+              //   </Pressable>
+              //   <View style={styles.catgalog_img_box}>
+              //     <Image
+              //       source={{ uri: el.preview_img }}
+              //       style={styles.catgalog_img}
+              //     />
+              //   </View>
+              //   <Text style={styles.catalog_title} numberOfLines={1}>
+              //     {el.title}
+              //   </Text>
+              //   <View>
+              //     <View
+              //       style={{
+              //         flexDirection: "row",
+              //         alignItems: "center",
+              //         justifyContent: "space-between",
+              //       }}
+              //     >
+              //       <Text style={styles.catalog_name}>1 {el.price_for}</Text>
+              //       <Text style={styles.catlaog_price}>{el.price} сом</Text>
+              //     </View>
+              //     <View
+              //       style={{
+              //         flexDirection: "row",
+              //         alignItems: "center",
+              //         justifyContent: "space-between",
+              //       }}
+              //     >
+              //       <Text style={styles.catalog_name}>По карте</Text>
+              //       <Text style={styles.catlaog_old_price}>
+              //         {el.old_price} сом
+              //       </Text>
+              //     </View>
+              //   </View>
+              // </Pressable>
+              <Wave>
+    <Card 
+                  handle={() => router.push(`/details/ProductId/${el.id}`)}
+                  id={el.id}
+                  title={el.title}
+                  mini_description={el.description}
+                  price={el.price}
+                  old_price={el.old_price}
+                />
+              </Wave>
+              
             ))}
+        
           </View>
         </ScrollView>
       ) : (
@@ -171,6 +176,8 @@ const FeaturedProducts = () => {
         </View>
       )}
     </View>
+    </View>
+  
   );
 };
 

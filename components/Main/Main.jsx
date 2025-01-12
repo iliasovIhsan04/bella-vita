@@ -18,24 +18,24 @@ import HurryUpToBuy from "./HurryUpToBuy";
 import Promotion from "./Promotion";
 import { stylesAll } from "@/style";
 import { Ionicons } from "@expo/vector-icons";
-import { AppDispatch } from "@/Redux/reducer/store";
 import { useDispatch } from "react-redux";
 import { fetchUserInfo } from "@/Redux/reducer/UserInfo";
 import StoryComponent from "./StorisBlock";
 import { router } from "expo-router";
 import { useRoute } from "@react-navigation/native";
-import Wrapper from '../../assets/styles/components/Wrapper';
-import Column from '../../assets/styles/components/Column';
+import Wrapper from "../../assets/styles/components/Wrapper";
+import Column from "../../assets/styles/components/Column";
 import { colors } from "@/assets/styles/components/colors";
-import Flex from '../../assets/styles/components/Flex'
-import Scanner from '../../assets/svg/imgScanner'
-import Favorite from '../../assets/svg/favoriteImg'
+import Flex from "../../assets/styles/components/Flex";
+import Scanner from "../../assets/svg/imgScanner";
+import Favorite from "../../assets/svg/favoriteImg";
 import TextContent from "@/assets/styles/components/TextContent";
-import Card from '../../assets/customs/Card'
+import Wave from "@/assets/styles/components/Wave";
+
 const containerWidth = (Dimensions.get("window").width - 32) / 2 - 5;
 
 export default function Main() {
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useDispatch();
   const scaleValueModal1 = useRef(new Animated.Value(0)).current;
   const opacityValueModal1 = useRef(new Animated.Value(0)).current;
   const [modalRegistration, setModalRegistration] = useState(false);
@@ -45,6 +45,7 @@ export default function Main() {
 
   const route = useRoute();
   const { showModal } = route.params || {};
+
   useEffect(() => {
     if (showModal) {
       setModalRegistration(true);
@@ -153,42 +154,63 @@ export default function Main() {
       >
         <StoryComponent />
         <Column gap={10} style={{ marginBottom: 50 }}>
-          <Wrapper padding={[20,24]}>
+          <Wrapper padding={[20, 24]}>
             <Column gap={10}>
-            <BonusCart />
-          <View style={styles.apple_check_price}>
-            <TouchableOpacity
-              style={styles.apple_box}
-            >
-              <Image
-                style={styles.image_apple}
-                source={require("../../assets/images/brendLogo.png")}
-              />
-            </TouchableOpacity>
-            <View style={styles.check_price_block}>
-              <Flex gap={8}>
-              <TouchableOpacity
-              style={styles.check_price_box}
-              onPress={() => router.push("/navigate/ProductGiven")}
-            >
-              <Scanner/>
-              <TextContent fontSize={11} fontWeight={500} color={colors.black} style={{textAlign:'center'}}>Проверить цену</TextContent>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.check_price_box}
-              onPress={() => router.push("/navigate/ProductGiven")}
-            >
-            <Favorite/>
-              <TextContent fontSize={11} fontWeight={500} color={colors.black} style={{textAlign:'center'}}>Проверить цену</TextContent>
-            </TouchableOpacity>
-              </Flex>
-              <Column style={styles.brend_block}>
-              <TextContent fontSize={16} fontWeight={600} color={colors.black}>Бренды</TextContent>
-              <View style={styles.brend_img_block}></View>
-              </Column>
-            </View>
-          </View>
-          <Card />
+              <BonusCart />
+              <View style={styles.apple_check_price}>
+                <Wave style={styles.apple_box}>
+                  <Image
+                    style={styles.image_apple}
+                    source={require("../../assets/images/brendLogo.png")}
+                  />
+                </Wave>
+                <View style={styles.check_price_block}>
+                  <Flex gap={8}>
+                    <Wave
+                      style={styles.check_price_box}
+                      handle={() => router.push("/navigate/ProductGiven")}
+                    >
+                      <Column gap={6} style={{ alignItems: "center" }}>
+                        <Scanner />
+                        <TextContent
+                          fontSize={11}
+                          fontWeight={500}
+                          color={colors.black}
+                          style={{ textAlign: "center" }}
+                        >
+                          Проверить цену
+                        </TextContent>
+                      </Column>
+                    </Wave>
+                    <Wave
+                      style={styles.check_price_box}
+                      handle={() => router.push("/navigate/ProductGiven")}
+                    >
+                      <Column gap={6} style={{ alignItems: "center" }}>
+                        <Favorite />
+                        <TextContent
+                          fontSize={11}
+                          fontWeight={500}
+                          color={colors.black}
+                          style={{ textAlign: "center" }}
+                        >
+                          Проверить цену
+                        </TextContent>
+                      </Column>
+                    </Wave>
+                  </Flex>
+                  <Column style={styles.brend_block}>
+                    <TextContent
+                      fontSize={16}
+                      fontWeight={600}
+                      color={colors.black}
+                    >
+                      Бренды
+                    </TextContent>
+                    <View style={styles.brend_img_block}></View>
+                  </Column>
+                </View>
+              </View>
             </Column>
           </Wrapper>
           <HurryUpToBuy />
@@ -200,29 +222,28 @@ export default function Main() {
 }
 
 const styles = StyleSheet.create({
-  brend_img_block:{
-    width:'100%',
-height:46,
-backgroundColor:colors.white
+  brend_img_block: {
+    width: "100%",
+    height: 46,
+    backgroundColor: colors.white,
   },
-  favorite_box :{
-width:36,
-height:36,
-borderRadius:50,
-backgroundColor:colors.feuilletOpacity,
-flexDirection:'row',
-alignItems: 'center',
-justifyContent: 'center',
+  favorite_box: {
+    width: 36,
+    height: 36,
+    borderRadius: 50,
+    backgroundColor: colors.feuilletOpacity,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
-  brend_block:{
-flex:1,
-backgroundColor:colors.phon,
-borderRadius:14,
-paddingVertical:16,
-paddingHorizontal:16,
-flexDirection:'column',
-justifyContent:'space-between'
-
+  brend_block: {
+    flex: 1,
+    backgroundColor: colors.phon,
+    borderRadius: 14,
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    flexDirection: "column",
+    justifyContent: "space-between",
   },
   modal_text_title: {
     fontSize: 20,
@@ -250,30 +271,27 @@ justifyContent:'space-between'
     gap: 8,
   },
   apple_box: {
-    width:containerWidth,
+    width: containerWidth,
     height: 230,
     borderRadius: 10,
   },
   image_apple: {
     width: "100%",
-  height:230,
-    overflow:'hidden'
+    height: 230,
+    overflow: "hidden",
   },
-  check_price_block:{
-    width:containerWidth,
-backgroundColor:colors.white,
-flexDirection:'column',
-gap:8
+  check_price_block: {
+    width: containerWidth,
+    backgroundColor: colors.white,
+    flexDirection: "column",
+    gap: 8,
   },
   check_price_box: {
-    flex:1,
-    height:96,
-    flexDirection: "column",
-    alignItems: "center",
+    flex: 1,
+    height: 96,
     borderRadius: 14,
     paddingHorizontal: 10,
-    paddingVertical:14,
+    paddingVertical: 14,
     backgroundColor: colors.phon,
-    gap:6
   },
 });

@@ -10,7 +10,6 @@ const TextContent = ({
   bottom,
   fontSize,
   fontWeight,
-  fontFamily,
   children,
   color,
   center,
