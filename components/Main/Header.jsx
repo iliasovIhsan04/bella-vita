@@ -2,9 +2,48 @@ import { stylesAll } from "@/style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
-import { Image, Platform, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import CartActive from "../../assets/svg/shoppingCartActive";
+import Wave from "@/assets/styles/components/Wave";
+import TextContent from "@/assets/styles/components/TextContent";
+import { colors } from "@/assets/styles/components/colors";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserInfo } from "@/Redux/reducer/UserInfo";
+
+
 
 const Header = () => {
+const dispatch = useDispatch()
+const [token, setToken] = useState(null);
+
+  const getToken = async () => {
+    try {
+      const storedToken = await AsyncStorage.getItem("tokenActivation");
+      setToken(storedToken);
+    } catch (error) {
+      console.error("Error retrieving token:", error);
+      setToken(null);
+    }
+  };
+
+  useEffect(() => {
+    const loadUserInfo = async () => {
+      await getToken();
+      if (token) {
+        dispatch(fetchUserInfo());
+      }
+    };
+    loadUserInfo();
+  }, [dispatch, token]);
+
+  const data = useSelector((state) => state?.users);
+  const user = data?.user;
+
   const [totalQuantity, setTotalQuantity] = useState(0);
 
   useEffect(() => {
@@ -20,31 +59,19 @@ const Header = () => {
     getItems();
   }, []);
   return (
-    <View style={[styles.header, stylesAll.header_nav, stylesAll.container ]}>
-      <Pressable onPress={() => router.push("/navigate/Notifications")}>
-        <Image
-          style={stylesAll.icons}
-          source={require("../../assets/images/notifications.png")}
-        />
-      </Pressable>
-      <Image
-        style={stylesAll.logotip}
-        source={require("../../assets/images/logotipCenter.png")}
-      />
-      <Pressable
-        onPress={() => router.push("/navigate/BasketPage")}
+    <View style={[styles.header, stylesAll.header_nav, stylesAll.container]}>
+      <TextContent fontSize={16} fontWeight={600} color={colors.black}>Добро пожаловать, {user?.first_name}</TextContent>
+      <Wave
+        handle={() => router.push("/navigate/BasketPage")}
         style={{ position: "relative" }}
       >
-        <Image
-          style={stylesAll.icons}
-          source={require("../../assets/images/cart_gray.png")}
-        />
+        <CartActive />
         {totalQuantity > 0 && (
           <View style={styles.border_basket_not}>
             <Text style={styles.border_basket_text}>{totalQuantity}</Text>
           </View>
         )}
-      </Pressable>
+      </Wave>
     </View>
   );
 };
@@ -55,11 +82,12 @@ const styles = StyleSheet.create({
     width: 18,
     height: 18,
     borderRadius: 50,
-    backgroundColor: "#DC0200",
-    left: 13,
+    backgroundColor: "#FF5DD4",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
+    top:-4,
+    right:-8
   },
   border_basket_text: {
     fontSize: 11,

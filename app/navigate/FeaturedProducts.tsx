@@ -16,6 +16,10 @@ import {
 import { colors } from "@/assets/styles/components/colors";
 import Card from "@/assets/customs/Card";
 import Wave from "@/assets/styles/components/Wave";
+import Column from "@/assets/styles/components/Column";
+import TextContent from "@/assets/styles/components/TextContent";
+import Button from "@/assets/customs/Button";
+import FeaturedImg from '../../assets/svg/featuredImg'
 
 interface Product {
   id: number;
@@ -73,8 +77,7 @@ const FeaturedProducts = () => {
   };
   return (
     <View style={{flex:1, backgroundColor:colors.white}}> 
-  <View style={stylesAll.container}>
-    <Header back={true}>Избранные</Header>
+    <Header container={true} back={true}>Избранные</Header>
       {loading ? (
         <View style={stylesAll.loading_catalog_page}>
           <ActivityIndicator size="small" color="#DC0200" />
@@ -83,6 +86,8 @@ const FeaturedProducts = () => {
         <ScrollView
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
+          style={{paddingHorizontal:16
+          }}
         >
           <View style={styles.catalog_block_all}>
 
@@ -155,27 +160,30 @@ const FeaturedProducts = () => {
           </View>
         </ScrollView>
       ) : (
+        <View style={stylesAll.empty_block}>
         <View style={stylesAll.purchase_history}>
           <View style={stylesAll.history_image_box}>
-            <Image
-              style={stylesAll.image_all}
-              source={require("../../assets/images/empty_favorites.png")}
-            />
+            <FeaturedImg />
           </View>
-          <Text style={stylesAll.history_text_one}>Пока тут пусто</Text>
-          <Text style={stylesAll.history_text_two}>
-            Добавьте в избранное всё, что душе угодно, а мы доставим заказ
-            от 150 сом
-          </Text>
-          <TouchableOpacity
-            style={stylesAll.button}
-            onPress={() => router.push("/(tabs)/catalog")}
+          <Column gap={12}>
+          <TextContent
+            fontSize={22}
+            fontWeight={600}
+            color={colors.black}
+            style={{ textAlign: "center" }}
           >
-            <Text style={stylesAll.button_text}>Перейти в каталог</Text>
-          </TouchableOpacity>
+           Пока тут пусто
+          </TextContent>
+          <Text style={stylesAll.history_text_two}>
+          Добавьте в избранное всё, что душе угодно, а мы доставим заказ от 150 сом
+          </Text>
+          </Column>
+          <View style={{width:'100%'}}>
+          <Button color={colors.feuillet} handle={() => router.push("/(tabs)/catalog")}>Перейти в каталог</Button>
+          </View>
         </View>
+      </View>
       )}
-    </View>
     </View>
   
   );
@@ -189,6 +197,8 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     gap: 10,
     marginBottom: 150,
+    marginTop:8
+    
   },
   heart_img_box: {
     position: "absolute",

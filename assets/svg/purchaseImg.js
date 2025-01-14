@@ -9,15 +9,17 @@ const SvgComponent = (props) => (
     {...props}
   >
     <Path
-      stroke="#9D9D9D"
+      stroke="#9519AD"
       strokeLinejoin="round"
-      strokeWidth={2}
-      d="M4 23V6h16v17H4Z"
+      strokeWidth={1.5}
+      d="M18.5 4h-13a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1Z"
     />
     <Path
-      stroke="#9D9D9D"
+      stroke="#9519AD"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       strokeWidth={1.5}
-      d="M8.023 8S7.455 1 12 1s3.977 7 3.977 7"
+      d="M9 2v3M15 2v3M8 9.5h8M8 13.5h6M8 17.5h4"
     />
   </Svg>
 )

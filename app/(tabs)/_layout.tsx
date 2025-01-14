@@ -8,10 +8,11 @@ import Delivery from '../../assets/svg/delivery';
 import DeliveryActive from '../../assets/svg/delveryActive'
 import Profile from '../../assets/svg/user';
 import ProfileActive from '../../assets/svg/userActive';
-import Cart from '../../assets/svg/shoppingCart'
-import CartActive from '../../assets/svg/shoppingCartActive'
+
 import GrCode from '../../assets/svg/grCod'
 import {colors} from '../../assets/styles/components/colors'
+import Map from '../../assets/svg/map'
+import MapActive from '../../assets/svg/mapActive'
 
 
 export default function TabLayout() {
@@ -50,7 +51,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="catalog"
         options={{
-          title: "Доставка",
+          title: "Каталог",
           tabBarIcon: ({ focused }) => (
             <View>
               {focused ? (
@@ -80,13 +81,13 @@ export default function TabLayout() {
       <Tabs.Screen
         name="map"
         options={{
-          title: "Корзина",
+          title: "Локация",
           tabBarIcon: ({ focused }) => (
             <View>
               {focused ? (
-          <CartActive/>
+          <MapActive/>
               ) : (
-                <Cart/>
+                <Map/>
               )}
             </View>
           ),

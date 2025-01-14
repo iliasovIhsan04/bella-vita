@@ -1,3 +1,4 @@
+import { url } from "@/Api";
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -35,7 +36,7 @@ export default function StoryComponent() {
     
     const fetchStories = async () => {
       try {
-        const response = await fetch("https://alma-market.online/stories");
+        const response = await fetch(url+"/stories");
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
         const storiesData = await response.json();
         if (!isMounted) return;

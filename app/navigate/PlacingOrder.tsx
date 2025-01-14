@@ -1,11 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
-  ActivityIndicator,
   Alert,
   Animated,
   Image,
-  KeyboardAvoidingView,
-  Platform,
   StyleSheet,
   Text,
   TextInput,
@@ -23,7 +20,18 @@ import { Modal } from "react-native";
 import { Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import Header from '../../components/Main/HeaderAll'
+import ButtonLayouts from "@/assets/tabs/buttonLayouts";
+import AddresIcon from '../../assets/svg/addressimg'
+import CalendarIcons from '../../assets/svg/calendar'
+import WalletIcon from '../../assets/svg/walletImg'
+import { colors } from "@/assets/styles/components/colors";
+import Flex from "@/assets/styles/components/Flex";
+import Between from "@/assets/styles/components/Between";
+import Wave from "@/assets/styles/components/Wave";
+import Arrow from '../../assets/svg/more'
 import { ScrollView } from "react-native";
+
 
 const PlacingOrder = () => {
   const [local, setLocal] = useState<string | null>(null);
@@ -37,6 +45,8 @@ const PlacingOrder = () => {
   const [datePicker, setDatePicker] = useState<boolean>(false);
   const scaleValue = useRef(new Animated.Value(0)).current;
   const opacityValue = useRef(new Animated.Value(0)).current;
+  
+  const [basket, setBasket] = useState([])
   const selectedAddressId = useSelector(
     (state: RootState) => state.selectedAddress.selectedAddress
   );
@@ -174,10 +184,18 @@ const PlacingOrder = () => {
     }
   }, [openModal]);
 
+  useEffect(() => {
+    const fetchPlacing = async () => {
+      const storedBasket = await AsyncStorage.getItem("cartsBasket");
+      setBasket(storedBasket ? JSON.parse(storedBasket) : []);
+    };
+    fetchPlacing();
+  }, []);
+
+const basket_count= basket?.length
   return (
-    <KeyboardAvoidingView style={{flex:1}} behavior={Platform.OS === "ios" ? "padding" : "height"}
-    keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}> 
-   <ScrollView contentContainerStyle={{flexGrow:1}}>
+    <ButtonLayouts title={'Оформить заказ'} handle={handleSubmit} end_bot={true} name_product_count={'Товары:'} all_count_name={'Общая сумма:'} total_amount={totalPrice} product_count={basket_count} delivery={true}>
+   
     <View style={stylesAll.background_block}>
       <Modal visible={openModal} transparent={true} animationType="none">
         <Pressable style={stylesAll.content_modal}>
@@ -225,34 +243,19 @@ const PlacingOrder = () => {
           </Animated.View>
         </Pressable>
       </Modal>
-      <View style={stylesAll.container}>
-        <View style={stylesAll.header}>
-          <TouchableOpacity
-            style={stylesAll.header_back_btn}
-            onPress={() => router.push("/navigate/BasketPage")}
-          >
-            <Image
-              style={{ width: 24, height: 24 }}
-              source={require("../../assets/images/moreLeft.png")}
-            />
-          </TouchableOpacity>
-          <Text style={stylesAll.header_name}>Оформление заказа</Text>
-          <View style={stylesAll.header_back_btn}></View>
-        </View>
-        <View style={stylesAll.input_block_all}>
+      <Header container={true} back={true}>Оформление заказ</Header>
+      <ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
+      <View style={styles.placing_box_block}>
           <View>
             <Text style={stylesAll.label}>Адрес доставки</Text>
-            <TouchableOpacity
-              style={[stylesAll.input, styles.input_box]}
-              onPress={() => router.push("/navigate/EmptyAddress")}
+            <Wave handle={() => router.push("/navigate/EmptyAddress")}>
+            <Between
+              style={styles.placing_box}
             >
               <View
                 style={{ flexDirection: "row", alignItems: "center", gap: 12 }}
               >
-                <Image
-                  style={stylesAll.icons}
-                  source={require("../../assets/images/address.png")}
-                />
+               <AddresIcon/>
                 {selectedAddressId ? (
                   <Text style={styles.placeholder_static}>
                     {selectedAddressId}
@@ -263,16 +266,14 @@ const PlacingOrder = () => {
                   </Text>
                 )}
               </View>
-              <Image
-                style={[stylesAll.icons, { tintColor: "#CFCFCF" }]}
-                source={require("../../assets/images/moreRight.png")}
-              />
-            </TouchableOpacity>
+            <Arrow/>
+            </Between>
+            </Wave>
           </View>
           <View>
             <Text style={stylesAll.label}>Время получения</Text>
             <TouchableOpacity
-              style={[stylesAll.input, styles.input_box]}
+              style={styles.placing_box}
               onPress={() => {
                 if (!date1) {
                   setShow(false);
@@ -291,7 +292,7 @@ const PlacingOrder = () => {
             </TouchableOpacity>
             <Pressable>
               <TouchableOpacity
-                style={[stylesAll.input, styles.input_box, { marginTop: 10 }]}
+                style={[styles.placing_box, { marginTop: 10 }]}
                 onPress={() => {
                   if (!show) {
                     setShow(true);
@@ -299,12 +300,8 @@ const PlacingOrder = () => {
                   }
                 }}
               >
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: 12,
-                  }}
+                <Flex
+              gap={12}
                 >
                   <View style={stylesAll.cell_box}>
                     <View style={[show && stylesAll.active_cell_box]}></View>
@@ -312,17 +309,14 @@ const PlacingOrder = () => {
                   <Text style={styles.placeholder_static}>
                     Выбрать дату и время
                   </Text>
-                </View>
+                </Flex>
               </TouchableOpacity>
               {show && (
                 <Pressable
                   style={styles.input_box_date}
                   onPress={() => setDatePicker(true)}
                 >
-                  <Image
-                    style={styles.calendar}
-                    source={require("../../assets/images/calendar_days.png")}
-                  />
+                  <CalendarIcons/>
                   <Text style={[styles.placeholder_static, styles.date_text]}>
                     {address.get_date
                       ? new Date(address.get_date).toLocaleString()
@@ -368,21 +362,16 @@ const PlacingOrder = () => {
           </View>
           <View style={{ marginTop: 75 }}>
             <Text style={stylesAll.label}>Способ оплаты</Text>
-            <TouchableOpacity style={[stylesAll.input, styles.input_box]}>
-              <View
-                style={{ flexDirection: "row", alignItems: "center", gap: 12 }}
-              >
-                <Image
-                  style={stylesAll.icons}
-                  source={require("../../assets/images/wallet.png")}
-                />
+            <TouchableOpacity style={styles.placing_box}>
+              <Flex gap={12}>
+           <WalletIcon/>
                 <Text style={styles.placeholder_static}>Наличными</Text>
-              </View>
+              </Flex>
             </TouchableOpacity>
           </View>
         </View>
-      </View>
-      <View style={styles.placing_order_bottom}>
+        </ScrollView>
+      {/* <View style={styles.placing_order_bottom}>
         <View style={{ flexDirection: "column", gap: 10 }}>
           <View
             style={{
@@ -431,16 +420,28 @@ const PlacingOrder = () => {
             <Text style={stylesAll.button_text}>Оформить заказ</Text>
           )}
         </TouchableOpacity>
-      </View>
+      </View> */}
     </View>
-    </ScrollView>
-    </KeyboardAvoidingView>
- 
-
+    </ButtonLayouts>
   );
 };
 
 const styles = StyleSheet.create({
+  placing_box_block :{
+    flexDirection: "column",
+    gap: 14,
+    marginTop: 8,
+    paddingHorizontal:16,
+  },
+  placing_box :{
+width:'100%',
+height:45,
+backgroundColor:colors.phon,
+flexDirection:'row',
+alignItems:'center',
+padding:10,
+borderRadius:10
+  },
   calendar: {
     width: 24,
     height: 24,
@@ -454,7 +455,7 @@ const styles = StyleSheet.create({
     color: "#191919",
   },
   input_box_textarea: {
-    backgroundColor: "#F5F7FA",
+    backgroundColor: colors.phon,
     minHeight: 120,
     textAlignVertical: "top",
     paddingVertical: 10,
@@ -468,7 +469,7 @@ const styles = StyleSheet.create({
   input_box_date: {
     width: "100%",
     height: 45,
-    backgroundColor: "#F5F7FA",
+    backgroundColor: colors.phon,
     borderRadius: 10,
     marginTop: 10,
     paddingHorizontal: 10,

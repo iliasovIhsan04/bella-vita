@@ -8,26 +8,19 @@ import {
   Image,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from "react-native";
+import { Header } from "react-native/Libraries/NewAppScreen";
 
-interface PromotionIdInter {
-  id: number;
-  title: string;
-  img: string;
-  dateto: string;
-  text: string;
-}
 const PromotionId = () => {
-  const [harryId, setHarryId] = useState<PromotionIdInter | null>(null);
+  const [harryId, setHarryId] = useState(null);
   const { id } = useLocalSearchParams();
 
   useEffect(() => {
     if (id) {
       const fetchUserData = async () => {
         try {
-          const response = await axios.get<PromotionIdInter>(
+          const response = await axios.get(
             `${url}/card/${id}`
           );
           setHarryId(response.data);
@@ -46,27 +39,16 @@ const PromotionId = () => {
       </View>
     );
   }
-
-  const cleanText = (text: string) => {
+  const cleanText = (text) => {
     return text.replace(/<\/?[^>]+(>|$)/g, "");
   };
 
   return (
     <View style={stylesAll.background_block}>
       <View style={stylesAll.container}>
-        <View style={[stylesAll.header, stylesAll.header_nav]}>
-          <TouchableOpacity
-            style={stylesAll.header_back_btn}
-            onPress={() => router.back()}
-          >
-            <Image
-              style={{ width: 24, height: 24 }}
-              source={require("../../../assets/images/moreLeft.png")}
-            />
-          </TouchableOpacity>
-          <Text style={stylesAll.header_name}>Акции</Text>
-          <View style={stylesAll.header_back_btn}></View>
-        </View>
+     <Header>
+      
+     </Header>
         <View style={styles.promotion_block}>
           <View
             style={{

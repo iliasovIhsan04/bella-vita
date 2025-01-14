@@ -1,1 +1,1 @@
-export const url = "https://alma-market.online";
+export const url = "https://bella.navisdevs.ru";

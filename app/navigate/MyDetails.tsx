@@ -20,6 +20,9 @@ import { fetchUserInfo } from "@/Redux/reducer/UserInfo";
 import { AppDispatch, RootState } from "@/Redux/reducer/store";
 import { url } from "@/Api";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import Header from "@/components/Main/HeaderAll";
+import { colors } from "@/assets/styles/components/colors";
+import ButtonLayouts from "@/assets/tabs/buttonLayouts";
 
 interface DropdownItem {
   label: string;
@@ -252,26 +255,9 @@ const MyDetails = () => {
     hideDatePicker();
   };
   return (
+    <ButtonLayouts handle={createPerson} title={'Сохранить'} color={isModified ? colors.feuillet : colors.gray} loading={loading} disabled={!isModified}>
     <View style={[stylesAll.background_block]}>
-      <View
-        style={[
-          stylesAll.header,
-          stylesAll.header_nav,
-          { position: "relative", paddingHorizontal: 20 },
-        ]}
-      >
-        <TouchableOpacity
-          style={stylesAll.header_back_btn}
-          onPress={() => router.back()}
-        >
-          <Image
-            style={{ width: 24, height: 24 }}
-            source={require("../../assets/images/moreLeft.png")}
-          />
-        </TouchableOpacity>
-        <Text style={stylesAll.header_name}>Мои данные</Text>
-        <View style={stylesAll.header_back_btn}></View>
-      </View>
+      <Header container={true} back={true}>Личные данные</Header>
       <ScrollView
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
@@ -419,7 +405,7 @@ const MyDetails = () => {
             >
               <Text style={styles.switch_text}>Наличие домашних животных</Text>
               <Switch
-                trackColor={{ false: "#3e3e3e", true: "#25D366" }}
+                trackColor={{ false: "#3e3e3e", true: "#9519AD" }}
                 value={info.car}
                 onValueChange={(value) => {
                   setInfo((prev) => ({ ...prev, car: value }));
@@ -441,7 +427,7 @@ const MyDetails = () => {
             >
               <Text style={styles.switch_text}>Наличие автомобиля</Text>
               <Switch
-                trackColor={{ false: "#3e3e3e", true: "#25D366" }}
+                trackColor={{ false: "#3e3e3e", true: "#9519AD" }}
                 value={info.animal}
                 onValueChange={(value) => {
                   setInfo((prev) => ({ ...prev, animal: value }));
@@ -455,19 +441,12 @@ const MyDetails = () => {
                 Есть несохраненные изменения
               </Text>
             )}
-            <TouchableOpacity
-              style={[isModified ? stylesAll.button : styles.my_btn]}
-              onPress={createPerson}
-              disabled={loading}
-            >
-              <Text style={stylesAll.button_text}>
-                {loading ? "Сохранение..." : "Сохранить"}
-              </Text>
-            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
-    </View>
+      </View>
+    </ButtonLayouts>
+
   );
 };
 
@@ -481,7 +460,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 10,
   },
-
   my_btn: {
     height: 45,
     backgroundColor: "#6B6B6B",
@@ -504,7 +482,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   input_box: {
-    backgroundColor: "#F5F7FA",
+    backgroundColor: colors.phon,
   },
   input_box_date: {
     flexDirection: "row",

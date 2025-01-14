@@ -5,6 +5,16 @@ export const stylesAll = StyleSheet.create({
   container: {
     paddingHorizontal: 16,
   },
+  empty_block: {
+    flexDirection: "column",
+    paddingHorizontal: 16,
+    marginTop:140,
+  },
+  basket_line :{
+borderTopWidth:1,
+borderTopColor:colors.phon,
+paddingHorizontal:16
+  },
   itemName: {
     fontSize: 16,
     fontWeight: "700",
@@ -99,7 +109,7 @@ export const stylesAll = StyleSheet.create({
   footer_absolute: {
     width: 60,
     height: 60,
-    backgroundColor: "#3F2560",
+    backgroundColor:colors.feuillet,
     borderRadius: 50,
     marginBottom: 30,
     flexDirection: "row",
@@ -142,18 +152,12 @@ export const stylesAll = StyleSheet.create({
     backgroundColor: colors.white,
   },
   purchase_history: {
-    flex:1,
     flexDirection: "column",
     alignItems: "center",
-  },
-  history_image_box: {
-    width: 210,
-    height: 230,
-    marginTop: 56,
-    marginBottom: 40,
+    gap:30
   },
   image_all: {
-    flex:1,
+    width:'100%',
     height: "100%",
   },
   history_text_one: {
@@ -169,8 +173,6 @@ export const stylesAll = StyleSheet.create({
     color: "#191919",
     textAlign: "center",
     lineHeight: 18,
-    marginTop: 12,
-    marginBottom: 30,
   },
   input: {
     width: "100%",
@@ -191,7 +193,8 @@ export const stylesAll = StyleSheet.create({
   input_block_all: {
     flexDirection: "column",
     gap: 14,
-    marginTop: 20,
+    marginTop: 8,
+    paddingBottom:200
   },
   buttonText: {
     fontSize: 16,
@@ -201,7 +204,7 @@ export const stylesAll = StyleSheet.create({
   active_cell_box: {
     width: 15,
     height: 15,
-    backgroundColor: "#DC0200",
+    backgroundColor: colors.feuillet,
     borderRadius: 50,
   },
   phone_input_mask_block: {

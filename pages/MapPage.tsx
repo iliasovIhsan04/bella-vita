@@ -9,11 +9,13 @@ import {
   Linking,
   ScrollView,
   Animated,
+  Platform,
 } from "react-native";
 import * as Location from "expo-location";
 import axios from "axios";
 import { WebView } from "react-native-webview";
 import { stylesAll } from "@/style";
+import { url } from "@/Api";
 
 type LocationType = {
   id: string;
@@ -91,7 +93,7 @@ export default function MapPage() {
 
   useEffect(() => {
     axios
-      .get<LocationType[]>("https://alma-market.online/map/")
+      .get<LocationType[]>(url+"/map/")
       .then((response) => {
         setLocations(response.data);
       })
@@ -358,7 +360,7 @@ const styles = StyleSheet.create({
   },
   nav: {
     position: "absolute",
-    paddingTop: 30,
+    paddingTop: Platform.OS === "ios" ? 50 : 32,
     left: 0,
     right: 0,
     zIndex: 10,

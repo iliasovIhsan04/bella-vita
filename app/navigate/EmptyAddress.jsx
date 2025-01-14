@@ -9,28 +9,22 @@ import { url } from "@/Api";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedAddress } from "@/Redux/address/addressesSlice";
 import { RootState } from "@/Redux/reducer/store";
-
-interface Address {
-  id: number;
-  street: string;
-  number: string;
-  building: string;
-  apartment: string;
-  floor: string;
-  active: boolean;
-}
+import DeleteIcon from "../../assets/svg/deleteIcon";
+import Column from "@/assets/styles/components/Column";
+import { colors } from "@/assets/styles/components/colors";
+import Wave from "@/assets/styles/components/Wave";
+import Close from "../../assets/svg/close";
+import Header from '../../components/Main/HeaderAll'
 
 const EmptyAddress = () => {
   const dispatch = useDispatch();
-  const [data, setData] = useState<Address[]>([]);
-  const [orderDelete, setOrderDelete] = useState<number[]>([]);
-  const [local, setLocal] = useState<string | null>(null);
+  const [data, setData] = useState([]);
+  const [orderDelete, setOrderDelete] = useState([]);
+  const [local, setLocal] = useState(null);
 
-  const addressId = useSelector(
-    (state: RootState) => state.selectedAddress.selectedId
-  );
+  const addressId = useSelector((state) => state.selectedAddress.selectedId);
 
-  const handleActive = (id: number, address: string) => {
+  const handleActive = (id, address) => {
     router.push("/navigate/PlacingOrder");
     dispatch(setSelectedAddress({ id, address }));
   };
@@ -56,9 +50,9 @@ const EmptyAddress = () => {
     if (local) ordering();
   }, [local]);
 
-  const delite = async (id: number) => {
+  const delite = async (id) => {
     try {
-      await axios.get(`${url}/order/address/delete/${id}`, {
+      await axios.delete(`${url}/order/address/delete/${id}`, {
         headers: { Authorization: `Token ${local}` },
       });
       setOrderDelete((prev) => prev.filter((el) => el !== id));
@@ -72,29 +66,17 @@ const EmptyAddress = () => {
   return (
     <View style={stylesAll.background_block}>
       <View style={stylesAll.container}>
-        <View style={stylesAll.header}>
-          <TouchableOpacity
-            style={stylesAll.header_back_btn}
-            onPress={() => router.push("/navigate/PlacingOrder")}
-          >
-            <Image
-              style={{ width: 24, height: 24 }}
-              source={require("../../assets/images/moreLeft.png")}
-            />
-          </TouchableOpacity>
-          <Text style={stylesAll.header_name}>Адрес доставки</Text>
-          <View style={stylesAll.header_back_btn}></View>
-        </View>
+        <Header back={true}>Адрес доставки</Header>
         <View style={{ marginTop: 30 }}>
-          <TouchableOpacity
-            style={[stylesAll.button, styles.btn_address]}
-            onPress={() => router.push("/navigate/NewAddress")}
-          >
-            <Ionicons name="add-outline" size={24} color="#DC0200" />
-            <Text style={[stylesAll.button_text, { color: "#DC0200" }]}>
-              Добавить адрес
-            </Text>
-          </TouchableOpacity>
+          <Wave handle={() => router.push("/navigate/NewAddress")}>
+            <View style={[stylesAll.button, styles.btn_address]}>
+              <Ionicons name="add-outline" size={24} color="#9519AD" />
+              <Text style={[stylesAll.button_text, { color: colors.feuillet }]}>
+                Добавить адрес
+              </Text>
+            </View>
+          </Wave>
+
           {datas === false ? (
             <View style={{ marginTop: 20 }}>
               {data.map((item) => (
@@ -122,39 +104,35 @@ const EmptyAddress = () => {
                       {item.apartment} {item.floor}
                     </Text>
                   </View>
-                  <Ionicons
-                    name="trash-outline"
-                    size={24}
-                    color="#DC0200"
-                    onPress={async () => {
+                  <Wave
+                    handle={async () => {
                       await delite(item.id);
                       ordering();
                     }}
-                  />
+                  >
+                    <Close />
+                  </Wave>
                 </TouchableOpacity>
               ))}
             </View>
           ) : (
-            <View
+            <Column
+              gap={30}
               style={{
                 flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
-                gap: 30,
-                marginTop: 40,
+                marginTop: 110,
               }}
             >
-              <Image
-                style={styles.empty_address}
-                source={require("../../assets/images/empty_address.png")}
-              />
-              <View style={{ flexDirection: "column" }}>
+              <DeleteIcon />
+              <Column gap={12}>
                 <Text style={stylesAll.history_text_one}>Пока тут пусто</Text>
                 <Text style={stylesAll.history_text_two}>
                   Здесь будут храниться ваши адреса
                 </Text>
-              </View>
-            </View>
+              </Column>
+            </Column>
           )}
         </View>
       </View>
@@ -172,11 +150,11 @@ const styles = StyleSheet.create({
   line: {
     width: 15,
     height: 15,
-    backgroundColor: "rgb(220, 2, 0)",
+    backgroundColor:colors.feuillet,
     borderRadius: 50,
   },
   input_box: {
-    backgroundColor: "#F5F7FA",
+    backgroundColor: colors.phon,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -188,7 +166,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 1,
-    borderColor: "#DC0200",
+    borderColor: colors.feuillet,
   },
   empty_address: {
     width: 260,

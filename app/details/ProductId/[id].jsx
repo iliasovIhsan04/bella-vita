@@ -125,7 +125,6 @@ const Productid = () => {
     const updatedCart = cart.some((item) => item.id === data.id)
       ? cart.filter((item) => item.id !== data.id)
       : [...cart, data];
-
     setCart(updatedCart);
     await AsyncStorage.setItem("cartFeatured", JSON.stringify(updatedCart));
   };
@@ -145,7 +144,7 @@ const Productid = () => {
     <ButtonLayouts
       title={isInBasket ? "В корзине" : "Добавить в корзину"}
       handle={() =>
-        isInBasket ? router.push(`navigate/BasketPage`) : Basket(data.id, data)
+        isInBasket ? router.push(`navigate/BasketPage`) : Basket(data?.id, data)
       }
     >
       <View style={stylesAll.background_block}>
@@ -169,7 +168,7 @@ const Productid = () => {
             </Wave>
           </View>
         </View>
-        <Images data={data.img} newBlock={data.percentage} />
+        <Images data={data?.img} newBlock={data.percentage} />
         <View style={[stylesAll.container]}>
           <Column>
             <Column gap={40} top={16}>
@@ -182,7 +181,7 @@ const Productid = () => {
                   fontWeight={600}
                   color={colors.black}
                 >
-                  {data.title}
+                  {data?.title}
                 </TextContent>
               </Column>
               <Column gap={24}>
@@ -193,7 +192,6 @@ const Productid = () => {
                       fontWeight={600}
                       color={colors.feuillet}
                     >
-                      {" "}
                       {data.price} сом
                     </TextContent>
                     <TextContent
@@ -210,20 +208,19 @@ const Productid = () => {
                       fontWeight={600}
                       color={colors.gray80}
                     >
-                      {data.old_price}
+                      {data?.discount_price}
                     </TextContent>
                     <TextContent
                       fontSize={13}
                       fontWeight={400}
                       color={colors.gray80}
                     >
-                      {" "}
                       без скидок
                     </TextContent>
                   </Column>
                 </Flex>
                 <TextContent fontSize={13} fontWeight={400} color={colors.gray}>
-                  Артикул: {data.code}
+                  Артикул: {data?.code}
                 </TextContent>
               </Column>
             </Column>

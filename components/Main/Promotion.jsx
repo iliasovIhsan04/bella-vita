@@ -57,7 +57,7 @@ const Promotion = () => {
       >
         {
           <View style={{ flexDirection: "row", gap: 10, marginTop:10,marginHorizontal:16 }}>
-            {data.map((el) => (
+            {data.map((el, id) => (
               <Pressable
                 key={el.id}
                 style={styles.promotion_box}

@@ -17,10 +17,10 @@ import { useDispatch, useSelector } from "react-redux";
 import Column from "@/assets/styles/components/Column";
 
 const BonusCart = () => {
-  const dispatch: AppDispatch = useDispatch();
-  const [token, setToken] = useState<string | null>(null);
+  const dispatch = useDispatch();
+  const [token, setToken] = useState(null);
 
-  const getToken = async (): Promise<void> => {
+  const getToken = async () => {
     try {
       const storedToken = await AsyncStorage.getItem("tokenActivation");
       setToken(storedToken);
@@ -39,7 +39,7 @@ const BonusCart = () => {
     loadUserInfo();
   }, [dispatch, token]);
 
-  const data = useSelector((state: RootState) => state.users);
+  const data = useSelector((state) => state.users);
   const user = data?.user;
 
   return (

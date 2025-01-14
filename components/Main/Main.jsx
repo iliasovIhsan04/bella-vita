@@ -158,7 +158,7 @@ export default function Main() {
             <Column gap={10}>
               <BonusCart />
               <View style={styles.apple_check_price}>
-                <Wave style={styles.apple_box}>
+                <Wave style={styles.apple_box} handle={() => router.push("(tabs)/catalog")}>
                   <Image
                     style={styles.image_apple}
                     source={require("../../assets/images/brendLogo.png")}
@@ -184,7 +184,7 @@ export default function Main() {
                     </Wave>
                     <Wave
                       style={styles.check_price_box}
-                      handle={() => router.push("/navigate/ProductGiven")}
+                      handle={() => router.push("navigate/FeaturedProducts")}
                     >
                       <Column gap={6} style={{ alignItems: "center" }}>
                         <Favorite />
@@ -194,7 +194,8 @@ export default function Main() {
                           color={colors.black}
                           style={{ textAlign: "center" }}
                         >
-                          Проверить цену
+                        Избранные
+                        товары
                         </TextContent>
                       </Column>
                     </Wave>

@@ -95,7 +95,7 @@ const Card = ({
             )}
             <View style={[styles.new_block, styles.present_box]}>
               <TextContent fontSize={10} fontWeight={400} color={colors.white}>
-                {percentage}
+                {percentage}%
               </TextContent>
             </View>
           </Flex>
@@ -129,20 +129,25 @@ const Card = ({
               fontWeight={400}
               color={colors.gray}
               numberOfLines={2}
+            style={{minHeight:33}}
             >
               {mini_description}
             </TextContent>
           </Column>
           <Flex gap={10}>
             <TextContent fontSize={15} fontWeight={600} color={colors.black}>
-              {old_price} сом
+              {price} сом
             </TextContent>
-            <View style={{ position: "relative" }}>
-              <TextContent fontSize={14} fontWeight={600} color={colors.gray2}>
-                {price} сом
-              </TextContent>
-              <View style={styles.line_price}></View>
-            </View>
+            {
+              old_price && (
+                <View style={{ position: "relative" }}>
+                <TextContent fontSize={14} fontWeight={600} color={colors.gray2}>
+                  {old_price} сом
+                </TextContent>
+                <View style={styles.line_price}></View>
+              </View>
+              )
+            }
           </Flex>
         </Column>
       </Column>

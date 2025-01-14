@@ -13,10 +13,11 @@ import TextContent from "@/assets/styles/components/TextContent";
 import { colors } from "@/assets/styles/components/colors";
 import Flex from "@/assets/styles/components/Flex";
 import Card from "@/assets/customs/Card";
+import { url } from "@/Api";
 
 const HurryUpToBuy = () => {
   const [data, setData] = useState([]);
-  const api = "https://alma-market.online/card/type/one";
+  const api = url+`/product/list`
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -28,7 +29,6 @@ const HurryUpToBuy = () => {
     };
     fetchUserData();
   }, []);
-
   console.log(data);
   return (
     <Wrapper padding={[20, 24]}>
@@ -53,9 +53,13 @@ const HurryUpToBuy = () => {
       <ScrollView
       >
         <View style={{ gap: 8,flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between",}}>
-          {data.map((item) => (
+          {data.map((item) => ( 
             <>
-             <Card id={item.id} title={item.title} percentage={item.percentage} mini_description={item.net} price={item.price} old_price={item.prom_price} harry={data} love={true}/>
+            {
+              item.is_popular && (
+                <Card id={item.id} title={item.title} percentage={item.discount_percentage} mini_description={item.description} price={item.discount_price} old_price={item.price} harry={data} love={true} newBlock={item.new}  handle={() => router.push(`/details/ProductId/${item.id}`)}/>
+              )
+            }
             </>
           ))}
         </View>

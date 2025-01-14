@@ -49,6 +49,5 @@ const userInfoSlice = createSlice({
   },
 });
 
-// Экспорт действий и редуктора
 export const { authUser, setLoading, setError } = userInfoSlice.actions;
 export default userInfoSlice.reducer;

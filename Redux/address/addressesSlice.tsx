@@ -9,7 +9,6 @@ const initialState: AddressesState = {
   selectedAddress: null,
   selectedId: null,
 };
-
 interface SelectedAddressPayload {
   id: number;
   address: string;

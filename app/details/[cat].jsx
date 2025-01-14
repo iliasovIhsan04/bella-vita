@@ -43,51 +43,58 @@ const CatalogDetails = ({}) => {
   const [ordering, setOrdering] = useState("");
   const route = useRoute();
   const { cat } = route.params || {};
-  const fetchData = async (min = minPrice, max = maxPrice) => {
+
+  const fetchData = async (
+    min = minPrice,
+    max = maxPrice,
+    order = ordering
+  ) => {
     try {
       setLoading(true);
-      const response = await axios.get(
-        `${url}/product/list?cat=${cat}&pricefrom=${min}&priceto=${max}&ordering=${ordering}`
-      );
+      const isBrand = typeof cat === "string" && cat.startsWith("brand_");
+      const query = isBrand
+        ? `${url}/product/list?brand=${cat.replace(
+            "brand_",
+            ""
+          )}&pricefrom=${min}&priceto=${max}&ordering=${order}`
+        : `${url}/product/list?cat=${cat}&pricefrom=${min}&priceto=${max}&ordering=${order}`;
+      const response = await axios.get(query);
       const fetchedData = response.data;
       setData(fetchedData);
-      setLoading(true);
-      setModalFilter(false);
-      if (fetchedData.length > 0) {
-        if (min === minPrice && max === maxPrice) {
-          const prices = fetchedData.map((product) => product.price);
-          const minPrice = Math.min(...prices);
-          const maxPrice = Math.max(...prices);
-          setMinPrice(minPrice);
-          setMaxPrice(maxPrice);
-          setRangeValue([minPrice, maxPrice]);
-        }
-      }
-      setLoading(false);
-      setModal(false);
       setIsDataAvailable(fetchedData.length > 0);
+      if (fetchedData.length > 0 && min === minPrice && max === maxPrice) {
+        const prices = fetchedData.map((product) => product.price);
+        const newMinPrice = Math.min(...prices);
+        const newMaxPrice = Math.max(...prices);
+
+        setMinPrice(newMinPrice);
+        setMaxPrice(newMaxPrice);
+        setRangeValue([newMinPrice, newMaxPrice]);
+      }
     } catch (error) {
       console.error("Ошибка при получении данных:", error);
     } finally {
       setLoading(false);
+      setModal(false);
+      setModalFilter(false);
     }
   };
-  useEffect(() => {
-    fetchData(minPrice, maxPrice, ordering);
-  }, [cat, ordering]);
   const applyFilter = () => {
+    setModalFilter(false);
     fetchData(rangeValue[0], rangeValue[1]);
   };
   const handleOrdering = async (newOrder) => {
-    await setOrdering(newOrder);
-    fetchData(minPrice, maxPrice, newOrder);
+    setModal(false); // Модалды жап
+    setOrdering(newOrder); // Orderingди жаңырт
+    fetchData(rangeValue[0], rangeValue[1], newOrder); // fetchData чакырыгында жаңы сортировканы колдон
   };
 
+  useEffect(() => {
+    fetchData(minPrice, maxPrice, ordering);
+  }, [cat, ordering]);
 
   if (loading) {
-    return (
-       <Loading/>
-    );
+    return <Loading />;
   }
   return (
     <View style={[stylesAll.container, styles.block_cat]}>
@@ -111,7 +118,14 @@ const CatalogDetails = ({}) => {
       >
         <View style={styles.sort_filter_block}>
           <ModalDown modal={modal} setModal={setModal}>
-            <TextContent fontSize={22} fontWeight={600} color={colors.black} top={20}>Сортировка</TextContent>
+            <TextContent
+              fontSize={22}
+              fontWeight={600}
+              color={colors.black}
+              top={20}
+            >
+              Сортировка
+            </TextContent>
             <View style={styles.modal_content_sort_block}>
               <TouchableOpacity
                 style={styles.modal_content_sort_item}
@@ -256,9 +270,11 @@ const CatalogDetails = ({}) => {
           </ModalDown>
           <View style={{ width: "100%" }}>
             <Column gap={20} style={{ marginTop: 20 }}>
-              <TextContent fontSize={22} fontWeight={600} color={colors.black}>
-                Для губ
-              </TextContent>
+                {Array.isArray(data) &&
+                  data.length > 0 &&
+                  data[0]?.subcat_name && (
+                    <TextContent fontSize={22} fontWeight={600} color={colors.black}>{data[0].subcat_name}</TextContent>
+                  )}
               <Between center={"center"}>
                 <Wave handle={() => setModal(true)}>
                   <SortIcons />
@@ -296,8 +312,8 @@ const CatalogDetails = ({}) => {
                   title={el.title}
                   mini_description={el.description}
                   price={el.price}
-                  old_price={el.old_price}
-                  percentage={el.percentage}
+                  old_price={el.discount_price}
+                  percentage={el.discount_percentage}
                   newBlock={el.new}
                   data={data}
                   love={true}
@@ -387,9 +403,9 @@ const styles = StyleSheet.create({
   input_from_catalog: {
     flex: 1,
     backgroundColor: colors.phon,
-    fontSize:16,
-     fontWeight:'400',
-     color:colors.gray,
+    fontSize: 16,
+    fontWeight: "400",
+    color: colors.gray,
   },
   header_block_fixed: {
     position: "static",

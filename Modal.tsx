@@ -25,8 +25,8 @@ export default function ModalDown({
     content: {
       width: "100%",
       justifyContent: "center",
-      borderTopStartRadius: 20,
-      borderTopEndRadius: 20,
+      borderTopStartRadius: 14,
+      borderTopEndRadius: 14,
       paddingHorizontal: 16,
       paddingBottom: 40,
       backgroundColor: "#fff",

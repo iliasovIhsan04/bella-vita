@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import { stylesAll } from "../../style";
 import { router } from "expo-router";
+import Loading from "@/assets/ui/Loading";
 
 interface HarryBuyDetails {
   id: number;
@@ -32,7 +33,7 @@ const HarryBuyDetails = () => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get<HarryBuyDetails[]>(
-          `${url}/card/all-one`
+          `${url}/product/list/populars/`
         );
         setHarry(response.data);
       } catch (error) {
@@ -41,15 +42,11 @@ const HarryBuyDetails = () => {
     };
     fetchUserData();
   }, []);
-
   if (harry.length === 0) {
     return (
-      <View style={stylesAll.loading}>
-        <ActivityIndicator color="red" size="small" />
-      </View>
+     <Loading/>
     );
   }
-
   return (
     <View style={stylesAll.background_block}>
       <View style={stylesAll.container}>
