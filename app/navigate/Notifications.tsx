@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { stylesAll } from "../../style";
 import { router } from "expo-router";
 import axios from "axios";
 import { url } from "@/Api";
+import Header from "@/components/Main/HeaderAll";
+import Loading from "@/assets/ui/Loading";
+import { colors } from "@/assets/styles/components/colors";
 
 interface NotificationsItem {
   title: string;
@@ -20,6 +16,7 @@ interface NotificationsItem {
 
 const Notifications = () => {
   const [notifications, setNotifications] = useState<NotificationsItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -30,15 +27,26 @@ const Notifications = () => {
         setNotifications(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchUserData();
   }, []);
 
-  if (notifications.length === 0) {
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (!loading && notifications.length === 0) {
     return (
-      <View style={stylesAll.loading}>
-        <ActivityIndicator color="red" size="small" />
+      <View style={stylesAll.background_block}>
+        <View style={stylesAll.container}>
+          <Header handleBack={"/(tabs)/profile"}>Уведомления</Header>
+          <View style={styles.empty_box}>
+            <Text style={styles.empty_text}>Уведомлений нет!</Text>
+          </View>
+        </View>
       </View>
     );
   }
@@ -50,19 +58,7 @@ const Notifications = () => {
   return (
     <View style={stylesAll.background_block}>
       <View style={stylesAll.container}>
-        <View style={[stylesAll.header, stylesAll.header_nav]}>
-          <TouchableOpacity
-            style={stylesAll.header_back_btn}
-            onPress={() => router.push("(tabs)/")}
-          >
-            <Image
-              style={{ width: 24, height: 24 }}
-              source={require("../../assets/images/moreLeft.png")}
-            />
-          </TouchableOpacity>
-          <Text style={stylesAll.header_name}>Уведомления</Text>
-          <View style={stylesAll.header_back_btn}></View>
-        </View>
+        <Header handleBack={"/(tabs)/profile"}>Уведомления</Header>
         <View style={{ flexDirection: "column", gap: 10 }}>
           {notifications.map((el, index) => (
             <View key={index} style={styles.notification_box}>
@@ -103,6 +99,16 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "400",
     color: "#AAAAAA",
+  },
+  empty_box: {
+    alignItems: "center",
+    height:'100%'
+  },
+  empty_text: {
+    fontSize: 18,
+    fontWeight: "400",
+    color: colors.black,
+    paddingTop:380
   },
 });
 

@@ -1,10 +1,10 @@
 import Main from "@/components/Main/Main";
 import { StyleSheet, View, Text } from "react-native";
-import { stylesAll } from "../../style";
+import { colors } from "@/assets/styles/components/colors";
 
 export default function HomeScreen() {
   return (
-    <View style={stylesAll.background_block}>
+    <View style={{flex:1, backgroundColor:colors.phon}}>
         <Main />
     </View>
   );

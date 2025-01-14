@@ -36,8 +36,6 @@ const containerWidth = (Dimensions.get("window").width - 32) / 2 - 5;
 
 export default function Main() {
   const dispatch = useDispatch();
-  const scaleValueModal1 = useRef(new Animated.Value(0)).current;
-  const opacityValueModal1 = useRef(new Animated.Value(0)).current;
   const [modalRegistration, setModalRegistration] = useState(false);
   const scaleValueModal2 = useRef(new Animated.Value(0)).current;
   const opacityValueModal2 = useRef(new Animated.Value(0)).current;
@@ -145,8 +143,8 @@ export default function Main() {
         showsHorizontalScrollIndicator={false}
         refreshControl={
           <RefreshControl
-            colors={["#DC0200"]}
-            tintColor={"#DC0200"}
+            colors={["#9519AD"]}
+            tintColor={"#9519AD"}
             refreshing={refreshing}
             onRefresh={onRefresh}
           />

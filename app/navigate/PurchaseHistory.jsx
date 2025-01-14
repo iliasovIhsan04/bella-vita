@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Pressable,
   StyleSheet,
+  Dimensions,
 } from "react-native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -15,15 +16,23 @@ import { router } from "expo-router";
 import { url } from "@/Api";
 import { stylesAll } from "@/style";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import Loading from "@/assets/ui/Loading";
+import CalendarIcon from "../../assets/svg/calendar";
+import { colors } from "@/assets/styles/components/colors";
+import Header from "@/components/Main/HeaderAll";
+import PurchaseImg from '../../assets/svg/purchaseImage'
+import Column from "@/assets/styles/components/Column";
+import TextContent from "@/assets/styles/components/TextContent";
+import Button from "@/assets/customs/Button";
+const containerWidth = (Dimensions.get("window").width - 32) / 2 - 5;
 
 const PurchaseHistory = () => {
-  const [orders, setOrders] = useState<any[]>([]);
-  const [dateFrom, setDateFrom] = useState<string>("");
-  const [dateTo, setDateTo] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(true);
-  const [isDatePickerVisible, setDatePickerVisibility] =
-    useState<boolean>(false);
-  const [isSelectingFromDate, setIsSelectingFromDate] = useState<boolean>(true);
+  const [orders, setOrders] = useState([]);
+  const [dateFrom, setDateFrom] = useState("");
+  const [dateTo, setDateTo] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [isSelectingFromDate, setIsSelectingFromDate] = useState(true);
 
   const fetchData = async () => {
     setLoading(true);
@@ -34,22 +43,30 @@ const PurchaseHistory = () => {
         dateFrom && dateTo
           ? `${url}/order/list/?date_from=${dateFrom}&date_to=${dateTo}`
           : `${url}/order/list/`;
-
       try {
         const response = await axios.get(urlWithDates, { headers });
+        console.log("Data fetched successfully:", response.data);
         setOrders(response.data);
       } catch (error) {
-        console.error("Ошибка при загрузке данных:", error);
+        console.error("Ошибка при получении данных:", error);
+      } finally {
+        setLoading(false);
       }
+    } else {
+      console.warn("No token found, setting loading to false.");
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   useEffect(() => {
     fetchData();
   }, [dateFrom, dateTo]);
 
-  const handleConfirm = (date: Date) => {
+  if (loading) {
+    return <Loading />;
+  }
+
+  const handleConfirm = (date) => {
     const isoDate = date.toISOString().split("T")[0];
     isSelectingFromDate ? setDateFrom(isoDate) : setDateTo(isoDate);
     hideDatePicker();
@@ -58,28 +75,13 @@ const PurchaseHistory = () => {
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
   };
+
   return (
     <View style={stylesAll.background_block}>
       <View style={stylesAll.container}>
-        <View style={[stylesAll.header, stylesAll.header_nav]}>
-          <TouchableOpacity
-            style={stylesAll.header_back_btn}
-            onPress={() => router.push("/(tabs)/profile")}
-          >
-            <Image
-              style={{ width: 24, height: 24 }}
-              source={require("../../assets/images/moreLeft.png")}
-            />
-          </TouchableOpacity>
-          <Text style={stylesAll.header_name}>История покупок</Text>
-          <View style={stylesAll.header_back_btn}></View>
-        </View>
-        {loading ? (
-          <View style={stylesAll.loading_catalog_page}>
-            <ActivityIndicator size="small" color="#DC0200" />
-          </View>
-        ) : (
-          <ScrollView showsVerticalScrollIndicator={false}>
+        <Header handleBack={"/(tabs)/profile"}>История покупок</Header>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {orders.length > 0 ? (
             <View style={styles.history_block}>
               <View style={styles.oclock_block}>
                 <Pressable
@@ -97,13 +99,10 @@ const PurchaseHistory = () => {
                         !dateFrom && styles.placeholderText,
                       ]}
                     >
-                      {dateFrom ? `:${dateFrom}` : ""} 
+                      {dateFrom ? `:${dateFrom}` : ""}
                     </Text>
                   </View>
-                  <Image
-                    style={styles.calendar}
-                    source={require("../../assets/images/calendar_days.png")}
-                  />
+                  <CalendarIcon />
                 </Pressable>
                 <Pressable
                   style={styles.oclock_box}
@@ -120,61 +119,74 @@ const PurchaseHistory = () => {
                         !dateTo && styles.placeholderText,
                       ]}
                     >
-                   {dateTo ?`: ${dateTo}` : ""}
+                      {dateTo ? `: ${dateTo}` : ""}
                     </Text>
                   </View>
-                  <Image
-                    style={styles.calendar}
-                    source={require("../../assets/images/calendar_days.png")}
-                  />
+                  <CalendarIcon />
                 </Pressable>
               </View>
-              {orders.length > 0 ? (
-                orders.map((order, index) => (
-                  <View key={index}>
-                    <Text style={styles.dateTextInput}>{order.date}</Text>
-                    {order.data.map((item, id) => (
-                      <TouchableOpacity
-                        style={styles.historyItem}
-                        key={id}
-                        onPress={() =>
-                          router.push(`/details/PurchaseId/${item.id}`)
-                        }
-                      >
-                        <View style={styles.itemInfo}>
-                          <Text style={stylesAll.itemName}>
-                            Покупка на сумму
-                          </Text>
-                          <Text style={stylesAll.itemSum}>{item.sum}</Text>
-                        </View>
-                        <Text style={stylesAll.itemAddress}>
-                          {item.address_from || "Адрес не указан"}
+              {orders.map((order, index) => (
+                <View key={index}>
+                  <Text style={styles.dateTextInput}>{order.date}</Text>
+                  {order.data.map((item, id) => (
+                    <TouchableOpacity
+                      style={styles.historyItem}
+                      key={id}
+                      onPress={() =>
+                        router.push(`/details/PurchaseId/${item.id}`)
+                      }
+                    >
+                      <View style={styles.itemInfo}>
+                        <Text style={stylesAll.itemName}>Покупка на сумму</Text>
+                        <Text style={stylesAll.itemSum}>{item.sum}</Text>
+                      </View>
+                      <Text style={stylesAll.itemAddress}>
+                        {item.address_from || "Адрес не указан"}
+                      </Text>
+                      <View style={stylesAll.itemFooter}>
+                        <Text style={stylesAll.date_text}>
+                          {item.date} {item.time}
                         </Text>
-                        <View style={stylesAll.itemFooter}>
-                          <Text style={stylesAll.date_text}>
-                            {item.date} {item.time}
+                        <View>
+                          <Text style={[stylesAll.bonus]}>
+                            {item.total_accrued}
                           </Text>
-                          <View>
-                            <Text style={[stylesAll.bonus]}>
-                              {item.total_accrued}
-                            </Text>
-                            <Text style={[stylesAll.bonus, styles.bonus_minus]}>
-                              {item.total_written}
-                            </Text>
-                          </View>
+                          {/* <Text style={[stylesAll.bonus, styles.bonus_minus]}>
+                    {item.total_written}
+                  </Text> */}
                         </View>
-                      </TouchableOpacity>
-                    ))}
-                  </View>
-                ))
-              ) : (
-                <View style={styles.purchase_history_text}>
-                  <Text style={styles.history_text}>Нет заказов!</Text>
+                      </View>
+                    </TouchableOpacity>
+                  ))}
                 </View>
-              )}
+              ))}
             </View>
-          </ScrollView>
-        )}
+          ) : (
+            <View style={stylesAll.empty_block}>
+            <View style={stylesAll.purchase_history}>
+              <View style={stylesAll.history_image_box}>
+                <PurchaseImg />
+              </View>
+              <Column gap={12}>
+              <TextContent
+                fontSize={22}
+                fontWeight={600}
+                color={colors.black}
+                style={{ textAlign: "center" }}
+              >
+             Вы не сделали ни одной покупки, но это поправимо...
+              </TextContent>
+              <Text style={stylesAll.history_text_two}>
+              Добавьте в избранное всё, что душе угодно, а мы доставим заказ от 150 сом
+              </Text>
+              </Column>
+              <View style={{width:'100%'}}>
+              <Button color={colors.feuillet} handle={() => router.push("/(tabs)/catalog")}>Перейти в каталог</Button>
+              </View>
+            </View>
+          </View>
+          )}
+        </ScrollView>
       </View>
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
@@ -240,8 +252,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    width: "48%",
-    backgroundColor: "#F5F7FA",
+    width: containerWidth,
+    backgroundColor: colors.phon,
     padding: 10,
     height: 45,
     borderRadius: 10,
@@ -257,7 +269,7 @@ const styles = StyleSheet.create({
   },
   historyItem: {
     width: "100%",
-    backgroundColor: "#F5F7FA",
+    backgroundColor: colors.phon,
     borderRadius: 14,
     padding: 16,
     marginBottom: 10,

@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import {
   Alert,
-  Image,
   Pressable,
   StyleSheet,
   Switch,
   Text,
-  TouchableOpacity,
   View,
 } from "react-native";
 import { stylesAll } from "../../style";
@@ -15,6 +13,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import ModalDown from "@/Modal";
 import axios from "axios";
 import { url } from "@/Api";
+import Header from "@/components/Main/HeaderAll";
+import { colors } from "@/assets/styles/components/colors";
+import TextContent from "@/assets/styles/components/TextContent";
+import Wave from "@/assets/styles/components/Wave";
 const SettingPage = () => {
   const [isPetONe, setIsPetOne] = useState(false);
   const [isPetTwo, setIsPetTwo] = useState(false);
@@ -70,19 +72,7 @@ const SettingPage = () => {
   return (
     <View style={styles.settings_block}>
       <View style={stylesAll.container}>
-        <View style={styles.header}>
-          <TouchableOpacity
-            style={styles.header_back_btn}
-            onPress={() => router.push("/(tabs)/profile")}
-          >
-            <Image
-              style={{ width: 24, height: 24 }}
-              source={require("../../assets/images/moreLeft.png")}
-            />
-          </TouchableOpacity>
-          <Text style={stylesAll.header_name}>Настройки</Text>
-          <View style={styles.header_back_btn}></View>
-        </View>
+      <Header handleBack={('/(tabs)/profile')}>Настройки</Header>
         <View style={styles.settings_cart_block}>
           <View style={styles.settings_box}>
             <View
@@ -98,7 +88,7 @@ const SettingPage = () => {
               </Text>
             </View>
             <Switch
-              trackColor={{ false: "#3e3e3e", true: "#25D366" }}
+              trackColor={{ false: "#3e3e3e", true: "#9519AD" }}
               thumbColor={isPetONe ? "#f4f3f4" : "#f4f3f4"}
               ios_backgroundColor="#3e3e3e"
               onValueChange={toggleSwitchOne}
@@ -119,7 +109,7 @@ const SettingPage = () => {
               </Text>
             </View>
             <Switch
-              trackColor={{ false: "#3e3e3e", true: "#25D366" }}
+              trackColor={{ false: "#3e3e3e", true: "#9519AD" }}
               thumbColor={isPetTwo ? "#f4f3f4" : "#f4f3f4"}
               ios_backgroundColor="#3e3e3e"
               onValueChange={toggleSwitchTwo}
@@ -131,21 +121,31 @@ const SettingPage = () => {
           <Text style={styles.remove_accaunt}>Удалить аккаунт</Text>
         </Pressable>
         <ModalDown modal={modal} setModal={setModal}>
-          <Text style={styles.modal_title}>Удалить аккаунт?</Text>
-          <Text style={styles.modal_text}>
-            Ваш аккаунт удалится насвегда, и вам придется заново
-            зарегистрироваться
-          </Text>
-          <View style={{ flexDirection: "row", gap: 10 }}>
-            <TouchableOpacity
-              style={styles.btn_cancel}
-              onPress={() => setModal(false)}
+        <TextContent
+              fontSize={20}
+              fontWeight={700}
+              color={colors.black}
+              top={20}
             >
-              <Text style={styles.btn_cancel_text}>Отмена</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
+              Удалить с аккаунта?
+            </TextContent>
+            <TextContent
+              fontSize={14}
+              fontWeight={400}
+              color={colors.gray}
+              top={12}
+              style={styles.modal_text}
+            >
+             Ваш аккаунт удалится насвегда, и вам придется заново
+             зарегистрироваться
+            </TextContent>
+          <View style={{ flexDirection: "row", gap: 10 }}>
+          <Wave style={styles.btn_cancel} handle={() => setModal(false)}>
+                <Text style={styles.btn_cancel_text}>Отмена</Text>
+              </Wave>
+            <Wave
               style={[styles.btn_cancel, styles.btn_confirm]}
-              onPress={async () => {
+              handle={async () => {
                 await deleteAccount();
                 setModal(false);
               }}
@@ -153,7 +153,7 @@ const SettingPage = () => {
               <Text style={[styles.btn_cancel_text, styles.btn_text]}>
                 Удалить
               </Text>
-            </TouchableOpacity>
+            </Wave>
           </View>
         </ModalDown>
       </View>
@@ -163,7 +163,7 @@ const SettingPage = () => {
 
 const styles = StyleSheet.create({
   btn_confirm: {
-    backgroundColor: "#DC0200",
+    backgroundColor: colors.feuillet,
   },
   btn_text: {
     color: "#FFFFFF",
@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
   },
   settings_box: {
     width: "100%",
-    backgroundColor: "#F5F7FA",
+    backgroundColor: colors.phon,
     borderRadius: 10,
     padding: 16,
     flexDirection: "row",
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
   settings_cart_block: {
     flexDirection: "column",
     gap: 10,
-    marginTop: 30,
+    marginTop:8
   },
   setting_notifications: {
     fontSize: 16,
@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
   remove_accaunt: {
     fontSize: 16,
     fontWeight: "700",
-    color: "#DC0200",
+    color:colors.black,
   },
 });
 

@@ -1,18 +1,18 @@
 {
   "expo": {
-    "name": "Alma Market",
+    "name": "Bella Vita",
     "slug": "alma-market-native",
-    "icon": "./assets/logoApple.png",
+    "icon": "./assets/logoBella.png",
     "android": {
-      "package": "com.navisdevs.alma"
+      "package": "com.navisdevs.bellaVitta"
     },
     "ios": {
-      "bundleIdentifier": "com.navisdevs.alma"
+      "bundleIdentifier": "com.navisdevs.bellaVitta"
     },
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/bellaSplash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#9519AD"
     },
     "version": "2.0.1",
     "extra": {

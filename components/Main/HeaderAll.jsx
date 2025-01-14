@@ -15,6 +15,7 @@ const Header = ({
   children,
   style,
   reset,
+  handleBack
 }) => { 
     return (
     <View
@@ -38,11 +39,18 @@ const Header = ({
           }}
           gap={20}
         >
-          {back && (
-            <Wave handle={() => router.back()}>
+          {back  && (
+            <Wave handle={() => router.back() }>
               <BackLeft />
             </Wave>
           )} 
+          {
+            handleBack && (
+              <Wave handle={() => router.push(handleBack) }>
+              <BackLeft />
+            </Wave>
+            )
+          }
           <TextContent
             style={{
               flex: 1,

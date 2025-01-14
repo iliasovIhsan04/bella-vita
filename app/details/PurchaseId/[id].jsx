@@ -1,39 +1,26 @@
 import { url } from "@/Api";
+import { colors } from "@/assets/styles/components/colors";
+import Loading from "@/assets/ui/Loading";
+import Header from "@/components/Main/HeaderAll";
 import { stylesAll } from "@/style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
-  ActivityIndicator,
   Image,
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from "react-native";
+import AddBonusIcon from '../../../assets/svg/addBalans'
 
-interface Product {
-  title: string;
-  cost: number;
-  count: number;
-  price_for: string;
-}
 
-interface Order {
-  sum: number;
-  address: string;
-  date: string;
-  time: string;
-  total_accrued: number;
-  total_written: number;
-  product: Product[];
-}
 
 const PurchaseId = () => {
   const { id } = useLocalSearchParams();
-  const [order, setOrder] = useState<Order | null>(null);
+  const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -61,9 +48,7 @@ const PurchaseId = () => {
 
   if (loading) {
     return (
-      <View style={stylesAll.loading}>
-        <ActivityIndicator color="#DC0200" size="small" />
-      </View>
+    <Loading/>
     );
   }
 
@@ -78,19 +63,7 @@ const PurchaseId = () => {
   return (
     <View style={stylesAll.background_block}>
       <View style={stylesAll.container}>
-        <View style={[stylesAll.header, stylesAll.header_nav]}>
-          <TouchableOpacity
-            style={stylesAll.header_back_btn}
-            onPress={() => router.push("/navigate/PurchaseHistory")}
-          >
-            <Image
-              style={{ width: 24, height: 24 }}
-              source={require("../../../assets/images/moreLeft.png")}
-            />
-          </TouchableOpacity>
-          <Text style={stylesAll.header_name}>Информация по чеку</Text>
-          <View style={stylesAll.header_back_btn}></View>
-        </View>
+      <Header handleBack={('/navigate/PurchaseHistory')}>Информация по чеку</Header>
         <ScrollView
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
@@ -156,10 +129,7 @@ const PurchaseId = () => {
                 <View
                   style={{ flexDirection: "row", alignItems: "center", gap: 8 }}
                 >
-                  <Image
-                    style={{ width: 24, height: 24 }}
-                    source={require("../../../assets/images/bonusRed.png")}
-                  />
+               <AddBonusIcon/>
                   <Text style={styles.bonus_text}>Баллов использовано:</Text>
                 </View>
                 <Text style={[styles.bonus_plus, { color: "#FE211F" }]}>
@@ -227,7 +197,7 @@ const styles = StyleSheet.create({
   purchase_id_block: {
     width: "100%",
     minHeight: 200,
-    backgroundColor: "#F5F7FA",
+    backgroundColor: colors.phon,
     padding: 16,
     borderRadius: 14,
     flexDirection: "column",

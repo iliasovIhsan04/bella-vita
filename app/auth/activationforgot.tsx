@@ -33,7 +33,6 @@ const ForgotActivationCode = () => {
       setLoading(false);
       return;
     }
-
     if (code.length === 6) {
       const phone = await AsyncStorage.getItem("phone");
       if (!phone) {

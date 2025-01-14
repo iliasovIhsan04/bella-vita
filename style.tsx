@@ -21,6 +21,7 @@ paddingHorizontal:16
     color: "#191919",
   },
   itemSum: {
+    fontSize:20,
     fontWeight: "bold",
     color: "#191919",
   },
@@ -32,6 +33,7 @@ paddingHorizontal:16
   itemFooter: {
     flexDirection: "row",
     justifyContent: "space-between",
+     alignItems:'center'
   },
   bonus: {
     color: "#68B936",
@@ -41,7 +43,7 @@ paddingHorizontal:16
   date_text: {
     fontSize: 12,
     fontWeight: "500",
-    color: "#AAAAAA",
+    color:colors.gray,
   },
   cell_box: {
     width: 24,

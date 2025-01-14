@@ -51,14 +51,14 @@ export default function RootLayout() {
     })();
   }, []);
 
-  useEffect(() => {
-    if (!loading && !token) {
-      router.replace("/auth/Login");
-    }
-  }, [loading, token]);
-  if (loading) {
-    return null;
-  }
+  // useEffect(() => {
+  //   if (!loading && !token) {
+  //     router.replace("/auth/Login");
+  //   }
+  // }, [loading, token]);
+  // if (loading) {
+  //   return null;
+  // }
   return (
     <Provider store={store}>
       <Stack screenOptions={{ headerShown: false }}>

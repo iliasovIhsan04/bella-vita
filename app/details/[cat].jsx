@@ -84,9 +84,9 @@ const CatalogDetails = ({}) => {
     fetchData(rangeValue[0], rangeValue[1]);
   };
   const handleOrdering = async (newOrder) => {
-    setModal(false); // Модалды жап
-    setOrdering(newOrder); // Orderingди жаңырт
-    fetchData(rangeValue[0], rangeValue[1], newOrder); // fetchData чакырыгында жаңы сортировканы колдон
+    setModal(false); 
+    setOrdering(newOrder);
+    fetchData(rangeValue[0], rangeValue[1], newOrder); 
   };
 
   useEffect(() => {
