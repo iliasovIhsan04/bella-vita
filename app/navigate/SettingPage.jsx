@@ -35,7 +35,7 @@ const SettingPage = () => {
         Alert.alert("Success", response.data.message);
         await AsyncStorage.removeItem("tokenActivation");
         await AsyncStorage.removeItem("token_block");
-        router.push("/navigate/OnBoarding");
+        router.push("/auth/Registration");
       }
     } catch (error) {
       console.log("Error:", error);

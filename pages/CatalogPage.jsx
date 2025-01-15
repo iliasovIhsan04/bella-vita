@@ -6,7 +6,7 @@ import axios from "axios";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import Header from "../components/Main/HeaderAll";
-import { View, StyleSheet, Image, Dimensions } from "react-native";
+import { View, StyleSheet, Image, Dimensions, Text } from "react-native";
 import Loading from "@/assets/ui/Loading";
 import { ScrollView } from "react-native";
 import { url } from "@/Api";
@@ -14,6 +14,7 @@ const containerWidth = (Dimensions.get("window").width - 34) / 3 - 5;
 const CatalogPage = () => {
   const [data, setData] = useState([]);
   const [brendData, setBrendData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const api = url + "/product/categories";
   useEffect(() => {
     const fetchBrendData = async () => {
@@ -34,13 +35,23 @@ const CatalogPage = () => {
         setData(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchUserData();
   }, []);
 
-  if (data.length === 0) {
+  if (loading) {
     return <Loading />;
+  }
+
+  if (data.length === 0) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={{ fontSize: 18, color: colors.black, fontWeight:'700' }}>Товара нету!</Text>
+      </View>
+    );
   }
 
   return (
@@ -107,6 +118,7 @@ const CatalogPage = () => {
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   box_img: {
     width: "100%",

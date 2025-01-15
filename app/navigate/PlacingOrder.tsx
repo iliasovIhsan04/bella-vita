@@ -73,6 +73,7 @@ const PlacingOrder = () => {
     };
     loadData();
   }, []);
+
   useEffect(() => {
     const fetchTotalPrice = async () => {
       try {
@@ -195,8 +196,7 @@ const PlacingOrder = () => {
 
 const basket_count= basket?.length
   return (
-    <ButtonLayouts title={'Оформить заказ'} handle={handleSubmit} end_bot={true} name_product_count={'Товары:'} all_count_name={'Общая сумма:'} total_amount={totalPrice} product_count={basket_count} delivery={true}>
-   
+    <ButtonLayouts title={'Оформить заказ'} handle={handleSubmit} end_bot={true} name_product_count={'Товары:'} all_count_name={'Общая сумма:'} total_amount={totalPrice} product_count={basket_count} delivery={true} loading={isLoading}>
     <View style={stylesAll.background_block}>
       <Modal visible={openModal} transparent={true} animationType="none">
         <Pressable style={stylesAll.content_modal}>

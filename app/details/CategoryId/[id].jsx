@@ -37,7 +37,6 @@ const Category = () => {
   if(loading) {
     return <Loading/>
   }
-
   return (
     <View
       style={{ flex: 1, backgroundColor: colors.white, paddingHorizontal: 16 }}

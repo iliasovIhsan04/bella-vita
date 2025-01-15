@@ -11,9 +11,9 @@ export const stylesAll = StyleSheet.create({
     marginTop:140,
   },
   basket_line :{
-borderTopWidth:1,
-borderTopColor:colors.phon,
-paddingHorizontal:16
+  borderTopWidth:1,
+  borderTopColor:colors.phon,
+  paddingHorizontal:16
   },
   itemName: {
     fontSize: 16,

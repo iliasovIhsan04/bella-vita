@@ -33,6 +33,7 @@ import TextContent from "@/assets/styles/components/TextContent";
 import Wave from "@/assets/styles/components/Wave";
 import { url } from "@/Api";
 import axios from "axios";
+import Button from "@/assets/customs/Button";
 
 const containerWidth = (Dimensions.get("window").width - 32) / 2 - 5;
 
@@ -139,12 +140,9 @@ export default function Main() {
               Теперь вы можете экономить на покупках, получать скидки, подарки и
               многое другое
             </Text>
-            <TouchableOpacity
-              style={stylesAll.button}
-              onPress={() => setModalRegistration(false)}
-            >
-              <Text style={stylesAll.buttonText}> Понятно</Text>
-            </TouchableOpacity>
+            <View style={{width:'100%'}}>
+            <Button color={colors.feuillet} handle={() => setModalRegistration(false)}>Понятно</Button>
+            </View>
           </Animated.View>
         </Pressable>
       </Modal>

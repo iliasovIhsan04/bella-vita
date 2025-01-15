@@ -169,7 +169,7 @@ const BasketProducts = () => {
                   {basket.map((item) => (
                     <View style={styles.product_block} key={item.id}>
                       <View style={styles.product_image_block}>
-                        {item.preview_img ? (
+                        {item.img ? (
                           <Image
                             style={styles.product_image}
                             source={{ uri: item.img
