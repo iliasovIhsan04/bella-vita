@@ -1,10 +1,10 @@
 import { url } from "@/Api";
+import Loading from "@/assets/ui/Loading";
 import { stylesAll } from "@/style";
 import axios from "axios";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
-  ActivityIndicator,
   Image,
   Pressable,
   StyleSheet,
@@ -13,26 +13,13 @@ import {
   View,
 } from "react-native";
 
-interface HarryBuyDetailsId {
-  id: number;
-  title: string;
-  net: string;
-  where: string;
-  prom_price: string;
-  price: string;
-  percentage: string;
-  img: string;
-  date: string;
-}
-
 const HarryBuyDetailsId = () => {
-  const [harryId, setHarryId] = useState<HarryBuyDetailsId | null>(null);
+  const [harryId, setHarryId] = useState (null);
   const { id } = useLocalSearchParams();
-
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get<HarryBuyDetailsId>(
+        const response = await axios.get(
           url + `/card/one/${id}`
         );
         setHarryId(response.data);
@@ -45,9 +32,7 @@ const HarryBuyDetailsId = () => {
 
   if (!harryId) {
     return (
-      <View style={stylesAll.loading}>
-        <ActivityIndicator color="red" size="small" />
-      </View>
+  <Loading/>
     );
   }
 

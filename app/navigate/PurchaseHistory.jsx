@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import {
-  ActivityIndicator,
   ScrollView,
   View,
   Text,
-  Image,
   TouchableOpacity,
   Pressable,
   StyleSheet,
@@ -138,7 +136,7 @@ const PurchaseHistory = () => {
                     >
                       <View style={styles.itemInfo}>
                         <Text style={stylesAll.itemName}>Покупка на сумму</Text>
-                        <Text style={stylesAll.itemSum}>{item.sum}</Text>
+                        <Text style={stylesAll.itemSum}>{item.sum} сом</Text>
                       </View>
                       <Text style={stylesAll.itemAddress}>
                         {item.address_from || "Адрес не указан"}
@@ -149,7 +147,7 @@ const PurchaseHistory = () => {
                         </Text>
                         <View>
                           <Text style={[stylesAll.bonus]}>
-                            {item.total_accrued}
+                            +{item.total_accrued} баллов
                           </Text>
                           {/* <Text style={[stylesAll.bonus, styles.bonus_minus]}>
                     {item.total_written}

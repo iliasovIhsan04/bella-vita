@@ -10,29 +10,16 @@ import {
 } from "react-native";
 import { stylesAll } from "../../style";
 import { router } from "expo-router";
+import Header from "@/components/Main/HeaderAll";
+import Column from "@/assets/styles/components/Column";
+import { colors } from "@/assets/styles/components/colors";
 
 const ToHelp = () => {
   return (
     <View style={stylesAll.background_block}>
       <View style={stylesAll.container}>
-        <View style={stylesAll.header}>
-          <TouchableOpacity
-            style={stylesAll.header_back_btn}
-            onPress={() => router.push("/(tabs)/profile")}
-          >
-            <Image
-              style={{ width: 24, height: 24 }}
-              source={require("../../assets/images/moreLeft.png")}
-            />
-          </TouchableOpacity>
-          <Text style={stylesAll.header_name}>Помощь</Text>
-          <View style={stylesAll.header_back_btn}></View>
-        </View>
-        <Image
-          style={styles.help_image_logo}
-          source={require("../../assets/images/logo.png")}
-        />
-        <View style={{ gap: 10 }}>
+      <Header handleBack={('/(tabs)/profile')}>Помощь</Header>
+        <Column gap={10} top={8}>
           <View style={styles.help_box}>
             <View style={{ flexDirection: "column", gap: 6 }}>
               <Text style={styles.help_text1}>Возникли вопросы?</Text>
@@ -104,7 +91,7 @@ const ToHelp = () => {
               </Pressable>
             </View>
           </View>
-        </View>
+        </Column>
       </View>
     </View>
   );
@@ -121,7 +108,7 @@ const styles = StyleSheet.create({
   help_box: {
     width: "100%",
     minHeight: 180,
-    backgroundColor: "#F5F7FA",
+    backgroundColor: colors.phon,
     padding: 16,
     borderRadius: 16,
     flexDirection: "column",

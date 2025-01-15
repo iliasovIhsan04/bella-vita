@@ -42,11 +42,8 @@ const PromotionDetails = () => {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         >
-          <View style={{ flexDirection: "column", gap: 8, marginBottom: 200, marginTop:8 }}>
+          <View style={{ flexDirection: "column", gap: 6, marginBottom: 200, marginTop:8 }}>
             {harry.map((el) => (
-              <Pressable
-                onPress={() => router.push(`/details/PromotionId/${el.id}`)}
-              >
                 <Wave handle={() => router.push(`/details/PromotionId/${el.id}`)}>
                 <View style={styles.prom_img_box}>
                   <Image
@@ -55,7 +52,6 @@ const PromotionDetails = () => {
                   />
                 </View>
                 </Wave>
-              </Pressable>
             ))}
           </View>
         </ScrollView>
@@ -63,7 +59,6 @@ const PromotionDetails = () => {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   prom_img_box: {
     width: "100%",

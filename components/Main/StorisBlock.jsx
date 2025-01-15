@@ -1,65 +1,48 @@
-import { url } from "@/Api";
+import { colors } from "@/assets/styles/components/colors";
+import Loading from "@/assets/ui/Loading";
 import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
-  ActivityIndicator,
   Image,
 } from "react-native";
 import InstaStory from "react-native-insta-story";
 
-type ImageURL = string;
-
-interface Story {
-  story_id: number;
-  story_image: ImageURL;
-  duration: number;
-  created_at: string;
-  type: "image";
-}
-interface User {
-  user_id: number;
-  user_image: ImageURL;
-  user_name: string;
-  stories: Story[];
-}
-
 export default function StoryComponent() {
-  const [fetchedStories, setFetchedStories] = useState<User[]>([]);
+  const [fetchedStories, setFetchedStories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     let isMounted = true;
-    
     const fetchStories = async () => {
       try {
-        const response = await fetch(url+"/stories");
+        const response = await fetch('https://bella.navisdevs.ru/stories');
         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
         const storiesData = await response.json();
         if (!isMounted) return;
 
-        const transformedStories: User[] = storiesData
-          .filter((user: any) => user !== null && typeof user === 'object')
-          .map((user: any) => ({
+        const transformedStories = storiesData
+          .filter((user) => user && typeof user === 'object')
+          .map((user) => ({
             user_id: Number(user.id) || Date.now(),
             user_image: user.img || "https://placeholder.com/user.jpg",
-            user_name: user.title || "User",
-            stories: Array.isArray(user.stories) 
+            // user_name: user.title || "User",
+            stories: Array.isArray(user.stories) && user.stories.length > 0
               ? user.stories
-                  .filter((story: any) => story !== null && typeof story === 'object')
-                  .map((story: any) => ({
+                  .filter((story) => story && typeof story === 'object')
+                  .map((story) => ({
                     story_id: Number(story.id) || Date.now(),
                     story_image: story.url || story.story_image || "",
                     duration: Number(story.duration) || 5000,
                     created_at: story.created_at || new Date().toISOString(),
-                    type: "image" as const,
+                    type: "image",
                   }))
               : []
           }))
-          .filter((user: User) => user.stories.length > 0);
+          .filter((user) => user.stories.length > 0);
 
         if (isMounted) {
           setFetchedStories(transformedStories);
@@ -67,7 +50,7 @@ export default function StoryComponent() {
         }
       } catch (error) {
         if (isMounted) {
-          setError("Error loading data. Please try again later.");
+          setError(`Ошибка загрузки данных: ${error.message}. Пожалуйста, попробуйте позже.`);
           setLoading(false);
         }
       }
@@ -81,26 +64,28 @@ export default function StoryComponent() {
 
   const renderContent = () => {
     if (loading) {
-      return <ActivityIndicator size="large" color="#DC0200" />;
+      return <Loading />;
     }
-
     if (error) {
       return <Text style={styles.errorText}>{error}</Text>;
     }
 
     if (fetchedStories.length === 0) {
-      return <Text style={styles.noStoriesText}>No stories available</Text>;
+      return <Text style={styles.noStoriesText}>Нет доступных историй</Text>;
     }
 
     return (
       <View style={styles.storiesBlock}>
         <InstaStory
           data={fetchedStories}
-          duration={5}
-          // onStorySeen={null}
+          avatarSize={96}
+          pressedBorder={10}
+          duration={10}
+          avatarWrapperStyle={styles.avatar_wrapper}
+          unPressedBorderColor={colors.feuillet}
           avatarImageStyle={styles.avatarImage}
           swipeText={() => {""}}
-          renderCloseComponent={({ onPress }: { onPress: () => void }) => (
+          renderCloseComponent={({ onPress }) => (
             <TouchableOpacity style={styles.closeButton} onPress={onPress}>
               <Image
                 style={styles.closeButtonImage}
@@ -108,6 +93,7 @@ export default function StoryComponent() {
               />
             </TouchableOpacity>
           )}
+          storyContainerStyle={styles.storyContainerStyle}
         />
       </View>
     );
@@ -115,11 +101,13 @@ export default function StoryComponent() {
 
   return <View style={styles.storyContainer}>{renderContent()}</View>;
 }
-
 const styles = StyleSheet.create({
   storyContainer: {
     flex: 1,
-    marginLeft: 10,
+  },
+  avatar_wrapper: {
+borderRadius:22,
+padding:2
   },
   closeButton: {
     backgroundColor: "rgba(107, 107, 107, 0.3)",
@@ -139,9 +127,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   avatarImage: {
-    width: 53,
-    height: 53,
-    borderRadius: 50,
+    width:'100%',
+    height: '100%',
+    borderRadius: 22,
   },
   errorText: {
     color: "#DC0200",
@@ -153,6 +141,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 16,
     color: "#666",
+  },
+  storyContainerStyle: {
+    marginBottom: 10,
   },
 });
 

@@ -31,6 +31,7 @@ import Between from "@/assets/styles/components/Between";
 import Wave from "@/assets/styles/components/Wave";
 import Arrow from '../../assets/svg/more'
 import { ScrollView } from "react-native";
+import Button from "@/assets/customs/Button";
 
 
 const PlacingOrder = () => {
@@ -231,7 +232,13 @@ const basket_count= basket?.length
                 Наш менеджер скоро свяжется с вами
               </Text>
             </View>
-            <TouchableOpacity
+            <View style={{width:'100%'}}>
+            <Button handle={() => {
+                setOpenModal(false);
+                router.push("/");
+              }} color={colors.feuillet}>Понятно</Button>
+            </View>
+            {/* <TouchableOpacity
               style={stylesAll.button}
               onPress={() => {
                 setOpenModal(false);
@@ -239,7 +246,7 @@ const basket_count= basket?.length
               }}
             >
               <Text style={stylesAll.button_text}>Понятно</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </Animated.View>
         </Pressable>
       </Modal>

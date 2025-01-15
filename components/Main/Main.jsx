@@ -31,6 +31,8 @@ import Scanner from "../../assets/svg/imgScanner";
 import Favorite from "../../assets/svg/favoriteImg";
 import TextContent from "@/assets/styles/components/TextContent";
 import Wave from "@/assets/styles/components/Wave";
+import { url } from "@/Api";
+import axios from "axios";
 
 const containerWidth = (Dimensions.get("window").width - 32) / 2 - 5;
 
@@ -40,16 +42,25 @@ export default function Main() {
   const scaleValueModal2 = useRef(new Animated.Value(0)).current;
   const opacityValueModal2 = useRef(new Animated.Value(0)).current;
   const [refreshing, setRefreshing] = useState(false);
-
+  const [brendData, setBrendData] = useState([]);
+  useEffect(() => {
+    const fetchBrendData = async () => {
+      try {
+        const response = await axios.get(url + "/brand/");
+        setBrendData(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchBrendData();
+  }, []);
   const route = useRoute();
   const { showModal } = route.params || {};
-
   useEffect(() => {
     if (showModal) {
       setModalRegistration(true);
     }
   }, [showModal]);
-
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
     try {
@@ -156,7 +167,10 @@ export default function Main() {
             <Column gap={10}>
               <BonusCart />
               <View style={styles.apple_check_price}>
-                <Wave style={styles.apple_box} handle={() => router.push("(tabs)/catalog")}>
+                <Wave
+                  style={styles.apple_box}
+                  handle={() => router.push("(tabs)/catalog")}
+                >
                   <Image
                     style={styles.image_apple}
                     source={require("../../assets/images/brendLogo.png")}
@@ -192,13 +206,14 @@ export default function Main() {
                           color={colors.black}
                           style={{ textAlign: "center" }}
                         >
-                        Избранные
-                        товары
+                          Избранные товары
                         </TextContent>
                       </Column>
                     </Wave>
                   </Flex>
-                  <Column style={styles.brend_block}>
+                  <View style={{flex:1}}>
+                    <Wave handle={() => router.push('navigate/BrendList')}>
+                    <Column style={styles.brend_block}>
                     <TextContent
                       fontSize={16}
                       fontWeight={600}
@@ -206,8 +221,38 @@ export default function Main() {
                     >
                       Бренды
                     </TextContent>
-                    <View style={styles.brend_img_block}></View>
+                    <View style={styles.catalog_brend}>
+                      {brendData.slice(0, 4).map((el, id) => (
+                        <View
+                          style={[
+                            styles.brend_box,
+                            { marginLeft: id > 0 ? -18 : 0 },
+                          ]}
+                          key={id}
+                        >
+                          <Image
+                            style={styles.box_img}
+                            source={{ uri: el.img }}
+                          />
+                        </View>
+                      ))}
+                      {brendData.length > 4 && (
+                        <View style={styles.remaining_brend_box}>
+                          <View style={styles.breand_box}>
+                            <TextContent
+                              fontSize={12}
+                              fontWeight={500}
+                              color={colors.white}
+                            >
+                              +{brendData.length - 4}
+                            </TextContent>
+                          </View>
+                        </View>
+                      )}
+                    </View>
                   </Column>
+                    </Wave>
+                  </View>
                 </View>
               </View>
             </Column>
@@ -221,10 +266,53 @@ export default function Main() {
 }
 
 const styles = StyleSheet.create({
-  brend_img_block: {
+  box_img: {
     width: "100%",
-    height: 46,
+    height: "100%",
+    borderRadius: 50,
+  },
+  brend_box: {
+    position: "relative",
+    width: 38,
+    height: 38,
+    borderRadius: 50,
+    overflow: "hidden",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 4,
     backgroundColor: colors.white,
+  },
+  block_brend: {
+    flexDirection: "column",
+    justifyContent: "space-between",
+    height: "100%",
+  },
+  catalog_brend: {
+    width: "100%",
+    height: 38,
+    flexDirection: "row",
+  },
+  remaining_brend_box: {
+    position: "absolute",
+    bottom: 0,
+    left: 82,
+    minWidth: 38,
+    height: 38,
+    borderRadius: 50,
+    backgroundColor: colors.white,
+    alignItems: "center",
+    justifyContent: "center",
+    padding:4
+  },
+  breand_box: {
+    width: "100%",
+    height: "100%",
+    backgroundColor: colors.black,
+    borderRadius:50,
+    flexDirection:'row',
+    alignItems:'center',
+    justifyContent:'center'
   },
   favorite_box: {
     width: 36,
@@ -236,7 +324,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   brend_block: {
-    flex: 1,
+    height:'100%',
     backgroundColor: colors.phon,
     borderRadius: 14,
     paddingVertical: 16,

@@ -16,6 +16,15 @@ import axios from "axios";
 import { WebView } from "react-native-webview";
 import { stylesAll } from "@/style";
 import { url } from "@/Api";
+import { colors } from "@/assets/styles/components/colors";
+import Clock from '../assets/svg/clock'
+import MapIcon from '../assets/svg/mapIcon'
+import Back from '../assets/svg/more'
+import Between from "@/assets/styles/components/Between";
+import Flex from "@/assets/styles/components/Flex";
+import TextContent from "@/assets/styles/components/TextContent";
+import { setLoading } from "@/Redux/reducer/slice/UserInfoSlice";
+import Loading from "@/assets/ui/Loading";
 
 type LocationType = {
   id: string;
@@ -24,21 +33,18 @@ type LocationType = {
   lon: number;
   time: string;
 };
-
 type CoordinatesType = {
   latitude: number;
   longitude: number;
 };
-
 const sections = [
   { id: "section1", title: "Список" },
   { id: "section2", title: "Карта" },
 ];
-
 const screenWidth = Dimensions.get("window").width;
 const indicatorWidth = screenWidth / sections.length;
-
 export default function MapPage() {
+  const [loading, setLoading] = useState(true)
   const scrollViewRef = useRef<ScrollView>(null);
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const scrollX = useRef(new Animated.Value(0)).current;
@@ -92,15 +98,21 @@ export default function MapPage() {
   }, []);
 
   useEffect(() => {
-    axios
-      .get<LocationType[]>(url+"/map/")
-      .then((response) => {
+    const fetchLocations = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(`${url}/map/`);
         setLocations(response.data);
-      })
-      .catch((error) => console.error(error));
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchLocations();
   }, []);
 
-  const smoothScroll = (sectionId: string) => {
+  const smoothScroll = (sectionId) => {
     const sectionIndex = sections.findIndex(
       (section) => section.id === sectionId
     );
@@ -112,6 +124,10 @@ export default function MapPage() {
       setActiveSection(sectionId);
     }
   };
+
+  if (loading) {
+    return <Loading />;
+  }
 
   const htmlContent = `
   <!DOCTYPE html>
@@ -248,29 +264,28 @@ export default function MapPage() {
                         onPress={() => handleLocationPress(location)}
                         style={styles.section_map_block}
                       >
+                        <Between>
                         <View style={styles.mapItem}>
-                          <Image
-                            style={styles.maps}
-                            source={require("../assets/images/maps.png")}
-                          />
+                        <MapIcon/>
                           <Text style={styles.navTextAdres}>
                             {location.address}
                           </Text>
                         </View>
-                        <View style={styles.mapItem}>
-                          <Image
-                            style={styles.maps}
-                            source={require("../assets/images/timer.png")}
-                          />
+                        <Back/>
+                        </Between>
+                        <Flex gap={5}>
+                        <Clock/>
                           <Text style={styles.timerText}>
                             График работы:{" "}
                             <Text style={styles.span}>{location.time}</Text>
                           </Text>
-                        </View>
+                        </Flex>
                       </TouchableOpacity>
                     ))
                   ) : (
-                    <Text>Нет доступных данных</Text>
+                    <View style={{height:'100%', alignItems:'center', justifyContent:'center'}}>
+                    <TextContent fontSize={16} fontWeight={600} color={colors.black}>Нет доступных данных</TextContent>
+                    </View>
                   )}
                 </View>
               </View>
@@ -303,7 +318,7 @@ export default function MapPage() {
 const styles = StyleSheet.create({
   homePanelContentViewCatalog: {
     padding: 10,
-    backgroundColor: "#F5F7FA",
+    backgroundColor: colors.phon,
     borderRadius: 12,
     marginVertical: 10,
   },
@@ -331,27 +346,28 @@ const styles = StyleSheet.create({
     color: "#191919",
     fontWeight: "700",
     fontSize: 16,
-    width: "88%",
+    width: "85%",
   },
   activeNavText: {
     color: "#000",
   },
   mapItem: {
     flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
+    gap: 5,
   },
+
   timerText: {
     color: "#6B6B6B",
     fontSize: 12,
     fontWeight: "400",
   },
   section_map_block: {
-    backgroundColor: "#F5F7FA",
+    backgroundColor: colors.phon,
     padding: 16,
     borderRadius: 14,
     flexDirection: "column",
     gap: 8,
+    marginTop:20
   },
   sectionMaps: {
     marginTop: 100,
@@ -360,7 +376,7 @@ const styles = StyleSheet.create({
   },
   nav: {
     position: "absolute",
-    paddingTop: Platform.OS === "ios" ? 50 : 32,
+    paddingTop: Platform.OS === "ios" ? 60 : 42,
     left: 0,
     right: 0,
     zIndex: 10,
@@ -378,7 +394,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     height: 3,
-    backgroundColor: "#DC0200",
+    backgroundColor: colors.feuillet,
     width: "45%",
     marginLeft: 17,
   },

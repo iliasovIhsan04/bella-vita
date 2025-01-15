@@ -1,27 +1,26 @@
-import { url } from "@/Api";
+import { colors } from "@/assets/styles/components/colors";
+import Column from "@/assets/styles/components/Column";
+import TextContent from "@/assets/styles/components/TextContent";
+import Loading from "@/assets/ui/Loading";
 import { stylesAll } from "@/style";
+import { useRoute } from "@react-navigation/native";
 import axios from "axios";
-import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  Image,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
-import { Header } from "react-native/Libraries/NewAppScreen";
+import { Image, Platform, StyleSheet, Text, View } from "react-native";
+import Back from "../../../assets/svg/backWhite";
+import Wave from "@/assets/styles/components/Wave";
+import { router } from "expo-router";
 
-const PromotionId = () => {
-  const [harryId, setHarryId] = useState(null);
-  const { id } = useLocalSearchParams();
-
+const PromotionDetailId = () => {
+  const [harryId, setHarryId] = useState([]);
+  const route = useRoute();
+  const { id } = route.params || {};
   useEffect(() => {
     if (id) {
       const fetchUserData = async () => {
         try {
           const response = await axios.get(
-            `${url}/card/${id}`
+            `https://bella.navisdevs.ru/card/${id}`
           );
           setHarryId(response.data);
         } catch (error) {
@@ -33,38 +32,34 @@ const PromotionId = () => {
   }, [id]);
 
   if (!harryId) {
-    return (
-      <View style={stylesAll.loading}>
-        <ActivityIndicator color="red" size="small" />
-      </View>
-    );
+    return <Loading />;
   }
   const cleanText = (text) => {
-    return text.replace(/<\/?[^>]+(>|$)/g, "");
+    return text?.replace(/<\/?[^>]+(>|$)/g, "");
   };
-
   return (
     <View style={stylesAll.background_block}>
-      <View style={stylesAll.container}>
-     <Header>
-      
-     </Header>
-        <View style={styles.promotion_block}>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <Text style={styles.prom_text}>Акции</Text>
-            <Text style={styles.prom_dateto}>{harryId.dateto}</Text>
-          </View>
-          <View style={styles.promotion_img_box}>
-            <Image style={stylesAll.image_all} source={{ uri: harryId.img }} />
-          </View>
-          <Text style={styles.prom_title}>{cleanText(harryId.title)}</Text>
-          <Text style={styles.prom_text_all}>{cleanText(harryId.text)}</Text>
+      <View style={styles.promotion_block}>
+        <View style={styles.promotion_img_box}>
+          <Image style={stylesAll.image_all} source={{ uri: harryId?.img }} />
+          <Wave handle={() => router.push("/(tabs)")} style={styles.back}>
+            <Back />
+          </Wave>
+        </View>
+        <View style={styles.dateto_box}>
+          <TextContent fontSize={16} fontWeight={400} color={colors.white}>
+            Акция действует до: {harryId?.dateto}
+          </TextContent>
+        </View>
+        <View style={stylesAll.container}>
+          <Column top={24} gap={10}>
+            <TextContent fontSize={22} fontWeight={600} color={colors.black}>
+              {cleanText(harryId?.title)}
+            </TextContent>
+            <TextContent fontSize={16} fontWeight={400} color={colors.gray3}>
+              {cleanText(harryId?.text)}
+            </TextContent>
+          </Column>
         </View>
       </View>
     </View>
@@ -72,20 +67,19 @@ const PromotionId = () => {
 };
 
 const styles = StyleSheet.create({
+  back: {
+    position: "absolute",
+    top: Platform.OS === "ios" ? 60 : 42,
+    marginLeft:16
+  },
+  dateto_box: {
+    width: "100%",
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    backgroundColor: "#FF5DD4",
+  },
   promotion_block: {
     flexDirection: "column",
-    gap: 14,
-  },
-  prom_text_all: {
-    fontSize: 14,
-    fontWeight: "400",
-    lineHeight: 20,
-    color: "#191919",
-  },
-  prom_title: {
-    fontSize: 22,
-    color: "#191919",
-    fontWeight: "700",
   },
   prom_dateto: {
     fontSize: 18,
@@ -99,10 +93,10 @@ const styles = StyleSheet.create({
   },
   promotion_img_box: {
     width: "100%",
-    height: 360,
-    borderRadius: 14,
+    height: 250,
     overflow: "hidden",
+    position: "relative",
   },
 });
 
-export default PromotionId;
+export default PromotionDetailId;

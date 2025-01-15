@@ -59,7 +59,7 @@ const [token, setToken] = useState(null);
     getItems();
   }, []);
   return (
-    <View style={[styles.header, stylesAll.header_nav, stylesAll.container]}>
+    <View style={[styles.header, stylesAll.header_nav, stylesAll.container, {paddingBottom:18}]}>
       <TextContent fontSize={16} fontWeight={600} color={colors.black}>Добро пожаловать, {user?.first_name}</TextContent>
       <Wave
         handle={() => router.push("/navigate/BasketPage")}

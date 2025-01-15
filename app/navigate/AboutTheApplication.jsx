@@ -1,26 +1,15 @@
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { stylesAll } from "../../style";
-import { router } from "expo-router";
+import More from "../../assets/svg/more";
+import Header from "@/components/Main/HeaderAll";
+import { colors } from "@/assets/styles/components/colors";
 
 const AboutTheApplication = () => {
   return (
     <View style={stylesAll.background_block}>
       <View style={stylesAll.container}>
-        <View style={stylesAll.header}>
-          <TouchableOpacity
-          
-            style={stylesAll.header_back_btn}
-            onPress={() => router.push("/(tabs)/profile")}
-          >
-            <Image
-              style={{ width: 24, height: 24 }}
-              source={require("../../assets/images/moreLeft.png")}
-            />
-          </TouchableOpacity>
-          <Text style={stylesAll.header_name}>О приложении</Text>
-          <View style={stylesAll.header_back_btn}></View>
-        </View>
+        <Header handleBack={"(tabs)/profile"}>О приложении</Header>
         <View style={styles.application_block}>
           <TouchableOpacity
             style={{
@@ -33,10 +22,7 @@ const AboutTheApplication = () => {
             <Text style={styles.application_text}>
               Правила программы лояльности
             </Text>
-            <Image
-              style={{ width: 24, height: 24, tintColor: "#B3B4B4" }}
-              source={require("../../assets/images/moreRight.png")}
-            />
+            <More />
           </TouchableOpacity>
           <Image
             style={styles.line}
@@ -53,10 +39,7 @@ const AboutTheApplication = () => {
             <Text style={styles.application_text}>
               Пользовательское соглашение
             </Text>
-            <Image
-              style={{ width: 24, height: 24, tintColor: "#B3B4B4" }}
-              source={require("../../assets/images/moreRight.png")}
-            />
+            <More />
           </TouchableOpacity>
         </View>
       </View>
@@ -67,13 +50,13 @@ const AboutTheApplication = () => {
 const styles = StyleSheet.create({
   application_block: {
     width: "100%",
-    height: 112,
-    backgroundColor: "#F5F7FA",
+    height: 120,
+    backgroundColor: colors.phon,
     borderRadius: 14,
     flexDirection: "column",
     justifyContent: "space-between",
     paddingVertical: 18,
-    marginTop: 30,
+    marginTop: 8,
   },
   line: {
     width: "95%",
@@ -82,7 +65,7 @@ const styles = StyleSheet.create({
   },
   application_text: {
     fontSize: 16,
-    fontWeight: "700",
+    fontWeight: "500",
     color: "#191919",
   },
 });

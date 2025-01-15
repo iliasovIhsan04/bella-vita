@@ -88,9 +88,9 @@ const SettingPage = () => {
               </Text>
             </View>
             <Switch
-              trackColor={{ false: "#3e3e3e", true: "#9519AD" }}
-              thumbColor={isPetONe ? "#f4f3f4" : "#f4f3f4"}
-              ios_backgroundColor="#3e3e3e"
+              trackColor={{ false: "#D2D2D2", true: "#9519AD" }}
+              thumbColor={isPetTwo ? "#f4f3f4" : "#f4f3f4"}
+              ios_backgroundColor="#D2D2D2"
               onValueChange={toggleSwitchOne}
               value={isPetONe}
             />
@@ -109,9 +109,9 @@ const SettingPage = () => {
               </Text>
             </View>
             <Switch
-              trackColor={{ false: "#3e3e3e", true: "#9519AD" }}
+              trackColor={{ false: "#D2D2D2", true: "#9519AD" }}
               thumbColor={isPetTwo ? "#f4f3f4" : "#f4f3f4"}
-              ios_backgroundColor="#3e3e3e"
+              ios_backgroundColor="#D2D2D2"
               onValueChange={toggleSwitchTwo}
               value={isPetTwo}
             />
@@ -163,7 +163,7 @@ const SettingPage = () => {
 
 const styles = StyleSheet.create({
   btn_confirm: {
-    backgroundColor: colors.feuillet,
+    backgroundColor: colors.red,
   },
   btn_text: {
     color: "#FFFFFF",
@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
   remove_accaunt: {
     fontSize: 16,
     fontWeight: "700",
-    color:colors.black,
+    color:colors.red,
   },
 });
 

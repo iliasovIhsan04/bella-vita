@@ -83,6 +83,7 @@ const MyDetails = () => {
     animal: false,
     car: false,
   });
+
   const [loading, setLoading] = useState(false);
   const [isModified, setIsModified] = useState(false);
   const dispatch: AppDispatch = useDispatch();
@@ -159,7 +160,7 @@ const MyDetails = () => {
         animal: info.animal,
       };
       try {
-        const response = await axios.post(
+        const response = await axios.patch(
           `${url}/auth/update-user-detail`,
           post,
           {
@@ -169,6 +170,7 @@ const MyDetails = () => {
         setLoading(false);
         if (response.data.response === true) {
           setIsModified(false);
+
           Alert.alert("Успешно изменён!");
         } else {
           Alert.alert("Ошибка", "Не удалось сохранить изменения.");
@@ -180,7 +182,6 @@ const MyDetails = () => {
       }
     }
   };
-
   const toggleSwitchONe = async () => {
     const newValue = !isPetOne;
     setIsPetOne(newValue);
@@ -525,3 +526,8 @@ const styles = StyleSheet.create({
 });
 
 export default MyDetails;
+
+
+
+
+

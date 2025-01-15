@@ -2,37 +2,25 @@ import { url } from "@/Api";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {
-  ActivityIndicator,
-  Image,
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from "react-native";
 import { stylesAll } from "../../style";
 import { router } from "expo-router";
 import Loading from "@/assets/ui/Loading";
+import Header from "@/components/Main/HeaderAll";
+import Card from "@/assets/customs/Card";
+import Wave from "@/assets/styles/components/Wave";
 
-interface HarryBuyDetails {
-  id: number;
-  title: string;
-  net: string;
-  where: string;
-  prom_price: string;
-  price: string;
-  percentage: string;
-  img: string;
-  date: string;
-}
 const HarryBuyDetails = () => {
-  const [harry, setHarry] = useState<HarryBuyDetails[]>([]);
+  const [harry, setHarry] = useState([]);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get<HarryBuyDetails[]>(
+        const response = await axios.get(
           `${url}/product/list/populars/`
         );
         setHarry(response.data);
@@ -50,19 +38,7 @@ const HarryBuyDetails = () => {
   return (
     <View style={stylesAll.background_block}>
       <View style={stylesAll.container}>
-        <View style={[stylesAll.header, stylesAll.header_nav]}>
-          <TouchableOpacity
-            style={stylesAll.header_back_btn}
-            onPress={() => router.back()}
-          >
-            <Image
-              style={{ width: 24, height: 24 }}
-              source={require("../../assets/images/moreLeft.png")}
-            />
-          </TouchableOpacity>
-          <Text style={stylesAll.header_name}>Успей купить</Text>
-          <View style={stylesAll.header_back_btn}></View>
-        </View>
+       <Header handleBack={('/(tabs)')}>Успей купить</Header>
         <ScrollView
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
@@ -70,50 +46,15 @@ const HarryBuyDetails = () => {
           <View
             style={{
               gap: 10,
-              flexDirection: "column",
+              flexDirection: "row",
               marginBottom: 150,
+              flexWrap:'wrap',
             }}
           >
             {harry.map((item) => (
-              <Pressable
-                key={item.id}
-                style={styles.harry_block}
-                onPress={() =>
-                  router.push(`/details/HarryDetailsId/${item.id}`)
-                }
-              >
-                <View style={{ flexDirection: "row", gap: 10 }}>
-                  <View style={styles.block_red}>
-                    <Image
-                      style={styles.list_img}
-                      source={require("../../assets/images/list.png")}
-                    />
-                    <Text style={styles.percentage_text}>
-                      {item.percentage}
-                    </Text>
-                    <Text style={styles.prom_price}>{item.prom_price}</Text>
-                    <Text style={styles.price_text}>{item.price}</Text>
-                    <View style={styles.line_price}></View>
-                  </View>
-                  <View style={styles.title_text_box}>
-                    <Text style={styles.harry_title} numberOfLines={2}>
-                      {item.title}
-                    </Text>
-                    <Text style={styles.harry_net_text}>{item.net}</Text>
-                    <Text style={styles.harry_where_text}>{item.where}</Text>
-                  </View>
-                </View>
-                <View style={styles.prom_img_box}>
-                  <Image style={styles.prom_img} source={{ uri: item.img }} />
-                </View>
-                <View style={{ flexDirection: "row" }}>
-                  <View style={styles.date_box}>
-                    <Text style={styles.date_text}>{item.date}</Text>
-                    <View style={styles.data_right_rotate}></View>
-                    <View style={styles.data_left_rotate}></View>
-                  </View>
-                </View>
-              </Pressable>
+              <View style={styles.prom_block}>
+              <Card price={item.price} old_price={item.discount_price} percentage={item.discount_percentage} title={item.title} mini_description={item.description} handle={() => router.push(`/details/HarryDetailsId/${item.id}`)} love={true}/>
+              </View>
             ))}
           </View>
         </ScrollView>
@@ -123,21 +64,8 @@ const HarryBuyDetails = () => {
 };
 
 const styles = StyleSheet.create({
-  data_right_rotate: {
-    width: 21.5,
-    height: 21.5,
-    backgroundColor: "#fff",
-    position: "absolute",
-    right: -11,
-    transform: [{ rotate: "45deg" }],
-  },
-  data_left_rotate: {
-    width: 21.5,
-    height: 21.5,
-    backgroundColor: "#fff",
-    position: "absolute",
-    left: -11,
-    transform: [{ rotate: "45deg" }],
+  prom_block :{
+marginTop:6
   },
   date_text: {
     fontSize: 16,

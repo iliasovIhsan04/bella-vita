@@ -8,20 +8,15 @@ import Header from "@/components/Main/HeaderAll";
 import Loading from "@/assets/ui/Loading";
 import { colors } from "@/assets/styles/components/colors";
 
-interface NotificationsItem {
-  title: string;
-  description: string;
-  date: string;
-}
 
 const Notifications = () => {
-  const [notifications, setNotifications] = useState<NotificationsItem[]>([]);
+  const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get<NotificationsItem[]>(
+        const response = await axios.get(
           `${url}/notifications/`
         );
         setNotifications(response.data);
@@ -59,7 +54,7 @@ const Notifications = () => {
     <View style={stylesAll.background_block}>
       <View style={stylesAll.container}>
         <Header handleBack={"/(tabs)/profile"}>Уведомления</Header>
-        <View style={{ flexDirection: "column", gap: 10 }}>
+        <View style={{ flexDirection: "column", gap: 10, marginTop:8 }}>
           {notifications.map((el, index) => (
             <View key={index} style={styles.notification_box}>
               <Text style={styles.title}>{cleanText(el.title)}</Text>
@@ -80,7 +75,7 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 16,
     borderRadius: 14,
-    backgroundColor: "#F5F7FA",
+    backgroundColor: colors.phon,
     gap: 6,
   },
   title: {
@@ -113,3 +108,8 @@ const styles = StyleSheet.create({
 });
 
 export default Notifications;
+
+
+
+
+

@@ -272,7 +272,7 @@ paddingHorizontal:16
     width: 40,
     height: 40,
     borderRadius: 50,
-    backgroundColor: "#DC0200",
+    backgroundColor: colors.feuillet,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",

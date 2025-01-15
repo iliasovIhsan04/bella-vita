@@ -44,7 +44,7 @@ const CatalogPage = () => {
   }
 
   return (
-    <View>
+    <View style={{flex:1}}>
       <Header container={true}>Каталог</Header>
       <ScrollView
         showsHorizontalScrollIndicator={false}
@@ -143,11 +143,13 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   shop_block: {
+    flex:1,
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "flex-start",
     gap: 8,
     paddingHorizontal: 16,
+    paddingBottom:200
   },
   shop_box: {
     width: containerWidth,

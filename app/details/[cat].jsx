@@ -84,9 +84,9 @@ const CatalogDetails = ({}) => {
     fetchData(rangeValue[0], rangeValue[1]);
   };
   const handleOrdering = async (newOrder) => {
-    setModal(false); 
+    setModal(false);
     setOrdering(newOrder);
-    fetchData(rangeValue[0], rangeValue[1], newOrder); 
+    fetchData(rangeValue[0], rangeValue[1], newOrder);
   };
 
   useEffect(() => {
@@ -270,11 +270,17 @@ const CatalogDetails = ({}) => {
           </ModalDown>
           <View style={{ width: "100%" }}>
             <Column gap={20} style={{ marginTop: 20 }}>
-                {Array.isArray(data) &&
-                  data.length > 0 &&
-                  data[0]?.subcat_name && (
-                    <TextContent fontSize={22} fontWeight={600} color={colors.black}>{data[0].subcat_name}</TextContent>
-                  )}
+              {Array.isArray(data) &&
+                data.length > 0 &&
+                data[0]?.subcat_name && (
+                  <TextContent
+                    fontSize={22}
+                    fontWeight={600}
+                    color={colors.black}
+                  >
+                    {data[0].subcat_name}
+                  </TextContent>
+                )}
               <Between center={"center"}>
                 <Wave handle={() => setModal(true)}>
                   <SortIcons />
@@ -294,7 +300,7 @@ const CatalogDetails = ({}) => {
           </View>
         </View>
         {data.length === 0 ? (
-          <View style={stylesAll.loading_catalog}>
+          <View style={styles.null_product_block}>
             <Text style={stylesAll.barrcode_page_text}>Нет товара!</Text>
           </View>
         ) : (
@@ -327,6 +333,13 @@ const CatalogDetails = ({}) => {
 };
 
 const styles = StyleSheet.create({
+  null_product_block: {
+    width: "100%",
+    height: 600,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   header_search: {
     gap: 12,
   },

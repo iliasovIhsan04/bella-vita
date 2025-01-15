@@ -11,7 +11,8 @@ export const colors = {
     late:'#FF5DD4' ,
     gray2:'#AAAAAA',
     yellow:'#CE8E2B',
-    gray80:'#D2D2D2'
+    gray80:'#D2D2D2',
+    gray3:'#444444',
 
   };
   

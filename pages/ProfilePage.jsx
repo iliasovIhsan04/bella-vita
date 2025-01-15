@@ -73,7 +73,7 @@ const ProfilePage = () => {
     <View>
       <Header container={true}>Профиль</Header>
       <View style={stylesAll.container}>
-        <Column gap={30}>
+        <Column gap={30} top={8}>
           <Wave handle={() => router.push("navigate/MyDetails")}>
             <Between style={styles.box_prof} center={"center"}>
               <Flex gap={10}>
