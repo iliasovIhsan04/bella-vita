@@ -1,15 +1,10 @@
 import React, { useState } from "react";
 import {
-  ActivityIndicator,
   Alert,
-  Image,
-  Pressable,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch } from "react-redux";
 
@@ -22,13 +17,13 @@ import axios from "axios";
 import { url } from "@/Api";
 import OTPTextInput from "react-native-otp-textinput";
 import { stylesAll } from "../../style";
+import Button from "@/assets/customs/Button";
+import { colors } from "@/assets/styles/components/colors";
+import Header from "@/components/Main/HeaderAll";
 
-interface ActivationCodeProps {}
-
-const ActivationCode: React.FC<ActivationCodeProps> = () => {
-  const [code, setCode] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const [showModal, setShowModal] = useState<boolean>(false);
+const ActivationCode = () => {
+  const [code, setCode] = useState("");
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const handleCode = async () => {
@@ -71,7 +66,7 @@ const ActivationCode: React.FC<ActivationCodeProps> = () => {
           }
         }
       } catch (error) {
-        dispatch(registerFailure((error as Error).message));
+        dispatch(registerFailure((error).message));
         Alert.alert("Ошибка", "Произошла ошибка.");
       } finally {
         setLoading(false);
@@ -81,22 +76,9 @@ const ActivationCode: React.FC<ActivationCodeProps> = () => {
       setLoading(false);
     }
   };
-
   return (
-    <View style={stylesAll.container}>
-      <View style={[stylesAll.header]}>
-        <TouchableOpacity
-          style={stylesAll.header_back_btn}
-          onPress={() => router.push("/(tabs)/profile")}
-        >
-          <Image
-            style={{ width: 24, height: 24 }}
-            source={require("../../assets/images/moreLeft.png")}
-          />
-        </TouchableOpacity>
-        <Text style={stylesAll.header_name}>Код потверждения</Text>
-        <View style={stylesAll.header_back_btn}></View>
-      </View>
+    <View style={[stylesAll.container, {flex:1}, {backgroundColor:colors.white}]}>
+      <Header back={true}>Код потверждения</Header>
       <Text style={[stylesAll.auth_text, { marginTop: 12 }]}>
         Мы отправили 6х значный код на ваш номер телефона
       </Text>
@@ -111,23 +93,13 @@ const ActivationCode: React.FC<ActivationCodeProps> = () => {
               handleTextChange={(otp) => setCode(otp)}
               containerStyle={styles.otpContainer}
               textInputStyle={styles.otpInput}
-              tintColor={"rgba(55, 9, 238, 1)"}
+              tintColor={colors.feuillet}
               defaultValue={code}
             />
           </View>
         </View>
         <View style={{ flexDirection: "column", gap: 10 }}>
-          <Pressable
-            style={stylesAll.button}
-            onPress={handleSubmit}
-            disabled={loading}
-          >
-            {loading ? (
-              <ActivityIndicator color="#fff" />
-            ) : (
-              <Text style={stylesAll.button_text}>Потвердить код</Text>
-            )}
-          </Pressable>
+          <Button color={colors.feuillet} handle={handleSubmit} loading={loading} disabled={loading}>Потвердить код</Button>
           <Text style={styles.send_again} onPress={handleCode}>
             Отправить снова
           </Text>

@@ -96,7 +96,7 @@ export const stylesAll = StyleSheet.create({
     justifyContent: "center",
   },
   barrcode_page_text: {
-    color: "#DC0200",
+    color: "#9519AD",
     fontSize: 24,
     fontWeight: "600",
   },
@@ -213,7 +213,7 @@ export const stylesAll = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     height: 45,
-    backgroundColor: "#f5f7fa",
+    backgroundColor: colors.phon,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: "transparent",

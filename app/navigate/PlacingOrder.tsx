@@ -59,7 +59,6 @@ const PlacingOrder = () => {
     get_date: "",
     comment: "",
   });
-
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -73,7 +72,6 @@ const PlacingOrder = () => {
     };
     loadData();
   }, []);
-
   useEffect(() => {
     const fetchTotalPrice = async () => {
       try {
@@ -89,13 +87,11 @@ const PlacingOrder = () => {
   const headers = {
     Authorization: `Token ${local}`,
   };
-
   const handleSubmit = async () => {
     setIsLoading(true);
     try {
       const shopCart = await AsyncStorage.getItem("shopCart");
       const parsedShopCart = shopCart ? JSON.parse(shopCart) : [];
-
       const productsForOrder = parsedShopCart.map((el) => ({
         product_id: el.id,
         count: plus[el.id] || 0,
@@ -106,7 +102,6 @@ const PlacingOrder = () => {
         comment: address.comment,
         product: productsForOrder.filter((item) => item.count > 0),
       };
-
       const response = await axios.post(url + "/order/create", dataToSend, {
         headers,
       });
@@ -139,7 +134,6 @@ const PlacingOrder = () => {
       setIsLoading(false);
     }
   };
-
   const calculateTotalPrice = async () => {
     const shopCart = await AsyncStorage.getItem("shopCart");
     const parsedCart = shopCart ? JSON.parse(shopCart) : [];
@@ -151,7 +145,6 @@ const PlacingOrder = () => {
 
     setTotalPrice(total);
   };
-
   useEffect(() => {
     calculateTotalPrice();
   }, [cart]);

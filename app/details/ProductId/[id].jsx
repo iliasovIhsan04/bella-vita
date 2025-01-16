@@ -168,7 +168,7 @@ const Productid = () => {
             </Wave>
           </View>
         </View>
-        <Images data={data?.img} newBlock={data.percentage} />
+        <Images data={data?.img} newBlock={data.new} percentage={data.discount_percentage}/>
         <View style={[stylesAll.container]}>
           <Column>
             <Column gap={40} top={16}>

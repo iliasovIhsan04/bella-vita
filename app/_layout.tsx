@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
+import { FavoriteProvider } from "../context/FavoriteContext"; 
 
 SplashScreen.preventAutoHideAsync();
 
@@ -12,7 +13,6 @@ export default function RootLayout() {
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-  
   const getToken = async (): Promise<void> => {
     try {
       const storedToken = await AsyncStorage.getItem("tokenActivation");
@@ -61,7 +61,8 @@ export default function RootLayout() {
   // }
   return (
     <Provider store={store}>
-      <Stack screenOptions={{ headerShown: false }}>
+          <FavoriteProvider>
+          <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="navigate/SettingPage" />
         <Stack.Screen name="navigate/ToHelp" />
@@ -93,6 +94,9 @@ export default function RootLayout() {
         <Stack.Screen name="auth/Activation" />
         <Stack.Screen name="auth/ActivationForgot" />
       </Stack>
+          </FavoriteProvider>
+
+  
     </Provider>
   );
 }

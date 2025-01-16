@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   View,
   Alert,
-  ActivityIndicator,
 } from "react-native";
 import { stylesAll } from "../../style";
 import { router } from "expo-router";
@@ -16,14 +15,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { url } from "@/Api";
 import axios from "axios";
 import { TextInputMask } from "react-native-masked-text";
+import Button from "@/assets/customs/Button";
+import { colors } from "@/assets/styles/components/colors";
+import Header from "@/components/Main/HeaderAll";
 
-interface ErrorActivation {
-  phone?: string[];
-  password?: string[];
-}
 
 const Login = () => {
-  const [errorActivation, setErrorActivation] = useState<ErrorActivation>({});
+  const [errorActivation, setErrorActivation] = useState({});
   const [visible, setVisible] = useState(false);
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
@@ -63,7 +61,7 @@ const Login = () => {
         await AsyncStorage.setItem("tokenActivation", response.data.token);
       }
       setIsLoading(false);
-    } catch (error: any) {
+    } catch (error) {
       Alert.alert(
         "Ошибка!",
         error.message || "Произошла непредвиденная ошибка"
@@ -76,19 +74,7 @@ const Login = () => {
   return (
     <View style={stylesAll.background_block}>
       <View style={stylesAll.container}>
-        <View style={stylesAll.header}>
-          <TouchableOpacity
-            style={stylesAll.header_back_btn}
-            onPress={() => router.push("/auth/Registration")}
-          >
-            <Image
-              style={{ width: 24, height: 24 }}
-              source={require("../../assets/images/moreLeft.png")}
-            />
-          </TouchableOpacity>
-          <Text style={stylesAll.header_name}>Войти</Text>
-          <View style={stylesAll.header_back_btn}></View>
-        </View>
+<Header handleBack={('auth/Registration')}>Войти</Header>
         <Text style={stylesAll.auth_text}>
           Введите свои данные для авторизации
         </Text>
@@ -154,17 +140,7 @@ const Login = () => {
             Забыл(-а) пароль?
           </Text>
           <View style={{ gap: 10 }}>
-            <TouchableOpacity
-              style={[stylesAll.button]}
-              disabled={isLoading}
-              onPress={handleLoginEvent}
-            >
-              {isLoading ? (
-                <ActivityIndicator color="#FFF" />
-              ) : (
-                <Text style={stylesAll.button_text}>Войти</Text>
-              )}
-            </TouchableOpacity>
+            <Button handle={handleLoginEvent} loading={isLoading} disabled={isLoading} color={colors.feuillet}>Войти</Button>
             <Text
               style={styles.yes_text}
               onPress={() => router.push("auth/Registration")}
@@ -199,7 +175,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   input_box: {
-    backgroundColor: "#F5F7FA",
+    backgroundColor:colors.phon,
   },
   password_input: {
     flex: 1,

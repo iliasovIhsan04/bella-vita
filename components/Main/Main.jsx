@@ -4,7 +4,6 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
   ScrollView,
   Modal,
   Pressable,
@@ -140,8 +139,13 @@ export default function Main() {
               Теперь вы можете экономить на покупках, получать скидки, подарки и
               многое другое
             </Text>
-            <View style={{width:'100%'}}>
-            <Button color={colors.feuillet} handle={() => setModalRegistration(false)}>Понятно</Button>
+            <View style={{ width: "100%" }}>
+              <Button
+                color={colors.feuillet}
+                handle={() => setModalRegistration(false)}
+              >
+                Понятно
+              </Button>
             </View>
           </Animated.View>
         </Pressable>
@@ -160,7 +164,7 @@ export default function Main() {
         }
       >
         <StoryComponent />
-        <Column gap={10} style={{ marginBottom: 50 }}>
+        <Column gap={10} style={{ marginBottom: 50, }}>
           <Wrapper padding={[20, 24]}>
             <Column gap={10}>
               <BonusCart />
@@ -169,9 +173,17 @@ export default function Main() {
                   style={styles.apple_box}
                   handle={() => router.push("(tabs)/catalog")}
                 >
+                  <TextContent
+                    color={colors.black}
+                    fontSize={16}
+                    fontWeight={600}
+                    style={{width:'60%', paddingTop:16, paddingLeft:16}}
+                  >
+                    Трендовая косметика в Bella Vita
+                  </TextContent>
                   <Image
                     style={styles.image_apple}
-                    source={require("../../assets/images/brendLogo.png")}
+                    source={require("../../assets/images/trend.png")}
                   />
                 </Wave>
                 <View style={styles.check_price_block}>
@@ -209,46 +221,46 @@ export default function Main() {
                       </Column>
                     </Wave>
                   </Flex>
-                  <View style={{flex:1}}>
-                    <Wave handle={() => router.push('navigate/BrendList')}>
-                    <Column style={styles.brend_block}>
-                    <TextContent
-                      fontSize={16}
-                      fontWeight={600}
-                      color={colors.black}
-                    >
-                      Бренды
-                    </TextContent>
-                    <View style={styles.catalog_brend}>
-                      {brendData.slice(0, 4).map((el, id) => (
-                        <View
-                          style={[
-                            styles.brend_box,
-                            { marginLeft: id > 0 ? -18 : 0 },
-                          ]}
-                          key={id}
+                  <View style={{ flex: 1 }}>
+                    <Wave handle={() => router.push("navigate/BrendList")}>
+                      <Column style={styles.brend_block}>
+                        <TextContent
+                          fontSize={16}
+                          fontWeight={600}
+                          color={colors.black}
                         >
-                          <Image
-                            style={styles.box_img}
-                            source={{ uri: el.img }}
-                          />
-                        </View>
-                      ))}
-                      {brendData.length > 4 && (
-                        <View style={styles.remaining_brend_box}>
-                          <View style={styles.breand_box}>
-                            <TextContent
-                              fontSize={12}
-                              fontWeight={500}
-                              color={colors.white}
+                          Бренды
+                        </TextContent>
+                        <View style={styles.catalog_brend}>
+                          {brendData.slice(0, 4).map((el, id) => (
+                            <View
+                              style={[
+                                styles.brend_box,
+                                { marginLeft: id > 0 ? -14 : 0 },
+                              ]}
+                              key={id}
                             >
-                              +{brendData.length - 4}
-                            </TextContent>
-                          </View>
+                              <Image
+                                style={styles.box_img}
+                                source={{ uri: el.img }}
+                              />
+                            </View>
+                          ))}
+                          {brendData.length > 4 && (
+                            <View style={styles.remaining_brend_box}>
+                              <View style={styles.breand_box}>
+                                <TextContent
+                                  fontSize={12}
+                                  fontWeight={500}
+                                  color={colors.white}
+                                >
+                                  +{brendData.length - 4}8
+                                </TextContent>
+                              </View>
+                            </View>
+                          )}
                         </View>
-                      )}
-                    </View>
-                  </Column>
+                      </Column>
                     </Wave>
                   </View>
                 </View>
@@ -294,23 +306,23 @@ const styles = StyleSheet.create({
   remaining_brend_box: {
     position: "absolute",
     bottom: 0,
-    left: 82,
+    left: 94,
     minWidth: 38,
     height: 38,
     borderRadius: 50,
     backgroundColor: colors.white,
     alignItems: "center",
     justifyContent: "center",
-    padding:4
+    padding: 4,
   },
   breand_box: {
     width: "100%",
     height: "100%",
     backgroundColor: colors.black,
-    borderRadius:50,
-    flexDirection:'row',
-    alignItems:'center',
-    justifyContent:'center'
+    borderRadius: 50,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
   favorite_box: {
     width: 36,
@@ -322,7 +334,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   brend_block: {
-    height:'100%',
+    height: "100%",
     backgroundColor: colors.phon,
     borderRadius: 14,
     paddingVertical: 16,
@@ -344,7 +356,6 @@ const styles = StyleSheet.create({
   },
   modal_block_img: {
     width: 170,
-    height: 140,
   },
   image_modal: {
     width: "100%",
@@ -357,13 +368,16 @@ const styles = StyleSheet.create({
   },
   apple_box: {
     width: containerWidth,
-    height: 230,
+    height: 200,
     borderRadius: 10,
+    backgroundColor: colors.phon,
+    position: "relative",
   },
   image_apple: {
     width: "100%",
-    height: 230,
-    overflow: "hidden",
+    height: 190,
+    borderRadius: 10,
+    bottom: 65,
   },
   check_price_block: {
     width: containerWidth,

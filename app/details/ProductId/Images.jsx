@@ -1,4 +1,5 @@
 import { colors } from "@/assets/styles/components/colors";
+import Flex from "@/assets/styles/components/Flex";
 import TextContent from "@/assets/styles/components/TextContent";
 import React, { useRef, useState } from "react";
 import {
@@ -44,11 +45,13 @@ const Images = ({ data, newBlock, percentage }) => {
   const renderItem = ({ item }) => (
     <View style={[styles.imageWrapper, { width }]} key={item?.id}>
       {item?.img ? (
-        <Image
-          source={{ uri: item?.img }}
-          style={styles.img}
-          resizeMode="cover"
-        />
+        <View style={styles.img_block}>
+          <Image
+            source={{ uri: item?.img }}
+            style={styles.img}
+            resizeMode="cover"
+          />
+        </View>
       ) : (
         <Text>Image not found</Text>
       )}
@@ -57,18 +60,22 @@ const Images = ({ data, newBlock, percentage }) => {
   return (
     <View style={styles.container}>
       <View style={styles.new_persentage_box}>
-        {newBlock && (
-          <View style={styles.new_block}>
-            <TextContent fontSize={10} fontWeight={500} color={colors.white}>
-              NEW
-            </TextContent>
-          </View>
-        )}
-        <View style={[styles.new_block, styles.present_box]}>
-          <TextContent fontSize={10} fontWeight={400} color={colors.white}>
-            {percentage}
-          </TextContent>
-        </View>
+        <Flex gap={10}>
+          {newBlock && (
+            <View style={styles.new_block}>
+              <TextContent fontSize={10} fontWeight={500} color={colors.white}>
+                NEW
+              </TextContent>
+            </View>
+          )}
+          {percentage && (
+            <View style={[styles.new_block, styles.present_box]}>
+              <TextContent fontSize={10} fontWeight={400} color={colors.white}>
+                {percentage}%
+              </TextContent>
+            </View>
+          )}
+        </Flex>
       </View>
       <FlatList
         data={data}
@@ -127,7 +134,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     position: "relative",
-    backgroundColor:colors.phon
+    backgroundColor: colors.phon,
   },
   new_persentage_box: {
     position: "absolute",
@@ -138,6 +145,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: 0,
+  },
+  img_block :{
+    width: "80%",
+    height: 260,
+    backgroundColor:'red'
   },
   img: {
     width: "80%",

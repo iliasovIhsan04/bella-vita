@@ -1,4 +1,5 @@
 import { colors } from "@/assets/styles/components/colors";
+import TextContent from "@/assets/styles/components/TextContent";
 import Loading from "@/assets/ui/Loading";
 import React, { useState, useEffect } from "react";
 import {
@@ -29,7 +30,7 @@ export default function StoryComponent() {
           .map((user) => ({
             user_id: Number(user.id) || Date.now(),
             user_image: user.img || "https://placeholder.com/user.jpg",
-            // user_name: user.title || "User",
+            user_name: user.title || "User",
             stories: Array.isArray(user.stories) && user.stories.length > 0
               ? user.stories
                   .filter((story) => story && typeof story === 'object')
@@ -39,6 +40,7 @@ export default function StoryComponent() {
                     duration: Number(story.duration) || 5000,
                     created_at: story.created_at || new Date().toISOString(),
                     type: "image",
+                   
                   }))
               : []
           }))
@@ -82,8 +84,11 @@ export default function StoryComponent() {
           pressedBorder={10}
           duration={10}
           avatarWrapperStyle={styles.avatar_wrapper}
+          avatarTextStyle={styles.avatar_text_style}
           unPressedBorderColor={colors.feuillet}
           avatarImageStyle={styles.avatarImage}
+          pressedAvatarTextColo={colors.white}
+          // renderTextComponent ={styles.avatar_text_style}
           swipeText={() => {""}}
           renderCloseComponent={({ onPress }) => (
             <TouchableOpacity style={styles.closeButton} onPress={onPress}>
@@ -102,12 +107,22 @@ export default function StoryComponent() {
   return <View style={styles.storyContainer}>{renderContent()}</View>;
 }
 const styles = StyleSheet.create({
+  avatar_text_style :{
+    color:colors.gray,
+    textAlign:'left',
+    position:'absolute',
+    bottom:10,
+    left:10,
+    zIndex:3,
+    // backgroundColor:'blue'
+  },
   storyContainer: {
     flex: 1,
   },
   avatar_wrapper: {
-borderRadius:22,
-padding:2
+   borderRadius:22,
+   padding:2,
+   position:'relative',
   },
   closeButton: {
     backgroundColor: "rgba(107, 107, 107, 0.3)",
@@ -125,6 +140,7 @@ padding:2
   },
   storiesBlock: {
     flex: 1,
+    paddingBottom:18
   },
   avatarImage: {
     width:'100%',

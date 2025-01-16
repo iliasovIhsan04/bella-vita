@@ -14,14 +14,13 @@ import { TextInputMask } from "react-native-masked-text";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { url } from "@/Api";
-
-interface ErrorActivation {
-  phone?: string[];
-}
+import Button from "@/assets/customs/Button";
+import { colors } from "@/assets/styles/components/colors";
+import Header from "@/components/Main/HeaderAll";
 
 const ForgotPassword = () => {
   const [phone, setPhone] = useState("");
-  const [errorActivation, setErrorActivation] = useState<ErrorActivation>({});
+  const [errorActivation, setErrorActivation] = useState({});
   const [loading, setLoading] = useState(false);
 
   const handleLoginEvent = async () => {
@@ -51,7 +50,7 @@ const ForgotPassword = () => {
         setErrorActivation({ phone: [response.data.phone] });
         Alert.alert("Ошибка!", response.data.phone || "Произошла ошибка");
       }
-    } catch (error: any) {
+    } catch (error) {
       Alert.alert(
         "Ошибка!",
         error.message || "Произошла непредвиденная ошибка"
@@ -64,19 +63,7 @@ const ForgotPassword = () => {
   return (
     <View style={stylesAll.background_block}>
       <View style={stylesAll.container}>
-        <View style={stylesAll.header}>
-          <TouchableOpacity
-            style={stylesAll.header_back_btn}
-            onPress={() => router.back()}
-          >
-            <Image
-              style={{ width: 24, height: 24 }}
-              source={require("../../assets/images/moreLeft.png")}
-            />
-          </TouchableOpacity>
-          <Text style={stylesAll.header_name}>Забыл(-а) пароль</Text>
-          <View style={stylesAll.header_back_btn}></View>
-        </View>
+        <Header handleBack={('auth/Login')}>Забыл(-а) пароль</Header>
         <Text style={stylesAll.auth_text}>
           Мы отправим 4-х значный код на этот номер телефона
         </Text>
@@ -105,17 +92,7 @@ const ForgotPassword = () => {
               </Text>
             )}
           </View>
-          <TouchableOpacity
-            style={[stylesAll.button]}
-            disabled={loading}
-            onPress={handleLoginEvent}
-          >
-            {loading ? (
-              <ActivityIndicator color="#FFF" />
-            ) : (
-              <Text style={stylesAll.buttonText}>Получить код</Text>
-            )}
-          </TouchableOpacity>
+          <Button color={colors.feuillet} handle={handleLoginEvent} loading={loading} disabled={loading}>Получить код</Button>
         </View>
       </View>
     </View>
@@ -127,7 +104,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   input_box: {
-    backgroundColor: "#F5F7FA",
+    backgroundColor: colors.phon,
   },
   error_text_registr: {
     color: "#DC0200",

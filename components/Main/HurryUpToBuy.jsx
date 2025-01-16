@@ -57,7 +57,7 @@ const HurryUpToBuy = () => {
             <>
             {
               item.is_popular && (
-                <Card id={item.id} title={item.title} percentage={item.discount_percentage} mini_description={item.description} price={item.discount_price} old_price={item.price} harry={data} love={true} newBlock={item.new}  handle={() => router.push(`/details/ProductId/${item.id}`)}/>
+                <Card id={item.id} title={item.title} percentage={item.discount_percentage} mini_description={item.description} price={item.price} old_price={item.discount_price} harry={data} love={true} newBlock={item.new}  handle={() => router.push(`/details/ProductId/${item.id}`)}/>
               )
             }
             </>

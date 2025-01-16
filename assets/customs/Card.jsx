@@ -11,7 +11,6 @@ import FavoriteActive from "../../assets/svg/favoriteSctive";
 import Shopping from "../../assets/svg/shopping";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const containerWidth = (Dimensions.get("window").width - 32) / 2 - 5;
-
 const Card = ({
   newBlock,
   percentage,
@@ -29,53 +28,57 @@ const Card = ({
 }) => {
   const [cart, setCart] = useState([]);
   const [favoriteItems, setFavoriteItems] = useState(new Set());
-  const saveToAsyncStorage = async (id) => {
-    const itemToAdd = (harry || data).find((item) => item.id === id);
-    if (itemToAdd) {
-      let updatedCart = [...cart];
-      if (!updatedCart.some((item) => item.id === itemToAdd.id)) {
-        updatedCart.push(itemToAdd);
-      } else {
-        updatedCart = updatedCart.filter((item) => item.id !== itemToAdd.id);
-      }
-      setCart(updatedCart);
-      await AsyncStorage.setItem("cartFeatured", JSON.stringify(updatedCart));
-    }
-  };
+  
+
   const toggleFavorite = async (id) => {
-    const itemExists = await AsyncStorage.getItem(`activeItemFeatured${id}`);
-    let updatedFavorites = new Set(favoriteItems);
-    if (itemExists) {
-      await AsyncStorage.removeItem(`activeItemFeatured${id}`);
-      updatedFavorites.delete(id);
-    } else {
-      await AsyncStorage.setItem(`activeItemFeatured${id}`, `${id}`);
-      updatedFavorites.add(id);
+    try {
+      const itemExists = await AsyncStorage.getItem(`activeItemFeatured${id}`);
+      const storedCart = await AsyncStorage.getItem("cartFeatured");
+      let updatedCart = storedCart ? JSON.parse(storedCart) : [];
+  
+      if (itemExists) {
+        await AsyncStorage.removeItem(`activeItemFeatured${id}`);
+        updatedCart = updatedCart.filter((item) => item.id !== id);
+        console.log(`Айди ${id} өчүрүлдү`);
+      } else {
+        await AsyncStorage.setItem(`activeItemFeatured${id}`, `${id}`);
+        const itemToAdd = (harry || data).find((item) => item.id === id);
+        if (itemToAdd) {
+          updatedCart.push(itemToAdd);
+        }
+        console.log(`Айди ${id} кошулду`);
+      }
+      await AsyncStorage.setItem("cartFeatured", JSON.stringify(updatedCart));
+      setCart(updatedCart);
+      initializeData(); 
+    } catch (error) {
+      console.error("Айдини жаңыртуу учурунда ката кетти:", error);
     }
-    setFavoriteItems(updatedFavorites);
   };
-
+  
   const initializeData = async () => {
-    const cartItems = await AsyncStorage.getItem("cartFeatured");
-    if (cartItems) {
-      setCart(JSON.parse(cartItems));
+    try {
+      const cartItems = await AsyncStorage.getItem("cartFeatured");
+      if (cartItems) {
+        setCart(JSON.parse(cartItems)); 
+      }
+      const favoriteItemsKeys = await AsyncStorage.getAllKeys();
+      const favoriteIds = favoriteItemsKeys
+        .filter((key) => key.startsWith("activeItemFeatured"))
+        .map((key) => parseInt(key.replace("activeItemFeatured", "")));
+      setFavoriteItems(new Set(favoriteIds));
+    } catch (error) {
+      console.error("Маалыматтарды баштапкы абалга келтирүүдө ката кетти:", error);
     }
-    const favoriteItemsKeys = await AsyncStorage.getAllKeys();
-    const favoriteIds = favoriteItemsKeys
-      .filter((key) => key.startsWith("activeItemFeatured"))
-      .map((key) => parseInt(key.replace("activeItemFeatured", "")));
-    setFavoriteItems(new Set(favoriteIds));
   };
+  
   useEffect(() => {
-    initializeData();
+    initializeData(); 
   }, []);
-
+  
   const handleFavoriteToggle = () => {
     toggleFavorite(id);
-    saveToAsyncStorage(id);
   };
-
-
   return (
     <Wave style={styles.cardContainer} key={id} handle={handle}>
       <Column gap={10}>

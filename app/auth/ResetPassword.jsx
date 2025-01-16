@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
 import {
-  Image,
   StyleSheet,
   Text,
   TextInput,
-  TouchableOpacity,
   View,
   Alert,
-  ActivityIndicator,
 } from "react-native";
 import { stylesAll } from "../../style";
 import { router } from "expo-router";
@@ -20,18 +17,16 @@ import {
   registerSuccess,
 } from "@/Redux/reducer/slice/ActivationReducerSlice";
 import { url } from "@/Api";
-
-interface ErrorActivation {
-  password?: string[];
-  confirm_password?: string[];
-}
+import Button from "@/assets/customs/Button";
+import { colors } from "@/assets/styles/components/colors";
+import Header from "@/components/Main/HeaderAll";
 
 const ResetPassword = () => {
-  const [errorActivation, setErrorActivation] = useState<ErrorActivation>({});
+  const [errorActivation, setErrorActivation] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [localToken, setLocalToken] = useState<string | null>(null);
+  const [localToken, setLocalToken] = useState(null);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -91,19 +86,7 @@ const ResetPassword = () => {
   return (
     <View style={stylesAll.background_block}>
       <View style={stylesAll.container}>
-        <View style={stylesAll.header}>
-          <TouchableOpacity
-            style={stylesAll.header_back_btn}
-            onPress={() => router.back()}
-          >
-            <Image
-              style={{ width: 24, height: 24 }}
-              source={require("../../assets/images/moreLeft.png")}
-            />
-          </TouchableOpacity>
-          <Text style={stylesAll.header_name}>Новый пароль</Text>
-          <View style={stylesAll.header_back_btn}></View>
-        </View>
+   <Header back={true}>Новый пароль</Header>
         <Text style={stylesAll.auth_text}>Придумайте новый пароль</Text>
         <View style={styles.input_block}>
           <Text style={stylesAll.label}>Пароль</Text>
@@ -120,7 +103,6 @@ const ResetPassword = () => {
             </Text>
           )}
         </View>
-
         <View style={styles.input_block}>
           <Text style={stylesAll.label}>Повторите пароль</Text>
           <TextInput
@@ -136,30 +118,18 @@ const ResetPassword = () => {
             </Text>
           )}
         </View>
-
-        <TouchableOpacity
-          style={stylesAll.button}
-          onPress={handleSubmit}
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <ActivityIndicator color="#FFF" />
-          ) : (
-            <Text style={stylesAll.button_text}>Сохранить</Text>
-          )}
-        </TouchableOpacity>
+      <Button handle={handleSubmit} color={colors.feuillet} loading={isLoading} disabled={isLoading} top={10}>Сохранить</Button>
       </View>
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   input_block: {
     flexDirection: "column",
     marginVertical: 10,
   },
   input_box: {
-    backgroundColor: "#F5F7FA",
+    backgroundColor: colors.phon,
   },
   error_text_registr: {
     color: "#DC0200",

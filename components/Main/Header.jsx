@@ -2,12 +2,7 @@ import { stylesAll } from "@/style";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Platform, StyleSheet, Text, View } from "react-native";
 import CartActive from "../../assets/svg/shoppingCartActive";
 import Wave from "@/assets/styles/components/Wave";
 import TextContent from "@/assets/styles/components/TextContent";
@@ -15,11 +10,9 @@ import { colors } from "@/assets/styles/components/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserInfo } from "@/Redux/reducer/UserInfo";
 
-
-
 const Header = () => {
-const dispatch = useDispatch()
-const [token, setToken] = useState(null);
+  const dispatch = useDispatch();
+  const [token, setToken] = useState(null);
 
   const getToken = async () => {
     try {
@@ -59,8 +52,24 @@ const [token, setToken] = useState(null);
     getItems();
   }, []);
   return (
-    <View style={[styles.header, stylesAll.header_nav, stylesAll.container, {paddingBottom:18}]}>
-      <TextContent fontSize={16} fontWeight={600} color={colors.black}>Добро пожаловать, {user?.first_name}</TextContent>
+    <View
+      style={[
+        styles.header,
+        stylesAll.header_nav,
+        styles.header_gray,
+        stylesAll.container,
+        { paddingBottom: 18 },
+      ]}
+    >
+      <TextContent fontSize={16} fontWeight={600} color={colors.black}>
+        Добро пожаловать, {
+          !token ? (
+            <TextContent>гость</TextContent>
+          ) : (
+            user?.first_name
+          )
+        } 
+      </TextContent>
       <Wave
         handle={() => router.push("/navigate/BasketPage")}
         style={{ position: "relative" }}
@@ -75,8 +84,10 @@ const [token, setToken] = useState(null);
     </View>
   );
 };
-
 const styles = StyleSheet.create({
+  header_gray: {
+    backgroundColor: colors.phon,
+  },
   border_basket_not: {
     position: "absolute",
     width: 18,
@@ -86,8 +97,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    top:-4,
-    right:-8
+    top: -4,
+    right: -8,
   },
   border_basket_text: {
     fontSize: 11,

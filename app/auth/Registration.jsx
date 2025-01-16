@@ -25,20 +25,14 @@ import { url } from "@/Api";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { TextInputMask } from "react-native-masked-text";
-
-interface ErrorActivation {
-  last_name?: string[];
-  first_name?: string[];
-  phone?: string[];
-  confirm_password?: string[];
-  password?: string[];
-}
+import Button from "@/assets/customs/Button";
+import { colors } from "@/assets/styles/components/colors";
 
 const Registration = () => {
   const [visible, setVisible] = useState(false);
   const [visible2, setVisible2] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [errorActivation, setErrorActivation] = useState<ErrorActivation>({});
+  const [errorActivation, setErrorActivation] = useState({});
   const [userData, setUserData] = useState({
     last_name: "",
     first_name: "",
@@ -91,7 +85,7 @@ const Registration = () => {
       let errorMessage = "Пожалуйста, повторите попытку позже.";
       if (axios.isAxiosError(error)) {
         errorMessage = error.message;
-      } else if (error instanceof Error) {
+      } else if (error) {
         errorMessage = error.message;
       }
       console.error(error);
@@ -255,17 +249,7 @@ const Registration = () => {
             <Text style={styles.terms_red}> Пользовательского соглашения</Text>
           </Text>
           <View style={{ gap: 10 }}>
-            <TouchableOpacity
-              style={[stylesAll.button]}
-              disabled={isLoading}
-              onPress={handleSubmit}
-            >
-              {isLoading ? (
-                <ActivityIndicator color="#FFF" />
-              ) : (
-                <Text style={stylesAll.buttonText}>Регистрация</Text>
-              )}
-            </TouchableOpacity>
+            <Button color={colors.feuillet} handle={handleSubmit} loading={isLoading} disabled={isLoading}>Регистрация</Button>
             <Text
               style={styles.yes_text}
               onPress={() => router.push("auth/Login")}
@@ -293,7 +277,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   input_box: {
-    backgroundColor: "#F5F7FA",
+    backgroundColor: colors.phon,
   },
   password_container: {
     flexDirection: "row",

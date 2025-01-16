@@ -33,7 +33,6 @@ const BasketProducts = () => {
       const storedCart = (await AsyncStorage.getItem("cart")) || "[]";
       const storedShopCart = (await AsyncStorage.getItem("shopCart")) || "[]";
       const storedPlus = (await AsyncStorage.getItem("plus")) || "{}";
-
       setCart(JSON.parse(storedCart));
       setBasket(storedBasket ? JSON.parse(storedBasket) : []);
       setShopCart(JSON.parse(storedShopCart));
@@ -169,7 +168,7 @@ const BasketProducts = () => {
                   {basket.map((item) => (
                     <View style={styles.product_block} key={item.id}>
                       <View style={styles.product_image_block}>
-                        {item.img ? (
+                        {item.preview_img ? (
                           <Image
                             style={styles.product_image}
                             source={{ uri: item.img

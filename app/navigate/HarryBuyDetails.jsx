@@ -30,11 +30,11 @@ const HarryBuyDetails = () => {
     };
     fetchUserData();
   }, []);
-  if (harry.length === 0) {
-    return (
-     <Loading/>
-    );
-  }
+  // if (!harry.length === 0) {
+  //   return (
+  //    <Loading/>
+  //   );
+  // }
   return (
     <View style={stylesAll.background_block}>
       <View style={stylesAll.container}>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState,  } from "react";
 import {
   Image,
   StyleSheet,
@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   View,
   Alert,
-  ActivityIndicator,
 } from "react-native";
 import { stylesAll } from "../../style";
 import { router } from "expo-router";
@@ -19,9 +18,12 @@ import {
 } from "@/Redux/reducer/slice/ActivationReducerSlice";
 import axios from "axios";
 import { url } from "@/Api";
+import Button from "@/assets/customs/Button";
+import { colors } from "@/assets/styles/components/colors";
+import Header from "@/components/Main/HeaderAll";
 
 const ForgotActivationCode = () => {
-  const [code, setCode] = useState<string>("");
+  const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({});
   const dispatch = useDispatch();
@@ -73,19 +75,7 @@ const ForgotActivationCode = () => {
   return (
     <View style={stylesAll.background_block}>
       <View style={stylesAll.container}>
-        <View style={stylesAll.header}>
-          <TouchableOpacity
-            style={stylesAll.header_back_btn}
-            onPress={() => router.back()}
-          >
-            <Image
-              style={{ width: 24, height: 24 }}
-              source={require("../../assets/images/moreLeft.png")}
-            />
-          </TouchableOpacity>
-          <Text style={stylesAll.header_name}>Новый пароль</Text>
-          <View style={stylesAll.header_back_btn}></View>
-        </View>
+        <Header back={true}>Новый пароль</Header>
         <Text style={stylesAll.auth_text}>
           Мы отправили 6х значный код на ваш номер телефона
         </Text>
@@ -99,21 +89,11 @@ const ForgotActivationCode = () => {
               handleTextChange={(otp) => setCode(otp)}
               containerStyle={styles.otpContainer}
               textInputStyle={styles.otpInput}
-              tintColor={"rgba(55, 9, 238, 1)"}
+              tintColor={colors.feuillet}
               defaultValue={code}
             />
           </View>
-          <TouchableOpacity
-            style={[stylesAll.button]}
-            onPress={handleSubmit}
-            disabled={loading}
-          >
-            {loading ? (
-              <ActivityIndicator color="#fff" />
-            ) : (
-              <Text style={stylesAll.button_text}>Подтвердить</Text>
-            )}
-          </TouchableOpacity>
+          <Button color={colors.feuillet} handle={handleSubmit} loading={loading} disabled={loading}>Подтвердить</Button>
         </View>
       </View>
     </View>
