@@ -12,13 +12,14 @@ import { router } from "expo-router";
 import Loading from "@/assets/ui/Loading";
 import Header from "@/components/Main/HeaderAll";
 import Card from "@/assets/customs/Card";
-import Wave from "@/assets/styles/components/Wave";
 
 const HarryBuyDetails = () => {
   const [harry, setHarry] = useState([]);
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchUserData = async () => {
+      setLoading(true)
       try {
         const response = await axios.get(
           `${url}/product/list/populars/`
@@ -26,15 +27,19 @@ const HarryBuyDetails = () => {
         setHarry(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally{
+        setLoading(false)
       }
     };
     fetchUserData();
   }, []);
-  // if (!harry.length === 0) {
-  //   return (
-  //    <Loading/>
-  //   );
-  // }
+
+  if (loading) {
+    return (
+     <Loading/>
+    );
+  }
+  
   return (
     <View style={stylesAll.background_block}>
       <View style={stylesAll.container}>
@@ -53,7 +58,7 @@ const HarryBuyDetails = () => {
           >
             {harry.map((item) => (
               <View style={styles.prom_block}>
-              <Card price={item.price} old_price={item.discount_price} percentage={item.discount_percentage} title={item.title} mini_description={item.description} handle={() => router.push(`/details/HarryDetailsId/${item.id}`)} love={true}/>
+              <Card id={item.id} price={item.price} old_price={item.discount_price} percentage={item.discount_percentage} title={item.title} mini_description={item.description} harryData={harry} handle={() => router.push(`/details/HarryDetailsId/${item.id}`)} love={true}/>
               </View>
             ))}
           </View>

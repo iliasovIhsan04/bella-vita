@@ -13,7 +13,6 @@ import {
 } from "react-native";
 import { stylesAll } from "../../style";
 import { useRoute } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import ModalDown from "@/Modal";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
 import Card from "@/assets/customs/Card";

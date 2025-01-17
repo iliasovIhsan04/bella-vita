@@ -10,6 +10,7 @@ import Favorite from "../../assets/svg/favorite";
 import FavoriteActive from "../../assets/svg/favoriteSctive";
 import Shopping from "../../assets/svg/shopping";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useCondition } from "@/context/FavoriteContext";
 const containerWidth = (Dimensions.get("window").width - 32) / 2 - 5;
 const Card = ({
   newBlock,
@@ -24,11 +25,12 @@ const Card = ({
   harry,
   love,
   loveDelete,
-  deleteFavorite
+  deleteFavorite,
+  harryData
 }) => {
   const [cart, setCart] = useState([]);
   const [favoriteItems, setFavoriteItems] = useState(new Set());
-  
+  const {setrFavoriteItemsLocal} = useCondition()
 
   const toggleFavorite = async (id) => {
     try {
@@ -42,7 +44,7 @@ const Card = ({
         console.log(`Айди ${id} өчүрүлдү`);
       } else {
         await AsyncStorage.setItem(`activeItemFeatured${id}`, `${id}`);
-        const itemToAdd = (harry || data).find((item) => item.id === id);
+        const itemToAdd = (harry || data || harryData).find((item) => item.id === id);
         if (itemToAdd) {
           updatedCart.push(itemToAdd);
         }
@@ -50,6 +52,7 @@ const Card = ({
       }
       await AsyncStorage.setItem("cartFeatured", JSON.stringify(updatedCart));
       setCart(updatedCart);
+      setrFavoriteItemsLocal(true); 
       initializeData(); 
     } catch (error) {
       console.error("Айдини жаңыртуу учурунда ката кетти:", error);
@@ -79,6 +82,64 @@ const Card = ({
   const handleFavoriteToggle = () => {
     toggleFavorite(id);
   };
+
+  // const Basket = async (id, datas) => {
+  //   setIsInBasket(true);
+  //   try {
+  //     const prevIDString = await AsyncStorage.getItem("plus");
+  //     const prevID = prevIDString !== null ? JSON.parse(prevIDString) : {};
+  //     const updatedPrevID = { ...prevID, [id]: 1 };
+  //     await AsyncStorage.setItem("plus", JSON.stringify(updatedPrevID));
+  //     await AsyncStorage.setItem("plusOne", JSON.stringify(updatedPrevID));
+  //     const prevShopCartString = await AsyncStorage.getItem("shopCart");
+  //     const prevShopCart =
+  //       prevShopCartString !== null ? JSON.parse(prevShopCartString) : [];
+  //     const updatedShopCart = [...prevShopCart, datas];
+  //     await AsyncStorage.setItem("shopCart", JSON.stringify(updatedShopCart));
+  //     const prevCartsString = await AsyncStorage.getItem("cartsBasket");
+  //     const prevCarts =
+  //       prevCartsString !== null ? JSON.parse(prevCartsString) : [];
+  //     const updatedCarts = [...prevCarts, datas];
+  //     await AsyncStorage.setItem("cartsBasket", JSON.stringify(updatedCarts));j
+  //     await AsyncStorage.setItem(`activeItemsBasket_${id}`, JSON.stringify(id));
+  //     const activeItem = await AsyncStorage.getItem(`activeItemsBasket_${id}`);
+  //     if (activeItem) {
+  //       Alert.alert("Ваш товар успешно добавлен в корзину!");
+  //     } else {
+  //       Alert.alert("Ошибка", "Не удалось добавить товар в корзину");
+  //     }
+  //   } catch (error) {
+  //     Alert.alert("Ошибка", "Произошла ошибка при добавлении товара в корзину");
+  //     console.error(error);
+  //   }
+  // };
+  // useEffect(() => {
+  //   const checkFavoritesAndBasket = async () => {
+  //     try {
+  //       const activeItem = await AsyncStorage.getItem(
+  //         `activeItemsBasket_${id}`
+  //       );
+  //       setIsInBasket(!!activeItem);
+  //       const itemExists = await AsyncStorage.getItem(
+  //         `activeItemFeatured${id}`
+  //       );
+  //       setFavoriteItems((prev) => {
+  //         const updatedFavorites = new Set(prev);
+  //         if (itemExists) {
+  //           updatedFavorites.add(id);
+  //         } else {
+  //           updatedFavorites.delete(id);
+  //         }
+  //         return updatedFavorites;
+  //       });
+  //     } catch (error) {
+  //       console.error("Ошибка при проверке избранного или корзины:", error);
+  //     }
+  //   };
+
+  //   checkFavoritesAndBasket();
+  // }, [id]);
+
   return (
     <Wave style={styles.cardContainer} key={id} handle={handle}>
       <Column gap={10}>
@@ -112,7 +173,16 @@ const Card = ({
               <FavoriteActive /> 
             </Wave>
           )}
-          <Wave style={styles.cart_box}>
+          <Wave 
+            style={styles.cart_box} 
+            // handle={() => {
+            //   if (data) {
+            //     Basket(data.id, data);
+            //   } else {
+            //     console.error("Data is not available");
+            //   }
+            // }}
+          >
             <Shopping />
           </Wave>
         </View>

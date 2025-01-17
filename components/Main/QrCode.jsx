@@ -61,7 +61,6 @@ const QrCode = () => {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   qr_code_id: {
     fontSize: 16,
@@ -73,7 +72,8 @@ const styles = StyleSheet.create({
     height: 350,
     backgroundColor: "#FFF",
     shadowColor: "#000",
-    marginTop: 10,
+    marginTop: 20,
+    borderRadius:10,
     shadowOffset: {
       width: 0,
       height: 4,

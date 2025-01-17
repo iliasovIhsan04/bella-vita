@@ -21,6 +21,7 @@ import TextContent from "@/assets/styles/components/TextContent";
 import Flex from "@/assets/styles/components/Flex";
 import { colors } from "@/assets/styles/components/colors";
 import Loading from '../../../assets/ui/Loading'
+import { useCondition } from "@/context/FavoriteContext";
 
 const Productid = () => {
   const route = useRoute();
@@ -29,6 +30,7 @@ const Productid = () => {
   const [isInBasket, setIsInBasket] = useState(false);
   const [favoriteItems, setFavoriteItems] = useState(new Set());
   const [cart, setCart] = useState([]);
+  const {setrFavoriteItemsLocal} = useCondition()
 
   useEffect(() => {
     const initializeData = async () => {
@@ -114,11 +116,11 @@ const Productid = () => {
       console.error(error);
     }
   };
+
   if (!data) {
-    return (
-  <Loading/>
-    );
+    return <Loading />;
   }
+
   const saveToAsyncStorage = async (id) => {
     if (!data) return;
 
@@ -134,12 +136,15 @@ const Productid = () => {
     if (itemExists) {
       await AsyncStorage.removeItem(`activeItemFeatured${id}`);
       updatedFavorites.delete(id);
+      setrFavoriteItemsLocal(true);
     } else {
       await AsyncStorage.setItem(`activeItemFeatured${id}`, `${id}`);
       updatedFavorites.add(id);
+      setrFavoriteItemsLocal(true);
     }
     setFavoriteItems(updatedFavorites);
   };
+
   return (
     <ButtonLayouts
       title={isInBasket ? "В корзине" : "Добавить в корзину"}

@@ -35,7 +35,6 @@ const HarryBuyDetailsId = () => {
   <Loading/>
     );
   }
-
   return (
     <View style={stylesAll.background_block}>
       <View style={stylesAll.container}>

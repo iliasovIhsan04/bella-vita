@@ -149,7 +149,6 @@ const styles = StyleSheet.create({
   img_block :{
     width: "80%",
     height: 260,
-    backgroundColor:'red'
   },
   img: {
     width: "80%",
