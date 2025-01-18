@@ -33,6 +33,7 @@ import Wave from "@/assets/styles/components/Wave";
 import { url } from "@/Api";
 import axios from "axios";
 import Button from "@/assets/customs/Button";
+import CartImg from "../../assets/svg/cartimg";
 
 const containerWidth = (Dimensions.get("window").width - 32) / 2 - 5;
 
@@ -127,10 +128,7 @@ export default function Main() {
               name="close"
             />
             <View style={styles.modal_block_img}>
-              <Image
-                style={styles.image_modal}
-                source={require("../../assets/images/modal_img.png")}
-              />
+              <CartImg />
             </View>
             <Text style={styles.modal_text_title}>
               Ваша карта успешно создана!
@@ -164,7 +162,7 @@ export default function Main() {
         }
       >
         <StoryComponent />
-        <Column gap={10} style={{ marginBottom: 50, }}>
+        <Column gap={10} style={{ marginBottom: 50 }}>
           <Wrapper padding={[20, 24]}>
             <Column gap={10}>
               <BonusCart />
@@ -177,7 +175,7 @@ export default function Main() {
                     color={colors.black}
                     fontSize={16}
                     fontWeight={600}
-                    style={{width:'60%', paddingTop:16, paddingLeft:16}}
+                    style={{ width: "60%", paddingTop: 16, paddingLeft: 16 }}
                   >
                     Трендовая косметика в Bella Vita
                   </TextContent>

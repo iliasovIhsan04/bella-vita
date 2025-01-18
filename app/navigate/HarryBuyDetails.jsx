@@ -56,9 +56,9 @@ const HarryBuyDetails = () => {
               flexWrap:'wrap',
             }}
           >
-            {harry.map((item) => (
-              <View style={styles.prom_block}>
-              <Card id={item.id} price={item.price} old_price={item.discount_price} percentage={item.discount_percentage} title={item.title} mini_description={item.description} harryData={harry} handle={() => router.push(`/details/HarryDetailsId/${item.id}`)} love={true}/>
+            {harry.map((item, id) => (
+              <View style={styles.prom_block} key={id}>
+              <Card key={id} id={item.id} price={item.price} old_price={item.discount_price} percentage={item.discount_percentage} title={item.title} mini_description={item.description} img={item.img[0].img} harryData={harry} handle={() => router.push(`/details/ProductId/${item.id}`)} love={true}/>
               </View>
             ))}
           </View>

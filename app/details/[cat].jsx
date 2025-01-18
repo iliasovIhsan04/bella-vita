@@ -42,7 +42,6 @@ const CatalogDetails = ({}) => {
   const [ordering, setOrdering] = useState("");
   const route = useRoute();
   const { cat } = route.params || {};
-
   const fetchData = async (
     min = minPrice,
     max = maxPrice,
@@ -52,11 +51,10 @@ const CatalogDetails = ({}) => {
       setLoading(true);
       const isBrand = typeof cat === "string" && cat.startsWith("brand_");
       const query = isBrand
-        ? `${url}/product/list?brand=${cat.replace(
-            "brand_",
-            ""
-          )}&pricefrom=${min}&priceto=${max}&ordering=${order}`
-        : `${url}/product/list?cat=${cat}&pricefrom=${min}&priceto=${max}&ordering=${order}`;
+        ? `${url}/product/list?brand=${cat.replace("brand_", "")}&pricefrom=${min}&priceto=${max}&ordering=${order}`
+        : cat === "all" 
+          ? `${url}/product/list?pricefrom=${min}&priceto=${max}&ordering=${order}` 
+          : `${url}/product/list?sub_cat=${cat}&pricefrom=${min}&priceto=${max}&ordering=${order}`;
       const response = await axios.get(query);
       const fetchedData = response.data;
       setData(fetchedData);
@@ -270,14 +268,13 @@ const CatalogDetails = ({}) => {
           <View style={{ width: "100%" }}>
             <Column gap={20} style={{ marginTop: 20 }}>
               {Array.isArray(data) &&
-                data.length > 0 &&
-                data[0]?.subcat_name && (
+                data.length > 0 && (
                   <TextContent
                     fontSize={22}
                     fontWeight={600}
                     color={colors.black}
                   >
-                    {data[0].subcat_name}
+                    {cat === 'all' ? 'Все продукты' : (cat.startsWith("brand_") ? data[0].brand_name : data[0].subcat_name)}
                   </TextContent>
                 )}
               <Between center={"center"}>
@@ -314,6 +311,7 @@ const CatalogDetails = ({}) => {
                 <Card
                   handle={() => router.push(`/details/ProductId/${el.id}`)}
                   id={el.id}
+                  key={id}
                   title={el.title}
                   mini_description={el.description}
                   price={el.price}
@@ -322,6 +320,7 @@ const CatalogDetails = ({}) => {
                   newBlock={el.new}
                   data={data}
                   love={true}
+                  img={el.img[0].img}
                 />
               ))}
           </View>

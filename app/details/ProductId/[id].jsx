@@ -48,6 +48,18 @@ const Productid = () => {
   }, []);
 
   useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(`${url}/product/detail/${id}`);
+        setData(response.data);
+      } catch (error) {
+        console.error("Ошибка при получении данных:", error);
+      }
+    };
+    fetchUserData();
+  }, [id]);
+
+  useEffect(() => {
     const checkFavoritesAndBasket = async () => {
       try {
         const activeItem = await AsyncStorage.getItem(
@@ -74,17 +86,7 @@ const Productid = () => {
     checkFavoritesAndBasket();
   }, [id]);
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get(`${url}/product/detail/${id}`);
-        setData(response.data);
-      } catch (error) {
-        console.error("Ошибка при получении данных:", error);
-      }
-    };
-    fetchUserData();
-  }, [id]);
+
 
   const Basket = async (id, datas) => {
     setIsInBasket(true);

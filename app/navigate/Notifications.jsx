@@ -7,6 +7,10 @@ import { url } from "@/Api";
 import Header from "@/components/Main/HeaderAll";
 import Loading from "@/assets/ui/Loading";
 import { colors } from "@/assets/styles/components/colors";
+import Column from "@/assets/styles/components/Column";
+import TextContent from "@/assets/styles/components/TextContent"; 
+import Buttton from '../../assets/customs/Button'
+import ImgCart from '../../assets/svg/notImg'
 
 
 const Notifications = () => {
@@ -55,15 +59,43 @@ const Notifications = () => {
       <View style={stylesAll.container}>
         <Header handleBack={"/(tabs)/profile"}>Уведомления</Header>
         <View style={{ flexDirection: "column", gap: 10, marginTop:8 }}>
-          {notifications.map((el, index) => (
-            <View key={index} style={styles.notification_box}>
-              <Text style={styles.title}>{cleanText(el.title)}</Text>
-              <Text style={styles.description_text}>
-                {cleanText(el.description)}
+          {
+          notifications.length > 0 ? (
+            notifications.map((el, index) => (
+              <View key={index} style={styles.notification_box}>
+                <Text style={styles.title}>{cleanText(el.title)}</Text>
+                <Text style={styles.description_text}>
+                  {cleanText(el.description)}
+                </Text>
+                <Text style={styles.date_text}>{el.date}</Text>
+              </View>
+            ))
+          ) : (
+            <View style={stylesAll.empty_block}>
+            <View style={stylesAll.purchase_history}>
+              <View style={stylesAll.history_image_box}>
+                <ImgCart />
+              </View>
+              <Column gap={12}>
+              <TextContent
+                fontSize={22}
+                fontWeight={600}
+                color={colors.black}
+                style={{ textAlign: "center" }}
+              >
+               Нет уведомлений
+              </TextContent>
+              <Text style={stylesAll.history_text_two}>
+              Тут будут появляться ваши новые уведомления
               </Text>
-              <Text style={styles.date_text}>{el.date}</Text>
+              </Column>
+              <View style={{width:'100%'}}>
+              <Buttton color={colors.feuillet} handle={() => router.push("/(tabs)/catalog")}>Перейти в каталог</Buttton>
+              </View>
             </View>
-          ))}
+          </View>
+          )
+          }
         </View>
       </View>
     </View>

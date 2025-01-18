@@ -10,6 +10,7 @@ import { Image, Platform, StyleSheet, Text, View } from "react-native";
 import Back from "../../../assets/svg/backWhite";
 import Wave from "@/assets/styles/components/Wave";
 import { router } from "expo-router";
+import { ScrollView } from "react-native";
 
 const PromotionDetailId = () => {
   const [harryId, setHarryId] = useState([]);
@@ -51,26 +52,34 @@ const PromotionDetailId = () => {
             Акция действует до: {harryId?.dateto}
           </TextContent>
         </View>
-        <View style={stylesAll.container}>
-          <Column top={24} gap={10}>
-            <TextContent fontSize={22} fontWeight={600} color={colors.black}>
-              {cleanText(harryId?.title)}
-            </TextContent>
-            <TextContent fontSize={16} fontWeight={400} color={colors.gray3}>
-              {cleanText(harryId?.text)}
-            </TextContent>
-          </Column>
-        </View>
+        <ScrollView
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={[stylesAll.container, styles.rout_scroll]}>
+            <Column top={24} gap={10}>
+              <TextContent fontSize={22} fontWeight={600} color={colors.black}>
+                {cleanText(harryId?.title)}
+              </TextContent>
+              <TextContent fontSize={16} fontWeight={400} color={colors.gray3}>
+                {cleanText(harryId?.text)}
+              </TextContent>
+            </Column>
+          </View>
+        </ScrollView>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  rout_scroll: {
+    marginBottom: 200,
+  },
   back: {
     position: "absolute",
     top: Platform.OS === "ios" ? 60 : 42,
-    marginLeft:16
+    marginLeft: 16,
   },
   dateto_box: {
     width: "100%",
@@ -80,6 +89,7 @@ const styles = StyleSheet.create({
   },
   promotion_block: {
     flexDirection: "column",
+    marginBottom: 200,
   },
   prom_dateto: {
     fontSize: 18,

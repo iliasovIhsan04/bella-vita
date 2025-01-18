@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  ActivityIndicator,
   Alert,
   StyleSheet,
   Text,
@@ -27,6 +26,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { TextInputMask } from "react-native-masked-text";
 import Button from "@/assets/customs/Button";
 import { colors } from "@/assets/styles/components/colors";
+import Column from "@/assets/styles/components/Column";
 
 const Registration = () => {
   const [visible, setVisible] = useState(false);
@@ -100,173 +100,194 @@ const Registration = () => {
   const handleConfirmPassword = () => setVisible2(!visible2);
 
   return (
-    <KeyboardAvoidingView   behavior={Platform.OS === "ios" ? "padding" : "height"}
-    style={{ flex: 1 }}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
+    >
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-      <View style={stylesAll.background_block}>
-      <View style={stylesAll.container}>
-        <View style={[stylesAll.header, stylesAll.header_nav]}>
-          <TouchableOpacity style={stylesAll.header_back_btn} />
-          <Text style={stylesAll.header_name}>Регистрация</Text>
-          <View style={stylesAll.header_back_btn} />
-        </View>
-        <Text style={stylesAll.auth_text}>
-          Зарегистрировавшись у вас создается карта, с помощью которой, вы
-          можете получить бонусы
-        </Text>
-        <View style={stylesAll.input_block_all}>
-          <View style={styles.input_block}>
-            <Text style={stylesAll.label}>Имя</Text>
-            <TextInput
-              style={[stylesAll.input, styles.input_box]}
-              placeholder="Имя"
-              placeholderTextColor="#888"
-              onChangeText={(text) =>
-                setUserData({ ...userData, first_name: text })
-              }
-              value={userData.first_name}
-            />
-            {errorActivation.first_name && (
-              <Text style={styles.error_text_registr}>
-                {errorActivation.first_name[0]}
-              </Text>
-            )}
-          </View>
-          <View style={styles.input_block}>
-            <Text style={stylesAll.label}>Фамилия</Text>
-            <TextInput
-              style={[stylesAll.input, styles.input_box]}
-              placeholder="Фамилия"
-              placeholderTextColor="#888"
-              onChangeText={(text) =>
-                setUserData({ ...userData, last_name: text })
-              }
-              value={userData.last_name}
-            />
-            {errorActivation.last_name && (
-              <Text style={styles.error_text_registr}>
-                {errorActivation.last_name[0]}
-              </Text>
-            )}
-          </View>
-          <View style={styles.input_block}>
-            <Text style={stylesAll.label}>Номер телефона</Text>
-            <View style={stylesAll.phone_input_mask_block}>
-              <Text>+996</Text>
-              <TextInputMask
-                type={"custom"}
-                options={{
-                  mask: "(999) 99-99-99",
-                }}
-                value={userData.phone}
-                onChangeText={(text) =>
-                  setUserData({ ...userData, phone: text })
-                }
-                style={[
-                  stylesAll.input,
-                  stylesAll.input_mask,
-                  styles.input_box,
-                ]}
-                placeholder="(700) 10-20-30"
-                keyboardType="phone-pad"
-              />
+        <View style={[stylesAll.background_block, styles.registr_block]}>
+          <View style={{paddingHorizontal:16, flex:1, marginBottom: Platform.OS === "ios" ? 26 : 16}}>
+            <View style={[stylesAll.header, stylesAll.header_nav]}>
+              <TouchableOpacity style={stylesAll.header_back_btn} />
+              <Text style={stylesAll.header_name}>Регистрация</Text>
+              <View style={stylesAll.header_back_btn} />
             </View>
-
-            {errorActivation.phone && (
-              <Text style={styles.error_text_registr}>
-                {errorActivation.phone[0]}
-              </Text>
-            )}
-          </View>
-          <View style={styles.input_block}>
-            <Text style={stylesAll.label}>Пароль</Text>
-            <View style={styles.password_container}>
-              <TextInput
-                style={[
-                  stylesAll.input,
-                  styles.input_box,
-                  styles.password_input,
-                ]}
-                placeholder="Введите пароль"
-                placeholderTextColor="#888"
-                secureTextEntry={!visible}
-                onChangeText={(text) =>
-                  setUserData({ ...userData, password: text })
-                }
-                value={userData.password}
-                keyboardType="default"  
-              />
-              <TouchableOpacity onPress={handlePassword}>
-                <Ionicons
-                  name={visible ? "eye" : "eye-off"}
-                  size={20}
-                  style={styles.ab_eye}
-                />
-              </TouchableOpacity>
-            </View>
-            {errorActivation.password && (
-              <Text style={styles.error_text_registr}>
-                {errorActivation.password[0]}
-              </Text>
-            )}
-          </View>
-          <View style={styles.input_block}>
-            <Text style={stylesAll.label}>Повторите пароль</Text>
-            <View style={styles.password_container}>
-              <TextInput
-                style={[
-                  stylesAll.input,
-                  styles.input_box,
-                  styles.password_input,
-                ]}
-                placeholder="Повторите пароль"
-                placeholderTextColor="#888"
-                secureTextEntry={!visible2}
-                onChangeText={(text) =>
-                  setUserData({ ...userData, confirm_password: text })
-                }
-                value={userData.confirm_password}
-                keyboardType="default"  
-              />
-              <TouchableOpacity onPress={handleConfirmPassword}>
-                <Ionicons
-                  name={visible2 ? "eye" : "eye-off"}
-                  size={20}
-                  style={styles.ab_eye}
-                />
-              </TouchableOpacity>
-            </View>
-            {errorActivation.confirm_password && (
-              <Text style={styles.error_text_registr}>
-                {errorActivation.confirm_password[0]}
-              </Text>
-            )}
-          </View>
-        </View>
-        <View style={{ flexDirection: "column", gap: 20, marginTop: 20 }}>
-          <Text style={styles.terms}>
-            Нажимая на кнопку “Зарегистрироваться” я принимаю условия
-            <Text style={styles.terms_red}> Пользовательского соглашения</Text>
-          </Text>
-          <View style={{ gap: 10 }}>
-            <Button color={colors.feuillet} handle={handleSubmit} loading={isLoading} disabled={isLoading}>Регистрация</Button>
-            <Text
-              style={styles.yes_text}
-              onPress={() => router.push("auth/Login")}
-            >
-              Уже есть аккаунт? <Text style={styles.terms_red}> Войти</Text>
+            <Text style={stylesAll.auth_text}>
+              Зарегистрировавшись у вас создается карта, с помощью которой, вы
+              можете получить бонусы
             </Text>
+            <Column style={styles.between_block}>
+              <View style={stylesAll.input_block_all}>
+                <View style={styles.input_block}>
+                  <Text style={stylesAll.label}>Имя</Text>
+                  <TextInput
+                    style={[stylesAll.input, styles.input_box]}
+                    placeholder="Имя"
+                    placeholderTextColor="#888"
+                    onChangeText={(text) =>
+                      setUserData({ ...userData, first_name: text })
+                    }
+                    value={userData.first_name}
+                  />
+                  {errorActivation.first_name && (
+                    <Text style={styles.error_text_registr}>
+                      {errorActivation.first_name[0]}
+                    </Text>
+                  )}
+                </View>
+                <View style={styles.input_block}>
+                  <Text style={stylesAll.label}>Фамилия</Text>
+                  <TextInput
+                    style={[stylesAll.input, styles.input_box]}
+                    placeholder="Фамилия"
+                    placeholderTextColor="#888"
+                    onChangeText={(text) =>
+                      setUserData({ ...userData, last_name: text })
+                    }
+                    value={userData.last_name}
+                  />
+                  {errorActivation.last_name && (
+                    <Text style={styles.error_text_registr}>
+                      {errorActivation.last_name[0]}
+                    </Text>
+                  )}
+                </View>
+                <View style={styles.input_block}>
+                  <Text style={stylesAll.label}>Номер телефона</Text>
+                  <View style={stylesAll.phone_input_mask_block}>
+                    <Text>+996</Text>
+                    <TextInputMask
+                      type={"custom"}
+                      options={{
+                        mask: "(999) 99-99-99",
+                      }}
+                      value={userData.phone}
+                      onChangeText={(text) =>
+                        setUserData({ ...userData, phone: text })
+                      }
+                      style={[
+                        stylesAll.input,
+                        stylesAll.input_mask,
+                        styles.input_box,
+                      ]}
+                      placeholder="(700) 10-20-30"
+                      keyboardType="phone-pad"
+                    />
+                  </View>
+
+                  {errorActivation.phone && (
+                    <Text style={styles.error_text_registr}>
+                      {errorActivation.phone[0]}
+                    </Text>
+                  )}
+                </View>
+                <View style={styles.input_block}>
+                  <Text style={stylesAll.label}>Пароль</Text>
+                  <View style={styles.password_container}>
+                    <TextInput
+                      style={[
+                        stylesAll.input,
+                        styles.input_box,
+                        styles.password_input,
+                      ]}
+                      placeholder="Введите пароль"
+                      placeholderTextColor="#888"
+                      secureTextEntry={!visible}
+                      onChangeText={(text) =>
+                        setUserData({ ...userData, password: text })
+                      }
+                      value={userData.password}
+                      keyboardType="default"
+                    />
+                    <TouchableOpacity onPress={handlePassword}>
+                      <Ionicons
+                        name={visible ? "eye" : "eye-off"}
+                        size={20}
+                        style={styles.ab_eye}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                  {errorActivation.password && (
+                    <Text style={styles.error_text_registr}>
+                      {errorActivation.password[0]}
+                    </Text>
+                  )}
+                </View>
+                <View style={styles.input_block}>
+                  <Text style={stylesAll.label}>Повторите пароль</Text>
+                  <View style={styles.password_container}>
+                    <TextInput
+                      style={[
+                        stylesAll.input,
+                        styles.input_box,
+                        styles.password_input,
+                      ]}
+                      placeholder="Повторите пароль"
+                      placeholderTextColor="#888"
+                      secureTextEntry={!visible2}
+                      onChangeText={(text) =>
+                        setUserData({ ...userData, confirm_password: text })
+                      }
+                      value={userData.confirm_password}
+                      keyboardType="default"
+                    />
+                    <TouchableOpacity onPress={handleConfirmPassword}>
+                      <Ionicons
+                        name={visible2 ? "eye" : "eye-off"}
+                        size={20}
+                        style={styles.ab_eye}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                  {errorActivation.confirm_password && (
+                    <Text style={styles.error_text_registr}>
+                      {errorActivation.confirm_password[0]}
+                    </Text>
+                  )}
+                </View>
+              </View>
+              <View style={{ flexDirection: "column", gap: 20 }}>
+                <Text style={styles.terms}>
+                  Нажимая на кнопку “Зарегистрироваться” я принимаю условия
+                  <Text style={styles.terms_red}>
+                    {" "}
+                    Пользовательского соглашения
+                  </Text>
+                </Text>
+                <View style={{ gap: 10 }}>
+                  <Button
+                    color={colors.feuillet}
+                    handle={handleSubmit}
+                    loading={isLoading}
+                    disabled={isLoading}
+                  >
+                    Регистрация
+                  </Button>
+                  <Text
+                    style={styles.yes_text}
+                    onPress={() => router.push("auth/Login")}
+                  >
+                    Уже есть аккаунт?{" "}
+                    <Text style={styles.terms_red}> Войти</Text>
+                  </Text>
+                </View>
+              </View>
+            </Column>
           </View>
         </View>
-      </View>
-    </View>
       </ScrollView>
     </KeyboardAvoidingView>
-  
   );
 };
 
 const styles = StyleSheet.create({
+  // registr_block: {
+  //   marginBottom: 150,
+  // },
+  between_block: {
+    justifyContent: "space-between",
+    flex:1,
+  },
   yes_text: {
     fontSize: 12,
     fontWeight: "400",

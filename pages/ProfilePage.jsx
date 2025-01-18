@@ -29,11 +29,82 @@ import MessageIcon from "../assets/svg/mesageIcon";
 import ApplicationIcon from "../assets/svg/applicationImg";
 import LogoutIcon from "../assets/svg/logout";
 import DashboardIcon from "../assets/svg/dashboardIcon";
+import Button from "@/assets/customs/Button";
+import * as ImagePicker from "expo-image-picker";
+import * as ImageManipulator from "expo-image-manipulator";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
   const [token, setToken] = useState(null);
   const [modal, setModal] = useState(false);
+  const [imageUri, setImageUri] = useState();
+
+
+  // const chooseImage = async () => {
+  //   try {
+  //     const permissionResult =
+  //       await ImagePicker.requestMediaLibraryPermissionsAsync();
+  //     if (!permissionResult.granted) {
+  //       alert("Нужно разрешение на доступ к галерее");
+  //       return;
+  //     }
+  //     const result = await ImagePicker.launchImageLibraryAsync({
+  //       mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //       allowsEditing: true,
+  //       quality: 0.5,
+  //       base64: false,
+  //     });
+  //     if (!result.canceled && result.assets.length > 0) {
+  //       const manipulatedImage = await ImageManipulator.manipulateAsync(
+  //         result.assets[0].uri,
+  //         [{ resize: { width: 800 } }],
+  //         { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG }
+  //       );
+  //       if (manipulatedImage.uri) {
+  //         setImageUri(manipulatedImage.uri);
+  //         await uploadImage(manipulatedImage.uri);
+  //       } else {
+  //         alert("Ошибка при обработке изображения");
+  //       }
+  //     } else {
+  //     }
+  //   } catch (error) {
+  //     console.error("Ошибка при выборе изображения:", error);
+  //     alert("Ошибка при выборе изображения");
+  //   }
+  // };
+  // const uploadImage = async (uri) => {
+  //   if (!uri) {
+  //     Alert.alert("Ошибка", "Пожалуйста, выберите изображение");
+  //     return;
+  //   }
+  //   const formData = new FormData();
+  //   formData.append("_avatar", {
+  //     uri: uri,
+  //     name: "photo.jpg",
+  //     type: "image/jpeg",
+  //   });
+  //   try {
+  //     const token = await AsyncStorage.getItem("token");
+  //     const response = await url.post(`/auth/accounts/avatar/`, formData, {
+  //       headers: {
+  //         Authorization: `Token ${token}`,
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     });
+  //     if (response.status === 200) {
+  //       Alert.alert("Успешно", "Фото успешно изменено!");
+  //       setHasChanges(true);
+  //     } else {
+  //       console.error("Ошибка при загрузке изображения:", response);
+  //       Alert.alert("Ошибка", "Не удалось загрузить изображение.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Ошибка при загрузке изображения:", error);
+  //     Alert.alert("Ошибка", "Не удалось загрузить изображение.");
+  //   }
+  // };
+
 
   const getToken = async () => {
     try {
@@ -69,38 +140,53 @@ const ProfilePage = () => {
   const data = useSelector((state) => state.users);
   const user = data?.user;
 
+
+
   return (
     <View>
       <Header container={true}>Профиль</Header>
       <View style={stylesAll.container}>
         <Column gap={30} top={8}>
           <Wave handle={() => router.push("navigate/MyDetails")}>
-            <Between style={styles.box_prof} center={"center"}>
-              <Flex gap={10}>
-                <Wave style={styles.profile_img_box}>
-                  <View style={styles.img_profile}>
-                    <DashboardIcon />
-                  </View>
-                </Wave>
-                <Column gap={4}>
-                  <TextContent
-                    fontSize={16}
-                    fontWeight={500}
-                    color={colors.black}
-                  >
-                    {user?.first_name}
-                  </TextContent>
-                  <TextContent
-                    fontSize={14}
-                    fontWeight={400}
-                    color={colors.gray}
-                  >
-                    Личные данные
-                  </TextContent>
-                </Column>
-              </Flex>
-              <Arrow />
-            </Between>
+            {
+              token ? (
+                <Between style={styles.box_prof} center={"center"}>
+                <Flex gap={10}>
+                  <Wave style={styles.profile_img_box}>
+                    <View style={styles.img_profile}>
+                      <DashboardIcon />
+                    </View>
+                  </Wave>
+                  <Column gap={4}>
+                    <TextContent
+                      fontSize={16}
+                      fontWeight={500}
+                      color={colors.black}
+                    >
+                      {user?.first_name}
+                    </TextContent>
+                    <TextContent
+                      fontSize={14}
+                      fontWeight={400}
+                      color={colors.gray}
+                    >
+                      Личные данные
+                    </TextContent>
+                  </Column>
+                </Flex>
+                <Arrow />
+              </Between>
+              ) : (
+                <Button
+                handle={() => router.push("auth/Login")}
+                color={colors.feuillet}
+                bottom={10}
+              >
+                Войти
+              </Button>
+              )
+            }
+         
           </Wave>
           <Column>
             <Wave handle={() => router.push("navigate/PurchaseHistory")}>

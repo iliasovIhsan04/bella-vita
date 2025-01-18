@@ -10,4 +10,6 @@ const qrCod = () => {
     </View>
   );
 };
+
 export default qrCod;
+

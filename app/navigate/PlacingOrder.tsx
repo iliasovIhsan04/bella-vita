@@ -72,6 +72,7 @@ const PlacingOrder = () => {
     };
     loadData();
   }, []);
+
   useEffect(() => {
     const fetchTotalPrice = async () => {
       try {
@@ -189,7 +190,7 @@ const PlacingOrder = () => {
 
 const basket_count= basket?.length
   return (
-    <ButtonLayouts title={'Оформить заказ'} handle={handleSubmit} end_bot={true} name_product_count={'Товары:'} all_count_name={'Общая сумма:'} total_amount={totalPrice} product_count={basket_count} delivery={true} loading={isLoading}>
+    <ButtonLayouts title={'Оформить заказ'} handle={local ? handleSubmit : () => router.push('auth/Login')} end_bot={true} name_product_count={'Товары:'} all_count_name={'Общая сумма:'} total_amount={totalPrice} product_count={basket_count} delivery={true} loading={isLoading}>
     <View style={stylesAll.background_block}>
       <Modal visible={openModal} transparent={true} animationType="none">
         <Pressable style={stylesAll.content_modal}>
@@ -248,7 +249,7 @@ const basket_count= basket?.length
       <View style={styles.placing_box_block}>
           <View>
             <Text style={stylesAll.label}>Адрес доставки</Text>
-            <Wave handle={() => router.push("/navigate/EmptyAddress")}>
+            <Wave handle={local? () => router.push("/navigate/EmptyAddress"): () => router.push('auth/Login')}>
             <Between
               style={styles.placing_box}
             >

@@ -43,8 +43,8 @@ const PromotionDetails = () => {
           showsHorizontalScrollIndicator={false}
         >
           <View style={{ flexDirection: "column", gap: 6, marginBottom: 200, marginTop:8 }}>
-            {harry.map((el) => (
-                <Wave handle={() => router.push(`/details/PromotionId/${el.id}`)}>
+            {harry.map((el, id) => (
+                <Wave key={id} handle={() => router.push(`/details/PromotionId/${el.id}`)}>
                 <View style={styles.prom_img_box}>
                   <Image
                     style={{ width: "100%", height: "100%" }}

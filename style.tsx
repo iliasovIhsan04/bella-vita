@@ -72,7 +72,6 @@ export const stylesAll = StyleSheet.create({
     fontWeight: "400",
     color: "#6B6B6B",
     textAlign: "center",
-    marginTop: 12,
   },
   loading: {
     width: "100%",
@@ -196,7 +195,6 @@ export const stylesAll = StyleSheet.create({
     flexDirection: "column",
     gap: 14,
     marginTop: 8,
-    paddingBottom:200
   },
   buttonText: {
     fontSize: 16,

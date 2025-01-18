@@ -108,13 +108,13 @@ export default function StoryComponent() {
 }
 const styles = StyleSheet.create({
   avatar_text_style :{
-    color:colors.gray,
+    color:colors.white,
     textAlign:'left',
-    position:'absolute',
-    bottom:10,
-    left:10,
+    left:5,
     zIndex:3,
-    // backgroundColor:'blue'
+    fontSize:12,
+    fontWeight:'500',
+    numberOfLines:1
   },
   storyContainer: {
     flex: 1,

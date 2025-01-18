@@ -11,5 +11,4 @@ export const FavoriteProvider = ({ children }) => {
   );
 };
 
-
 export const useCondition = () => useContext(FavoriteContext);

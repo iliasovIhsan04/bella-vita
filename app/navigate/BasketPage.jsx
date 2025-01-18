@@ -61,7 +61,6 @@ const BasketProducts = () => {
       const newPlus = { ...plus, [id]: (plus[id] || 0) + 1 };
       await AsyncStorage.setItem("plus", JSON.stringify(newPlus));
       setPlus(newPlus);
-
       PriceCalculation();
     } catch (error) {
       console.error("Ошибка добавления элемента:", error);
@@ -166,17 +165,13 @@ const BasketProducts = () => {
               >
                 <View style={{ paddingBottom: 500 }}>
                   {basket.map((item) => (
-                    <View style={styles.product_block} key={item.id}>
+                    <View style={styles.product_block} key={item?.id}>
                       <View style={styles.product_image_block}>
-                        {item.preview_img ? (
                           <Image
                             style={styles.product_image}
-                            source={{ uri: item.img
+                            source={{ uri: item?.img[0]?.img
                              }}
                           />
-                        ) : (
-                          <View style={styles.product_image} />
-                        )}
                       </View>
                       <View style={styles.product_info}>
                         <TextContent
@@ -184,7 +179,7 @@ const BasketProducts = () => {
                           fontWeight={400}
                           color={colors.black}
                         >
-                          {item.title}
+                          {item?.title}
                         </TextContent>
                         <View
                           style={{
@@ -198,7 +193,7 @@ const BasketProducts = () => {
                             fontWeight={600}
                             color={colors.feuillet}
                           >
-                            {item.price} сом
+                            {item?.price} сом
                           </TextContent>
                           <View style={styles.buttons_block}>
                             <TouchableOpacity
@@ -213,16 +208,16 @@ const BasketProducts = () => {
                               />
                             </TouchableOpacity>
                             <Text style={styles.basketTxt}>
-                              {plus[item.id] || 0}
+                              {plus[item?.id] || 0}
                             </Text>
-                            {plus[item.id] === 0 && (
+                            {plus[item?.id] === 0 && (
                               <TouchableOpacity
-                                onPress={() => handleRemoveItem(item.id)}
+                                onPress={() => handleRemoveItem(item?.id)}
                               />
                             )}
                             <TouchableOpacity
                               style={styles.add_remove}
-                              onPress={() => handlePlus(item.id)}
+                              onPress={() => handlePlus(item?.id)}
                             >
                               <Ionicons
                                 color="black"
