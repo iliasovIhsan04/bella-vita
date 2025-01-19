@@ -1,4 +1,4 @@
-package com.navisdevs.almamarket
+package com.navisdevs.bellavita
 
 import android.os.Build
 import android.os.Bundle
