@@ -2,11 +2,11 @@ import { stylesAll } from "@/style";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
-  Image,
-  Pressable,
+  // Image,
+  // Pressable,
   StyleSheet,
   Text,
-  TouchableOpacity,
+  // TouchableOpacity,
   View,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,14 +30,14 @@ import ApplicationIcon from "../assets/svg/applicationImg";
 import LogoutIcon from "../assets/svg/logout";
 import DashboardIcon from "../assets/svg/dashboardIcon";
 import Button from "@/assets/customs/Button";
-import * as ImagePicker from "expo-image-picker";
-import * as ImageManipulator from "expo-image-manipulator";
+// import * as ImagePicker from "expo-image-picker";
+// import * as ImageManipulator from "expo-image-manipulator";
 
 const ProfilePage = () => {
   const dispatch = useDispatch();
   const [token, setToken] = useState(null);
   const [modal, setModal] = useState(false);
-  const [imageUri, setImageUri] = useState();
+  // const [imageUri, setImageUri] = useState();
 
 
   // const chooseImage = async () => {

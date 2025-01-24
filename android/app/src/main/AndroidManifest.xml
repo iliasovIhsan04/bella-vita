@@ -28,8 +28,8 @@
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="alma-market"/>
-        <data android:scheme="com.navisdevs.almamarket"/>
+        <data android:scheme="bellavita"/>
+        <data android:scheme="com.navisdevs.bellavita"/>
       </intent-filter>
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" android:exported="false"/>

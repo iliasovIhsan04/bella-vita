@@ -1,13 +1,13 @@
 {
   "expo": {
     "name": "Bella Vita",
-    "slug": "alma-market-native",
-    "icon": "./assets/logoBella.png",
+    "slug": "bella-vita",
+    "icon": "./assets/bella-vita.png",
     "android": {
-      "package": "com.navisdevs.bellaVitta"
+      "package": "com.navisdevs.bellavita"
     },
     "ios": {
-      "bundleIdentifier": "com.navisdevs.bellaVitta"
+      "bundleIdentifier": "com.navisdevs.bellavita"
     },
     "splash": {
       "image": "./assets/images/bellaSplash.png",
