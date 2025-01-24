@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
   gr_code_img: {
     width: "100%",
     height: "100%",
+    borderRadius:10,
   },
 });
 
