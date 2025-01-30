@@ -10,6 +10,8 @@ import { colors } from "@/assets/styles/components/colors";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserInfo } from "@/Redux/reducer/UserInfo";
 
+// eas build --platform android --profile preview
+
 const Header = () => {
   const dispatch = useDispatch();
   const [token, setToken] = useState(null);
