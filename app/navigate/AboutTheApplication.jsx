@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, Linking, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { stylesAll } from "../../style";
 import More from "../../assets/svg/more";
 import Header from "@/components/Main/HeaderAll";
@@ -18,6 +18,7 @@ const AboutTheApplication = () => {
               justifyContent: "space-between",
               paddingHorizontal: 16,
             }}
+            onPress={() => Linking.openURL('https://docs.google.com/document/d/1EcUodGum4GE0pZ8FpoJGoW9rRvZpw5836TBgO6E9EgY')}
           >
             <Text style={styles.application_text}>
               Правила программы лояльности
@@ -35,6 +36,7 @@ const AboutTheApplication = () => {
               justifyContent: "space-between",
               paddingHorizontal: 16,
             }}
+            onPress={() => Linking.openURL('https://docs.google.com/document/d/18MfuqZisHMnid9ljqUGK6Tr5VtOjEAB9KypmksJuhZ8')}
           >
             <Text style={styles.application_text}>
               Пользовательское соглашение

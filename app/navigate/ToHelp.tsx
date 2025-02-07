@@ -18,19 +18,17 @@ const ToHelp = () => {
   return (
     <View style={stylesAll.background_block}>
       <View style={stylesAll.container}>
-      <Header handleBack={('/(tabs)/profile')}>Помощь</Header>
+        <Header handleBack={('/(tabs)/profile')}>Помощь</Header>
         <Column gap={10} top={8}>
           <View style={styles.help_box}>
             <View style={{ flexDirection: "column", gap: 6 }}>
               <Text style={styles.help_text1}>Возникли вопросы?</Text>
-              <Text style={styles.help_text2}>
-                Наша поддержка проконсультирует Вас по любым возникшим вопросам
-              </Text>
+              <Text style={styles.help_text2}>Наша поддержка проконсультирует Вас по любым возникшим вопросам</Text>
             </View>
             <View style={styles.social_networks_block}>
               <Pressable
                 style={styles.social_networks_box}
-                onPress={() => Linking.openURL("tel:+996508882056")}
+                onPress={() => Linking.openURL("tel:+996558398003")}
               >
                 <Image
                   style={{ width: 34, height: 34 }}
@@ -39,7 +37,7 @@ const ToHelp = () => {
               </Pressable>
               <Pressable
                 style={styles.social_networks_box}
-                onPress={() => Linking.openURL("https://wa.me/+996704616802")}
+                onPress={() => Linking.openURL("https://wa.me/+996508944444")}
               >
                 <Image
                   style={{ width: 34, height: 34 }}
@@ -48,7 +46,7 @@ const ToHelp = () => {
               </Pressable>
               <Pressable
                 style={styles.social_networks_box}
-                onPress={() => Linking.openURL("https://t.me/+996704616802")}
+                onPress={() => Linking.openURL("https://t.me/+996508944444")}
               >
                 <Image
                   style={{ width: 28, height: 28 }}
@@ -60,16 +58,13 @@ const ToHelp = () => {
           <View style={styles.help_box}>
             <View style={{ flexDirection: "column", gap: 6 }}>
               <Text style={styles.help_text1}>Мы в социальных сетях</Text>
-              <Text style={styles.help_text2}>
-                Подписывайтесь на наши социальные сети и будьте в курсе всех
-                новостей
-              </Text>
+              <Text style={styles.help_text2}>Подписывайтесь на наши социальные сети и будьте в курсе всех новостей</Text>
             </View>
             <View style={styles.social_networks_block}>
               <Pressable
                 style={styles.social_networks_box}
                 onPress={() =>
-                  Linking.openURL("https://www.instagram.com/almamarket.kg/")
+                  Linking.openURL("https://www.instagram.com/bellavita.kg")
                 }
               >
                 <Image
@@ -77,13 +72,13 @@ const ToHelp = () => {
                   source={require("../../assets/images/instagram.png")}
                 />
               </Pressable>
-              <Pressable style={styles.social_networks_box}>
+              <Pressable style={styles.social_networks_box} onPress={() => Linking.openURL('https://www.tiktok.com/@bellavita.kg')}>
                 <Image
                   style={{ width: 30, height: 30 }}
                   source={require("../../assets/images/tiktok.png")}
                 />
               </Pressable>
-              <Pressable style={styles.social_networks_box}>
+              <Pressable style={styles.social_networks_box} onPress={() => Linking.openURL('https://youtube.com/@bellavita.kg')}>
                 <Image
                   style={{ width: 36, height: 26 }}
                   source={require("../../assets/images/youtube.png")}
