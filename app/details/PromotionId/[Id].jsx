@@ -31,7 +31,7 @@ const PromotionDetailId = () => {
       fetchUserData();
     }
   }, [id]);
-
+  
   if (!harryId) {
     return <Loading />;
   }

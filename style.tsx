@@ -107,6 +107,9 @@ export const stylesAll = StyleSheet.create({
     backgroundColor: "none",
     paddingBottom: 15,
   },
+  m_bottom :{
+paddingBottom:150
+  },
   footer_absolute: {
     width: 60,
     height: 60,

@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.phon,
   },
   error_text_registr: {
-    color: "#DC0200",
+    color: colors.feuillet,
     fontSize: 12,
     marginTop: 5,
   },

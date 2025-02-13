@@ -22,6 +22,7 @@ import Flex from "@/assets/styles/components/Flex";
 import { colors } from "@/assets/styles/components/colors";
 import Loading from '../../../assets/ui/Loading'
 import { useCondition } from "@/context/FavoriteContext";
+import { ScrollView } from "react-native";
 
 const Productid = () => {
   const route = useRoute();
@@ -154,7 +155,8 @@ const Productid = () => {
         isInBasket ? router.push(`navigate/BasketPage`) : Basket(data?.id, data)
       }
     >
-      <View style={stylesAll.background_block}>
+      <ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
+      <View style={[stylesAll.background_block, stylesAll.m_bottom]}>
         <View style={[stylesAll.container, { backgroundColor: colors.phon }]}>
           <View style={[stylesAll.header, { paddingBottom: 10 }]}>
             <Wave handle={() => router.back()}>
@@ -236,12 +238,13 @@ const Productid = () => {
                 Описание
               </TextContent>
               <TextContent fontSize={14} fontWeight={400} color={colors.gray}>
-                {data.description}
+                {data.description}  
               </TextContent>
             </Column>
           </Column>
         </View>
       </View>
+      </ScrollView>
     </ButtonLayouts>
   );
 };

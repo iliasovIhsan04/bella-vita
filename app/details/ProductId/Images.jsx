@@ -1,7 +1,9 @@
 import { colors } from "@/assets/styles/components/colors";
 import Flex from "@/assets/styles/components/Flex";
 import TextContent from "@/assets/styles/components/TextContent";
-import React, { useRef, useState } from "react";
+import React, { useState, useRef } from "react";
+import { Modal, Platform } from "react-native";
+import ImageViewer from "react-native-image-zoom-viewer";
 import {
   View,
   StyleSheet,
@@ -10,53 +12,41 @@ import {
   Dimensions,
   Animated,
   Text,
+  TouchableOpacity,
 } from "react-native";
 
 const Images = ({ data, newBlock, percentage }) => {
   const { width } = Dimensions.get("window");
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
   const scrollX = useRef(new Animated.Value(0)).current;
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const handleScroll = (event) => {
-    Animated.event(
-      [
-        {
-          nativeEvent: {
-            contentOffset: {
-              x: scrollX,
-            },
-          },
-        },
-      ],
-      {
-        useNativeDriver: false,
-      }
-    )(event);
+  const openModal = (index) => {
+    setSelectedImageIndex(index);
+    setModalVisible(true);
+  };
+  const closeModal = () => {
+    setModalVisible(false);
   };
 
-  const viewabilityConfig = useRef({
-    itemVisiblePercentThreshold: 50,
-  }).current;
-  const onViewableItemsChanged = useRef(({ viewableItems }) => {
-    if (viewableItems.length > 0) {
-      const index = viewableItems[0].index ?? 0;
-      setCurrentIndex(index);
-    }
-  }).current;
-  const renderItem = ({ item }) => (
+  const renderItem = ({ item, index }) => (
     <View style={[styles.imageWrapper, { width }]} key={item?.id}>
       {item?.img ? (
         <View style={styles.img_block}>
-          <Image
-            source={{ uri: item?.img }}
-            style={styles.img}
-            resizeMode="cover"
-          />
+          <TouchableOpacity onPress={() => openModal(index)}>
+            <Image
+              source={{ uri: item?.img }}
+              style={styles.img}
+              resizeMode="cover"
+            />
+          </TouchableOpacity>
         </View>
       ) : (
         <Text>Image not found</Text>
       )}
     </View>
   );
+
   return (
     <View style={styles.container}>
       <View style={styles.new_persentage_box}>
@@ -84,11 +74,13 @@ const Images = ({ data, newBlock, percentage }) => {
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         bounces={false}
-        onScroll={handleScroll}
-        viewabilityConfig={viewabilityConfig}
-        onViewableItemsChanged={onViewableItemsChanged}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+          { useNativeDriver: false }
+        )}
         keyExtractor={(item) => item.id.toString()}
       />
+
       <View style={styles.dotsContainer}>
         {data?.map((_, i) => {
           const inputRange = [(i - 1) * width, i * width, (i + 1) * width];
@@ -99,7 +91,7 @@ const Images = ({ data, newBlock, percentage }) => {
             extrapolate: "clamp",
           });
           const dotColor =
-            i === currentIndex
+            i === selectedImageIndex
               ? "rgba(25, 25, 25, 1)"
               : "rgba(170, 170, 170, 1)";
           return (
@@ -113,6 +105,16 @@ const Images = ({ data, newBlock, percentage }) => {
           );
         })}
       </View>
+      <View style={styles.frr}>
+      <Modal visible={modalVisible} transparent={true} animationType="fade">
+        <ImageViewer
+          imageUrls={data.map((item) => ({ url: item?.img }))}
+          index={selectedImageIndex}
+          onSwipeDown={closeModal}
+          enableSwipeDown={true}
+        />
+      </Modal>
+      </View>
     </View>
   );
 };
@@ -121,6 +123,9 @@ const styles = StyleSheet.create({
   present_box: {
     backgroundColor: colors.late,
     minWidth: 34,
+  },
+  frr :{
+  paddingTop: Platform.OS === "ios" ? 60 : 42,
   },
   new_block: {
     paddingHorizontal: 6,
@@ -144,10 +149,9 @@ const styles = StyleSheet.create({
   imageWrapper: {
     alignItems: "center",
     justifyContent: "center",
-    width: 0,
   },
-  img_block :{
-    width: "80%",
+  img_block: {
+    width: "100%",
     height: 260,
   },
   img: {
@@ -156,6 +160,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     objectFit: "cover",
     overflow: "hidden",
+    margin: "auto",
   },
   dotsContainer: {
     flexDirection: "row",

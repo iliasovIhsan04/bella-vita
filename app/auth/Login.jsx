@@ -163,12 +163,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   terms_red: {
-    color: "#DC0200",
+    color:colors.feuillet,
   },
   forgot_password_text: {
     fontSize: 12,
     fontWeight: "400",
-    color: "#DC0200",
+    color: colors.feuillet,
     marginLeft: "auto",
   },
   input_block: {
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   error_text_registr: {
-    color: "#DC0200",
+    color: colors.feuillet,
     fontSize: 12,
     marginTop: 5,
   },

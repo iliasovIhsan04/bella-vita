@@ -38,6 +38,10 @@ import CartImg from "../../assets/svg/cartimg";
 const containerWidth = (Dimensions.get("window").width - 32) / 2 - 5;
 
 export default function Main() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndexTwo, setCurrentIndexTwo] = useState(0);
+  const [isModalVisible, setModalVisible] = useState(false);
+  
   const dispatch = useDispatch();
   const [modalRegistration, setModalRegistration] = useState(false);
   const scaleValueModal2 = useRef(new Animated.Value(0)).current;
@@ -70,7 +74,6 @@ export default function Main() {
       setRefreshing(false);
     }
   }, [dispatch]);
-
   useEffect(() => {
     if (modalRegistration) {
       Animated.parallel([
@@ -188,7 +191,7 @@ export default function Main() {
                   <Flex gap={8}>
                     <Wave
                       style={styles.check_price_box}
-                      handle={() => router.push("/navigate/ProductGiven")}
+                      // handle={() => router.push("/navigate/ProductGiven")}
                     >
                       <Column gap={6} style={{ alignItems: "center" }}>
                         <Scanner />
@@ -370,10 +373,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: colors.phon,
     position: "relative",
+    overflow:'hidden',
   },
   image_apple: {
     width: "100%",
-    height: 190,
+    height:'100%',
     borderRadius: 10,
     bottom: 65,
   },

@@ -324,10 +324,10 @@ const styles = StyleSheet.create({
     lineHeight: 14,
   },
   terms_red: {
-    color: "#DC0200",
+    color:colors.feuillet,
   },
   error_text_registr: {
-    color: "#DC0200",
+    color: colors.feuillet,
     fontSize: 12,
     marginTop: 5,
   },

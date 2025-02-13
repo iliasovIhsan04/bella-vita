@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
   send_again: {
     fontSize: 12,
     fontWeight: "400",
-    color: "#DC0200",
+    color: colors.feuillet,
     textAlign: "center",
   },
 });

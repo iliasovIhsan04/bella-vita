@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Alert,
   Pressable,
@@ -21,6 +21,21 @@ const SettingPage = () => {
   const [isPetONe, setIsPetOne] = useState(false);
   const [isPetTwo, setIsPetTwo] = useState(false);
   const [modal, setModal] = useState(false);
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      try {
+        const storedToken = await AsyncStorage.getItem("tokenActivation");
+        setToken(storedToken);
+      } catch (error) {
+        console.error("Error retrieving token:", error);
+        setToken(null);
+      }
+    };
+
+    fetchToken();
+  }, [])
 
   const deleteAccount = async () => {
     try {
@@ -117,9 +132,13 @@ const SettingPage = () => {
             />
           </View>
         </View>
-        <Pressable style={{ marginTop: 20 }} onPress={() => setModal(true)}>
-          <Text style={styles.remove_accaunt}>Удалить аккаунт</Text>
-        </Pressable>
+        {
+          token ? (
+            <Pressable style={{ marginTop: 20 }} onPress={() => setModal(true)}>
+            <Text style={styles.remove_accaunt}>Удалить аккаунт</Text>
+          </Pressable>
+          ) : ''
+        }
         <ModalDown modal={modal} setModal={setModal}>
         <TextContent
               fontSize={20}
