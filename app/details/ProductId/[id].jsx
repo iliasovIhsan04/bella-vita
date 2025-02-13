@@ -159,7 +159,7 @@ const Productid = () => {
       <View style={[stylesAll.background_block, stylesAll.m_bottom]}>
         <View style={[stylesAll.container, { backgroundColor: colors.phon }]}>
           <View style={[stylesAll.header, { paddingBottom: 10 }]}>
-            <Wave handle={() => router.back()}>
+            <Wave handle={() => router.back(1)}>
               <MoreLeft />
             </Wave>
             <Text style={stylesAll.header_name}></Text>

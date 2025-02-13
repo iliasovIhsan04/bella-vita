@@ -1,30 +1,25 @@
+import React, { useState, useRef } from "react";
+import { View, StyleSheet, FlatList, Image, Dimensions, Animated, Text, TouchableOpacity, Modal, Platform, ActivityIndicator } from "react-native";
+import ImageViewer from "react-native-image-zoom-viewer";
 import { colors } from "@/assets/styles/components/colors";
 import Flex from "@/assets/styles/components/Flex";
 import TextContent from "@/assets/styles/components/TextContent";
-import React, { useState, useRef } from "react";
-import { Modal, Platform } from "react-native";
-import ImageViewer from "react-native-image-zoom-viewer";
-import {
-  View,
-  StyleSheet,
-  FlatList,
-  Image,
-  Dimensions,
-  Animated,
-  Text,
-  TouchableOpacity,
-} from "react-native";
+import Back from '../../../assets/svg/moreLeft'
+import Wave from "@/assets/styles/components/Wave";
+import { router, useNavigation } from "expo-router";
 
 const Images = ({ data, newBlock, percentage }) => {
   const { width } = Dimensions.get("window");
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-
   const scrollX = useRef(new Animated.Value(0)).current;
+  const navigation = useNavigation()
+
   const openModal = (index) => {
     setSelectedImageIndex(index);
     setModalVisible(true);
   };
+
   const closeModal = () => {
     setModalVisible(false);
   };
@@ -105,27 +100,54 @@ const Images = ({ data, newBlock, percentage }) => {
           );
         })}
       </View>
-      <View style={styles.frr}>
       <Modal visible={modalVisible} transparent={true} animationType="fade">
-        <ImageViewer
-          imageUrls={data.map((item) => ({ url: item?.img }))}
-          index={selectedImageIndex}
-          onSwipeDown={closeModal}
-          enableSwipeDown={true}
-        />
-      </Modal>
+  <ImageViewer
+    imageUrls={data.map((item) => ({ url: item?.img }))}
+    index={selectedImageIndex}
+    onSwipeDown={closeModal}
+    enableSwipeDown={true}
+    style={styles.modalImage}
+    loadingRender={() => (
+      <ActivityIndicator size="large" color={colors.feuillet} />
+    )}
+    renderIndicator={() => (
+      <View style={styles.indicatorContainer}>
+        <Wave handle={() => closeModal()}>
+        <Back/>
+        </Wave>
+        <Text style={styles.indicatorText}>
+          {selectedImageIndex + 1} / {data.length}
+        </Text>
       </View>
+    )}
+    onChange={(index) => setSelectedImageIndex(index)} 
+  />
+</Modal>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  modalImage: {
+    width: "100%",
+    height: "100%",
+  },
+  indicatorContainer: {
+    width:'100%',
+    position: "absolute",
+    top: Platform.OS === 'ios' ? 60 : 40,  
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center',
+    paddingHorizontal: 10,
+  },
+  indicatorText: {
+    color: "white",
+    fontSize: 16,
+  },
   present_box: {
     backgroundColor: colors.late,
     minWidth: 34,
-  },
-  frr :{
-  paddingTop: Platform.OS === "ios" ? 60 : 42,
   },
   new_block: {
     paddingHorizontal: 6,
@@ -155,7 +177,7 @@ const styles = StyleSheet.create({
     height: 260,
   },
   img: {
-    width: "80%",
+    width: "90%",
     height: 260,
     borderRadius: 16,
     objectFit: "cover",
@@ -174,6 +196,9 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     backgroundColor: "rgba(210, 210, 210, 1)",
     marginHorizontal: 5,
+  },
+  frr: {
+    paddingTop: Platform.OS === "ios" ? 60 : 42,
   },
 });
 
