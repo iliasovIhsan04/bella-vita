@@ -29,7 +29,7 @@ import { colors } from "@/assets/styles/components/colors";
 import Flex from "@/assets/styles/components/Flex";
 import Between from "@/assets/styles/components/Between";
 import Wave from "@/assets/styles/components/Wave";
-import Arrow from '../../assets/svg/more'
+import Arrow from '../../assets/svg/More'
 import { ScrollView } from "react-native";
 import Button from "@/assets/customs/Button";
 

@@ -19,7 +19,7 @@ import Between from "@/assets/styles/components/Between";
 import Flex from "@/assets/styles/components/Flex";
 import { colors } from "@/assets/styles/components/colors";
 import TextContent from "@/assets/styles/components/TextContent";
-import Arrow from "../assets/svg/more";
+import Arrow from "../assets/svg/More";
 import PurchaseIcon from "../assets/svg/purchaseImg";
 import FaviriteIcon from "../assets/svg/favoriteIcon";
 import NotificationsIcon from "../assets/svg/Notification";

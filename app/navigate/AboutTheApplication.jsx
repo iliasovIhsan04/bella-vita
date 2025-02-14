@@ -1,7 +1,7 @@
 import React from "react";
 import { Image, Linking, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { stylesAll } from "../../style";
-import More from "../../assets/svg/more";
+import More from "../../assets/svg/More";
 import Header from "@/components/Main/HeaderAll";
 import { colors } from "@/assets/styles/components/colors";
 

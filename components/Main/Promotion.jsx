@@ -14,7 +14,7 @@ import { colors } from "@/assets/styles/components/colors";
 import TextContent from "@/assets/styles/components/TextContent";
 import Wave from "@/assets/styles/components/Wave";
 import Flex from "@/assets/styles/components/Flex";
-import Morees from "../../assets/svg/more";
+import Morees from "../../assets/svg/More";
 
 const Promotion = () => {
   const [data, setData] = useState([]);

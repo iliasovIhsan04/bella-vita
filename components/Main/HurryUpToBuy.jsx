@@ -6,7 +6,7 @@ import {
   ScrollView,
 } from "react-native";
 import Wave from '../../assets/styles/components/Wave'
-import Morees from "../../assets/svg/more";
+import Morees from "../../assets/svg/More";
 import { router, useFocusEffect } from "expo-router";
 import Wrapper from '../../assets/styles/components/Wrapper';
 import TextContent from "@/assets/styles/components/TextContent";

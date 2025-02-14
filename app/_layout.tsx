@@ -5,7 +5,9 @@ import React, { useEffect, useState } from "react";
 import { Provider } from "react-redux";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
-import { FavoriteProvider } from "../context/FavoriteContext"; 
+import { FavoriteProvider } from "../context/FavoriteContext";
+import { Alert } from "react-native";
+import messaging from "@react-native-firebase/messaging";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -13,6 +15,7 @@ export default function RootLayout() {
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+
   const getToken = async (): Promise<void> => {
     try {
       const storedToken = await AsyncStorage.getItem("tokenActivation");
@@ -26,21 +29,40 @@ export default function RootLayout() {
   const loadFonts = async (): Promise<void> => {
     try {
       await Font.loadAsync({
-        "Lato-Black": require("../assets/fonts/Lato-Black.ttf"), 
-        "Lato-Bold": require("../assets/fonts/Lato-Bold.ttf"), 
-        "Lato-Light": require("../assets/fonts/Lato-Light.ttf"), 
-        "Lato-Regular": require("../assets/fonts/Lato-Regular.ttf"), 
-        "Lato-Thin": require("../assets/fonts/Lato-Thin.ttf"), 
+        "Lato-Black": require("../assets/fonts/Lato-Black.ttf"),
+        "Lato-Bold": require("../assets/fonts/Lato-Bold.ttf"),
+        "Lato-Light": require("../assets/fonts/Lato-Light.ttf"),
+        "Lato-Regular": require("../assets/fonts/Lato-Regular.ttf"),
+        "Lato-Thin": require("../assets/fonts/Lato-Thin.ttf"),
       });
     } catch (error) {
       console.error("Font loading error:", error);
     }
   };
 
+  const requestUserPermissions = async () => {
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+    if (enabled) {
+      console.log("User has authorized notifications");
+      const fcmToken = await messaging().getToken();
+      console.log("FCM Token:", fcmToken);
+    } else {
+      console.log("Permission denied");
+      Alert.alert(
+        "Permission denied",
+        "To receive notifications, please enable notifications in your device settings."
+      );
+    }
+  };
+
   useEffect(() => {
     (async () => {
       try {
-        await Promise.all([getToken(), loadFonts()]); 
+        await Promise.all([getToken(), loadFonts(), requestUserPermissions()]);
         await new Promise((resolve) => setTimeout(resolve, 3000));
       } catch (error) {
         console.error("Splash Screen Error:", error);
@@ -49,6 +71,35 @@ export default function RootLayout() {
         await SplashScreen.hideAsync();
       }
     })();
+  }, []);
+
+  useEffect(() => {
+    const unsubscribeOnMessage = messaging().onMessage(async (remoteMessage) => {
+      console.log("Notification received in foreground:", remoteMessage);
+    });
+
+    const unsubscribeOnNotificationOpenedApp = messaging().onNotificationOpenedApp(
+      (remoteMessage) => {
+        console.log("Notification opened:", remoteMessage);
+      }
+    );
+
+    messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+      console.log("Background message received:", remoteMessage);
+    });
+
+    messaging()
+      .getInitialNotification()
+      .then((remoteMessage) => {
+        if (remoteMessage) {
+          console.log("Notification received in the background:", remoteMessage);
+        }
+      });
+
+    return () => {
+      unsubscribeOnMessage();
+      unsubscribeOnNotificationOpenedApp();
+    };
   }, []);
 
   return (

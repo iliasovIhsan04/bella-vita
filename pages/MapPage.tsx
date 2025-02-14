@@ -19,7 +19,7 @@ import { url } from "@/Api";
 import { colors } from "@/assets/styles/components/colors";
 import Clock from '../assets/svg/clock'
 import MapIcon from '../assets/svg/mapIcon'
-import Back from '../assets/svg/more'
+import Back from '../assets/svg/More'
 import Between from "@/assets/styles/components/Between";
 import Flex from "@/assets/styles/components/Flex";
 import TextContent from "@/assets/styles/components/TextContent";
